@@ -106,15 +106,14 @@ export class TestlaPowerDistribution extends LitElement {
               <span class="label"> Solar </span>
               <div class="circle">
                 <ha-svg-icon .path=${mdiSolarPower}></ha-svg-icon>
-                0 kW
+                ${this._generation_to_battery_entity} kW
               </div>
             </div>
             <div class="circle-container equipment-1">
               <span class="label"> Equipment 1 </span>
               <div class="circle">
                 <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                ${this._appliance1_state_entity}
-                kW
+                ${this._appliance1_state_entity}kW
               </div>
             </div>
           </div>
@@ -122,27 +121,34 @@ export class TestlaPowerDistribution extends LitElement {
             <div class="circle-container grid">
               <div class="circle">
                 <ha-svg-icon .path=${mdiTransmissionTower}></ha-svg-icon>
-                <span class="return">
-                  <ha-svg-icon
-                    class="small"
-                    .path=${mdiArrowLeft}
-                  ></ha-svg-icon>
-                  0 kW
-                </span>
-                <span class="consumption">
-                  <ha-svg-icon
-                    class="small"
-                    .path=${mdiArrowRight}
-                  ></ha-svg-icon>
-                  0 kW
-                </span>
+                ${
+                  parseFloat(this._grid_extra_entity) >= 0
+                    ? html`
+                        <span class="consumption">
+                          <ha-svg-icon
+                            class="small"
+                            .path=${mdiArrowRight}
+                          ></ha-svg-icon>
+                          ${parseFloat(this._grid_extra_entity)} kW
+                        </span>
+                      `
+                    : html`
+                        <span class="return">
+                          <ha-svg-icon
+                            class="small"
+                            .path=${mdiArrowLeft}
+                          ></ha-svg-icon>
+                          ${parseFloat(this._grid_extra_entity) * -1} kW
+                        </span>
+                      `
+                }
               </div>
               <span class="label"> Grid </span>
             </div>
             <div class="circle-container home">
               <div class="circle">
                 <ha-svg-icon .path=${mdiHome}></ha-svg-icon>
-                0 kW
+                ${this._house_extra_entity} kW
               </div>
               <span class="label"> Home </span>
             </div>
@@ -152,25 +158,36 @@ export class TestlaPowerDistribution extends LitElement {
             <div class="circle-container battery">
               <div class="circle">
                 <ha-svg-icon .path=${mdiBatteryHigh}></ha-svg-icon>
-                <span class="battery-in">
-                  <ha-svg-icon
-                    class="small"
-                    .path=${mdiArrowDown}
-                  ></ha-svg-icon>
-                  0 kW
-                </span>
-                <span class="battery-out">
-                  <ha-svg-icon class="small" .path=${mdiArrowUp}></ha-svg-icon>
-                  0 kW
-                </span>
+
+                ${
+                  parseFloat(this._battery_extra_entity) >= 0
+                    ? html`
+                        <span class="battery-in">
+                          <ha-svg-icon
+                            class="small"
+                            .path=${mdiArrowDown}
+                          ></ha-svg-icon>
+                          ${parseFloat(this._battery_extra_entity)} kW
+                        </span>
+                      `
+                    : html`
+                        <span class="battery-out">
+                          <ha-svg-icon
+                            class="small"
+                            .path=${mdiArrowUp}
+                          ></ha-svg-icon>
+                          ${parseFloat(this._battery_extra_entity) * -1} kW
+                        </span>
+                      `
+                }
+
               </div>
               <span class="label">Battery</span>
             </div>
             <div class="circle-container equipment-2">
               <div class="circle">
                 <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                  ${">" + this._appliance2_state_entity + "<"}
-                  kW
+                ${this._appliance2_state_entity}kW
               </div>
               <span class="label"> Equipment 2 </span>
             </div>

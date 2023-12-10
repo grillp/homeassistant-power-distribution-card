@@ -8792,15 +8792,14 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
               <span class="label"> Solar </span>
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$709e1cf7b54ff1ad}></ha-svg-icon>
-                0 kW
+                ${this._generation_to_battery_entity} kW
               </div>
             </div>
             <div class="circle-container equipment-1">
               <span class="label"> Equipment 1 </span>
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
-                ${this._appliance1_state_entity}
-                kW
+                ${this._appliance1_state_entity}kW
               </div>
             </div>
           </div>
@@ -8808,27 +8807,30 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             <div class="circle-container grid">
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$844b17e409f9e79a}></ha-svg-icon>
-                <span class="return">
-                  <ha-svg-icon
-                    class="small"
-                    .path=${0, $04557c061247a0a6$export$9e1028c34656e2fe}
-                  ></ha-svg-icon>
-                  0 kW
-                </span>
-                <span class="consumption">
-                  <ha-svg-icon
-                    class="small"
-                    .path=${0, $04557c061247a0a6$export$f66c996b267e1dc0}
-                  ></ha-svg-icon>
-                  0 kW
-                </span>
+                ${parseFloat(this._grid_extra_entity) >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+                        <span class="consumption">
+                          <ha-svg-icon
+                            class="small"
+                            .path=${0, $04557c061247a0a6$export$f66c996b267e1dc0}
+                          ></ha-svg-icon>
+                          ${parseFloat(this._grid_extra_entity)} kW
+                        </span>
+                      ` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+                        <span class="return">
+                          <ha-svg-icon
+                            class="small"
+                            .path=${0, $04557c061247a0a6$export$9e1028c34656e2fe}
+                          ></ha-svg-icon>
+                          ${parseFloat(this._grid_extra_entity) * -1} kW
+                        </span>
+                      `}
               </div>
               <span class="label"> Grid </span>
             </div>
             <div class="circle-container home">
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$234f98a0020e0d42}></ha-svg-icon>
-                0 kW
+                ${this._house_extra_entity} kW
               </div>
               <span class="label"> Home </span>
             </div>
@@ -8838,25 +8840,32 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             <div class="circle-container battery">
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$3b4ef04a2844e473}></ha-svg-icon>
-                <span class="battery-in">
-                  <ha-svg-icon
-                    class="small"
-                    .path=${0, $04557c061247a0a6$export$9b2580347f0d218f}
-                  ></ha-svg-icon>
-                  0 kW
-                </span>
-                <span class="battery-out">
-                  <ha-svg-icon class="small" .path=${0, $04557c061247a0a6$export$9ac2ce0684fedc2d}></ha-svg-icon>
-                  0 kW
-                </span>
+
+                ${parseFloat(this._battery_extra_entity) >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+                        <span class="battery-in">
+                          <ha-svg-icon
+                            class="small"
+                            .path=${0, $04557c061247a0a6$export$9b2580347f0d218f}
+                          ></ha-svg-icon>
+                          ${parseFloat(this._battery_extra_entity)} kW
+                        </span>
+                      ` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+                        <span class="battery-out">
+                          <ha-svg-icon
+                            class="small"
+                            .path=${0, $04557c061247a0a6$export$9ac2ce0684fedc2d}
+                          ></ha-svg-icon>
+                          ${parseFloat(this._battery_extra_entity) * -1} kW
+                        </span>
+                      `}
+
               </div>
               <span class="label">Battery</span>
             </div>
             <div class="circle-container equipment-2">
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
-                  ${">" + this._appliance2_state_entity + "<"}
-                  kW
+                ${this._appliance2_state_entity}kW
               </div>
               <span class="label"> Equipment 2 </span>
             </div>
