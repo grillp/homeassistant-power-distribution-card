@@ -97,6 +97,41 @@ export class TestlaPowerDistribution extends LitElement {
   static styles = styles;
 
   render() {
+    let generation_to_house: number | undefined = parseFloat(
+      this._generation_to_house_entity
+    );
+    let grid_to_house: number | undefined = parseFloat(
+      this._grid_to_house_entity
+    );
+    let battery_to_house: number | undefined = parseFloat(
+      this._battery_to_house_entity
+    );
+
+    let total_to_house: number | undefined =
+      generation_to_house + grid_to_house + battery_to_house;
+
+    let generation_circumference: number | undefined =
+      CIRCLE_CIRCUMFERENCE * (generation_to_house! / total_to_house);
+    let grid_circumference: number | undefined =
+      CIRCLE_CIRCUMFERENCE * (grid_to_house! / total_to_house);
+    let battery_circumference: number | undefined =
+      CIRCLE_CIRCUMFERENCE * (battery_to_house! / total_to_house);
+
+    let current_offset: number = 0;
+    let battery_dashoffset: string = "" + current_offset;
+    let battery_dasharray: string = `${battery_circumference} ${
+      CIRCLE_CIRCUMFERENCE - battery_circumference
+    }`;
+    current_offset -= battery_circumference;
+    let grid_dashoffset: string = "" + current_offset;
+    let grid_dasharray: string = `${grid_circumference} ${
+      CIRCLE_CIRCUMFERENCE - grid_circumference
+    }`;
+    current_offset -= grid_circumference;
+    let generation_dashoffset: string = "" + current_offset;
+    let generation_dasharray: string = `${generation_circumference} ${
+      CIRCLE_CIRCUMFERENCE - generation_circumference
+    }`;
     return html`
       <ha-card .header=${"My Tesla Distro"}>
         <div class="card-content">
@@ -149,6 +184,13 @@ export class TestlaPowerDistribution extends LitElement {
               <div class="circle">
                 <ha-svg-icon .path=${mdiHome}></ha-svg-icon>
                 ${this._house_extra_entity} kW
+                <svg>
+                  ${svg`
+                    <circle class="battery" cx="40" cy="40" r="38" stroke-dasharray="${battery_dasharray}" stroke-dashoffset="${battery_dashoffset}"></circle>
+                    <circle class="grid"    cx="40" cy="40" r="38" stroke-dasharray="${grid_dasharray}" stroke-dashoffset="${grid_dashoffset}"></circle>
+                    <circle class="solar"   cx="40" cy="40" r="38" stroke-dasharray="${generation_dasharray}" stroke-dashoffset="${generation_dashoffset}"></circle>
+                  `}
+                </svg>
               </div>
               <span class="label"> Home </span>
             </div>
@@ -158,7 +200,6 @@ export class TestlaPowerDistribution extends LitElement {
             <div class="circle-container battery">
               <div class="circle">
                 <ha-svg-icon .path=${mdiBatteryHigh}></ha-svg-icon>
-
                 ${
                   parseFloat(this._battery_extra_entity) >= 0
                     ? html`
