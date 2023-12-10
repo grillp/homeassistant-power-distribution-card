@@ -12,36 +12,53 @@ import {
   mdiArrowRight,
   mdiArrowUp,
   mdiBatteryHigh,
-  mdiFire,
   mdiHome,
-  mdiLeaf,
   mdiSolarPower,
+  mdiCarSports,
   mdiTransmissionTower,
-  mdiWater,
 } from "@mdi/js";
 
 interface Config extends LovelaceCardConfig {
-  header: string;
-  entity: string;
+  grid_to_house_entity: string;
+  generation_to_grid_entity: string;
+  generation_to_battery_entity: string;
+  generation_to_house_entity: string;
+  battery_to_house_entity: string;
+  battery_to_grid_entity: string;
+  battery_extra_entity: string;
+  house_extra_entity: string;
+  grid_extra_entity: string;
+  generation_icon: string;
+  appliance1_state_entity: string;
+  appliance1_consumption_entity: string;
 }
 
 const CIRCLE_CIRCUMFERENCE = 238.76104;
 
 export class TestlaPowerDistribution extends LitElement {
   // internal reactive states
-  @state() private _header: string | typeof nothing;
   @state() private _entity: string;
-  @state() private _name: string;
-  @state() private _state: HassEntity;
-  @state() private _status: string;
+
+  @state() private _grid_to_house_entity: string;
+  @state() private _generation_to_grid_entity: string;
+  @state() private _generation_to_battery_entity: string;
+  @state() private _generation_to_house_entity: string;
+  @state() private _battery_to_house_entity: string;
+  @state() private _battery_to_grid_entity: string;
+  @state() private _battery_extra_entity: string;
+  @state() private _house_extra_entity: string;
+  @state() private _grid_extra_entity: string;
+  @state() private _generation_icon: string;
+  @state() private _appliance1_state_entity: string;
+  @state() private _appliance1_consumption_entity: string;
 
   // private property
   private _hass;
 
   // lifecycle interface
   setConfig(config: Config) {
-    this._header = config.header === "" ? nothing : config.header;
-    this._entity = config.entity;
+    // this._header = config.header === "" ? nothing : config.header;
+    // this._entity = config.entity;
     // call set hass() to immediately adjust to a changed entity
     // while editing the entity in the card editor
     if (this._hass) {
@@ -51,12 +68,12 @@ export class TestlaPowerDistribution extends LitElement {
 
   set hass(hass: HomeAssistant) {
     this._hass = hass;
-    this._state = hass.states[this._entity];
-    if (this._state) {
-      this._status = this._state.state;
-      let fn = this._state.attributes.friendly_name;
-      this._name = fn ? fn : this._entity;
-    }
+    // this._state = hass.states[this._entity];
+    // if (this._state) {
+    //   this._status = this._state.state;
+    //   let fn = this._state.attributes.friendly_name;
+    //   this._name = fn ? fn : this._entity;
+    // }
   }
 
   // declarative part
@@ -82,7 +99,7 @@ export class TestlaPowerDistribution extends LitElement {
             <div class="circle-container equipment-1">
               <span class="label"> Equipment 1 </span>
               <div class="circle">
-                <ha-svg-icon .path=${mdiSolarPower}></ha-svg-icon>
+                <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
                 0 kW
               </div>
             </div>
@@ -137,7 +154,7 @@ export class TestlaPowerDistribution extends LitElement {
             </div>
             <div class="circle-container equipment-2">
               <div class="circle">
-                <ha-svg-icon .path=${mdiSolarPower}></ha-svg-icon>
+                <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
                   0 kW
               </div>
               <span class="label"> Equipment 2 </span>
@@ -200,13 +217,6 @@ export class TestlaPowerDistribution extends LitElement {
     `;
   }
 
-  // event handling
-  doToggle() {
-    this._hass.callService("input_boolean", "toggle", {
-      entity_id: this._entity,
-    });
-  }
-
   // card configuration
   static getConfigElement() {
     return document.createElement("tesla-power-distribution-editor");
@@ -214,8 +224,18 @@ export class TestlaPowerDistribution extends LitElement {
 
   static getStubConfig() {
     return {
-      entity: "input_boolean.tcts",
-      header: "",
+      grid_to_house_entity: "1",
+      generation_to_grid_entity: "1",
+      generation_to_battery_entity: "1",
+      generation_to_house_entity: "1",
+      battery_to_house_entity: "1",
+      battery_to_grid_entity: "1",
+      battery_extra_entity: "1",
+      house_extra_entity: "1",
+      grid_extra_entity: "1",
+      // generation_icon: "1",
+      appliance1_state_entity: "1",
+      appliance1_consumption_entity: "1",
     };
   }
 }
