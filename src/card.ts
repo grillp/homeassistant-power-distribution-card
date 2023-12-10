@@ -132,6 +132,15 @@ export class TestlaPowerDistribution extends LitElement {
     let generation_dasharray: string = `${generation_circumference} ${
       CIRCLE_CIRCUMFERENCE - generation_circumference
     }`;
+
+    const totalFlow =
+      (parseFloat(this._grid_to_house_entity) || 0) +
+      (parseFloat(this._generation_to_grid_entity) || 0) +
+      (parseFloat(this._generation_to_battery_entity) || 0) +
+      (parseFloat(this._generation_to_house_entity) || 0) +
+      (parseFloat(this._battery_to_house_entity) || 0) +
+      (parseFloat(this._battery_to_grid_entity) || 0);
+
     return html`
       <ha-card .header=${"My Tesla Distro"}>
         <div class="card-content">
@@ -242,47 +251,145 @@ export class TestlaPowerDistribution extends LitElement {
               preserveAspectRatio="xMidYMid slice"
             >
               ${svg`<path
-                  id="return"
+                  id="generation-to-grid"
                   class="return"
                   d="M45,0 v15 c0,35 -10,30 -30,30 h-20"
                   vector-effect="non-scaling-stroke"
                 ></path>
                 <path
-                  id="solar"
+                  id="generation-to-house"
                   class="solar"
                   d="M55,0 v15 c0,35 10,30 30,30 h20"
                   vector-effect="non-scaling-stroke"
                 ></path>
                 <path
-                  id="battery-house"
+                  id="battery-to-house"
                   class="battery-house"
                   d="M55,100 v-15 c0,-35 10,-30 30,-30 h20"
                   vector-effect="non-scaling-stroke"
                 ></path>
                 <path
-                  id="battery-grid"
+                  id="battery-to-grid"
                   class="battery-from-grid"
                   d="M45,100 v-15 c0,-35 -10,-30 -30,-30 h-20"
                   vector-effect="non-scaling-stroke"
                 ></path>
                 <path
-                  id="battery-solar"
+                  id="solar-to-battery"
                   class="battery-solar"
                   d="M50,0 V100"
                   vector-effect="non-scaling-stroke"
                 ></path>
                 <path
                   class="grid"
-                  id="grid"
+                  id="grid-to-house"
                   d="M0,50 H100"
                   vector-effect="non-scaling-stroke"
                 >
                 </path>
                 <circle
+                    r="1"
+                    class="grid"
+                    vector-effect="non-scaling-stroke"
+                  >
+                  <animateMotion
+                    dur="${
+                      6 -
+                      (parseFloat(this._grid_to_house_entity) / totalFlow) * 6
+                    }s"
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                  >
+                    <mpath href="#grid-to-house"></mpath>
+                  </animateMotion>
+                </circle>
+                <circle
                   r="1"
-                  class="return"
+                  class="solar"
                   vector-effect="non-scaling-stroke"
-                >`}
+                  >
+                  <animateMotion
+                    dur="${
+                      6 -
+                      (parseFloat(this._generation_to_house_entity) /
+                        totalFlow) *
+                        6
+                    }s"
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                  >
+                    <mpath href="#generation-to-house"></mpath>
+                  </animateMotion>
+                </circle>
+                <circle
+                  r="1"
+                  class="battery-house"
+                  vector-effect="non-scaling-stroke"
+                  >
+                  <animateMotion
+                    dur="${
+                      6 -
+                      (parseFloat(this._battery_to_house_entity) / totalFlow) *
+                        6
+                    }s"
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                  >
+                    <mpath href="#battery-to-house"></mpath>
+                  </animateMotion>
+                </circle>
+                <circle
+                  r="1"
+                  class="battery-from-grid"
+                  vector-effect="non-scaling-stroke"
+                  >
+                  <animateMotion
+                    dur="${
+                      6 -
+                      (parseFloat(this._battery_to_grid_entity) / totalFlow) * 6
+                    }s"
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                  >
+                    <mpath href="#battery-to-grid"></mpath>
+                  </animateMotion>
+                </circle>
+                <circle
+                  r="1"
+                  class="battery-solar"
+                  vector-effect="non-scaling-stroke"
+                  >
+                  <animateMotion
+                    dur="${
+                      6 -
+                      (parseFloat(this._generation_to_battery_entity) /
+                        totalFlow) *
+                        6
+                    }s"
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                  >
+                    <mpath href="#solar-to-battery"></mpath>
+                  </animateMotion>
+                </circle>
+                <circle
+                  r="1"
+                  class="grid"
+                  vector-effect="non-scaling-stroke"
+                  >
+                  <animateMotion
+                    dur="${
+                      6 -
+                      (parseFloat(this._grid_to_house_entity) / totalFlow) * 6
+                    }s"
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                  >
+                    <mpath href="#grid-to-house"></mpath>
+                  </animateMotion>
+                </circle>
+
+            `}
             </svg>
           </div>
         </div>
