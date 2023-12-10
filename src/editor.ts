@@ -96,6 +96,18 @@ export class TestlaPowerDistributionEditor extends LitElement {
                         @change="${this.handleChangedEvent}"
                         class="value cell" id="appliance1_consumption_entity" value="${this._config.appliance1_consumption_entity}"></input>
                 </div>
+                <div class="row">
+                  <label class="label cell" for="appliance2_state_entity">appliance2_state_entity:</label>
+                  <input
+                        @change="${this.handleChangedEvent}"
+                        class="value cell" id="appliance2_state_entity" value="${this._config.appliance2_state_entity}"></input>
+                </div>
+                <div class="row">
+                  <label class="label cell" for="appliance2_consumption_entity">appliance2_consumption_entity:</label>
+                  <input
+                        @change="${this.handleChangedEvent}"
+                        class="value cell" id="appliance2_consumption_entity" value="${this._config.appliance2_consumption_entity}"></input>
+                </div>
                 </form>
         `;
   }
@@ -128,6 +140,10 @@ export class TestlaPowerDistributionEditor extends LitElement {
       newConfig.appliance1_state_entity = target.value;
     } else if (target.id == "appliance1_consumption_entity") {
       newConfig.appliance1_consumption_entity = target.value;
+    } else if (target.id == "appliance2_state_entity") {
+      newConfig.appliance2_state_entity = target.value;
+    } else if (target.id == "appliance2_consumption_entity") {
+      newConfig.appliance2_consumption_entity = target.value;
     }
     const messageEvent = new CustomEvent("config-changed", {
       detail: { config: newConfig },

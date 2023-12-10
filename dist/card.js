@@ -8751,6 +8751,20 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
     setConfig(config) {
         // this._header = config.header === "" ? nothing : config.header;
         // this._entity = config.entity;
+        this._grid_to_house_entity = config.grid_to_house_entity;
+        this._generation_to_grid_entity = config.generation_to_grid_entity;
+        this._generation_to_battery_entity = config.generation_to_battery_entity;
+        this._generation_to_house_entity = config.generation_to_house_entity;
+        this._battery_to_house_entity = config.battery_to_house_entity;
+        this._battery_to_grid_entity = config.battery_to_grid_entity;
+        this._battery_extra_entity = config.battery_extra_entity;
+        this._house_extra_entity = config.house_extra_entity;
+        this._grid_extra_entity = config.grid_extra_entity;
+        this._generation_icon = config.generation_icon;
+        this._appliance1_state_entity = config.appliance1_state_entity;
+        this._appliance1_consumption_entity = config.appliance1_consumption_entity;
+        this._appliance2_state_entity = config.appliance2_state_entity;
+        this._appliance2_consumption_entity = config.appliance2_consumption_entity;
         // call set hass() to immediately adjust to a changed entity
         // while editing the entity in the card editor
         if (this._hass) this.hass = this._hass;
@@ -8769,8 +8783,6 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this.styles = (0, $120c5a859c012378$export$9dd6ff9ea0189349);
     })();
     render() {
-        // let content: TemplateResult;
-        console.log("HELLOOOOO");
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <ha-card .header=${"My Tesla Distro"}>
         <div class="card-content">
@@ -8787,7 +8799,8 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
               <span class="label"> Equipment 1 </span>
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
-                0 kW
+                ${this._appliance1_state_entity}
+                kW
               </div>
             </div>
           </div>
@@ -8842,7 +8855,8 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             <div class="circle-container equipment-2">
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
-                  0 kW
+                  ${">" + this._appliance2_state_entity + "<"}
+                  kW
               </div>
               <span class="label"> Equipment 2 </span>
             </div>
@@ -8920,13 +8934,12 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             grid_extra_entity: "1",
             // generation_icon: "1",
             appliance1_state_entity: "1",
-            appliance1_consumption_entity: "1"
+            appliance1_consumption_entity: "1",
+            appliance2_state_entity: "1",
+            appliance2_consumption_entity: "1"
         };
     }
 }
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_entity", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_to_house_entity", void 0);
@@ -8963,6 +8976,12 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_appliance1_consumption_entity", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_appliance2_state_entity", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_appliance2_consumption_entity", void 0);
 
 
 
@@ -9061,6 +9080,18 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
                         @change="${this.handleChangedEvent}"
                         class="value cell" id="appliance1_consumption_entity" value="${this._config.appliance1_consumption_entity}"></input>
                 </div>
+                <div class="row">
+                  <label class="label cell" for="appliance2_state_entity">appliance2_state_entity:</label>
+                  <input
+                        @change="${this.handleChangedEvent}"
+                        class="value cell" id="appliance2_state_entity" value="${this._config.appliance2_state_entity}"></input>
+                </div>
+                <div class="row">
+                  <label class="label cell" for="appliance2_consumption_entity">appliance2_consumption_entity:</label>
+                  <input
+                        @change="${this.handleChangedEvent}"
+                        class="value cell" id="appliance2_consumption_entity" value="${this._config.appliance2_consumption_entity}"></input>
+                </div>
                 </form>
         `;
     }
@@ -9080,6 +9111,8 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         else if (target.id == "generation_icon") newConfig.generation_icon = target.value;
         else if (target.id == "appliance1_state_entity") newConfig.appliance1_state_entity = target.value;
         else if (target.id == "appliance1_consumption_entity") newConfig.appliance1_consumption_entity = target.value;
+        else if (target.id == "appliance2_state_entity") newConfig.appliance2_state_entity = target.value;
+        else if (target.id == "appliance2_consumption_entity") newConfig.appliance2_consumption_entity = target.value;
         const messageEvent = new CustomEvent("config-changed", {
             detail: {
                 config: newConfig

@@ -31,14 +31,14 @@ interface Config extends LovelaceCardConfig {
   generation_icon: string;
   appliance1_state_entity: string;
   appliance1_consumption_entity: string;
+  appliance2_state_entity: string;
+  appliance2_consumption_entity: string;
 }
 
 const CIRCLE_CIRCUMFERENCE = 238.76104;
 
 export class TestlaPowerDistribution extends LitElement {
   // internal reactive states
-  @state() private _entity: string;
-
   @state() private _grid_to_house_entity: string;
   @state() private _generation_to_grid_entity: string;
   @state() private _generation_to_battery_entity: string;
@@ -51,6 +51,8 @@ export class TestlaPowerDistribution extends LitElement {
   @state() private _generation_icon: string;
   @state() private _appliance1_state_entity: string;
   @state() private _appliance1_consumption_entity: string;
+  @state() private _appliance2_state_entity: string;
+  @state() private _appliance2_consumption_entity: string;
 
   // private property
   private _hass;
@@ -59,6 +61,21 @@ export class TestlaPowerDistribution extends LitElement {
   setConfig(config: Config) {
     // this._header = config.header === "" ? nothing : config.header;
     // this._entity = config.entity;
+    this._grid_to_house_entity = config.grid_to_house_entity;
+    this._generation_to_grid_entity = config.generation_to_grid_entity;
+    this._generation_to_battery_entity = config.generation_to_battery_entity;
+    this._generation_to_house_entity = config.generation_to_house_entity;
+    this._battery_to_house_entity = config.battery_to_house_entity;
+    this._battery_to_grid_entity = config.battery_to_grid_entity;
+    this._battery_extra_entity = config.battery_extra_entity;
+    this._house_extra_entity = config.house_extra_entity;
+    this._grid_extra_entity = config.grid_extra_entity;
+    this._generation_icon = config.generation_icon;
+    this._appliance1_state_entity = config.appliance1_state_entity;
+    this._appliance1_consumption_entity = config.appliance1_consumption_entity;
+    this._appliance2_state_entity = config.appliance2_state_entity;
+    this._appliance2_consumption_entity = config.appliance2_consumption_entity;
+
     // call set hass() to immediately adjust to a changed entity
     // while editing the entity in the card editor
     if (this._hass) {
@@ -80,10 +97,6 @@ export class TestlaPowerDistribution extends LitElement {
   static styles = styles;
 
   render() {
-    // let content: TemplateResult;
-
-    console.log("HELLOOOOO");
-
     return html`
       <ha-card .header=${"My Tesla Distro"}>
         <div class="card-content">
@@ -100,7 +113,8 @@ export class TestlaPowerDistribution extends LitElement {
               <span class="label"> Equipment 1 </span>
               <div class="circle">
                 <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                0 kW
+                ${this._appliance1_state_entity}
+                kW
               </div>
             </div>
           </div>
@@ -155,7 +169,8 @@ export class TestlaPowerDistribution extends LitElement {
             <div class="circle-container equipment-2">
               <div class="circle">
                 <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                  0 kW
+                  ${">" + this._appliance2_state_entity + "<"}
+                  kW
               </div>
               <span class="label"> Equipment 2 </span>
             </div>
@@ -236,6 +251,8 @@ export class TestlaPowerDistribution extends LitElement {
       // generation_icon: "1",
       appliance1_state_entity: "1",
       appliance1_consumption_entity: "1",
+      appliance2_state_entity: "1",
+      appliance2_consumption_entity: "1",
     };
   }
 }
