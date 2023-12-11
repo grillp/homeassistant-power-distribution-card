@@ -18,6 +18,16 @@ sudo npm install -g n
 sudo n stable
 npm install
 ```
+copy ssh keys:
+on mac:
+```bash
+cp ~/.ssh/id_rsa* ~/work/personal/cards
+```
+in container:
+```bash
+mv ../id_rsa* ~/.ssh
+git push --set-upstream cancas main
+```
 
 test comamnds:
 ```bash
