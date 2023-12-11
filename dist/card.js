@@ -8782,9 +8782,6 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         // declarative part
         this.styles = (0, $120c5a859c012378$export$9dd6ff9ea0189349);
     })();
-    render_circle() {
-        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`somethign`;
-    }
     calcStrokeDashValues(values) {
         let total = values.reduce((a, v)=>{
             return a + v;
@@ -8812,36 +8809,6 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             grid_to_house,
             generation_to_house
         ]);
-        console.log(homeSliceDashValues);
-        let total_to_house = generation_to_house + grid_to_house + battery_to_house;
-        let generation_circumference = $a399cc6bbb0eb26a$var$CIRCLE_CIRCUMFERENCE * (generation_to_house / total_to_house);
-        let grid_circumference = $a399cc6bbb0eb26a$var$CIRCLE_CIRCUMFERENCE * (grid_to_house / total_to_house);
-        let battery_circumference = $a399cc6bbb0eb26a$var$CIRCLE_CIRCUMFERENCE * (battery_to_house / total_to_house);
-        let current_offset = 0;
-        let battery_dashoffset = "" + current_offset;
-        let battery_dasharray = `${battery_circumference} ${$a399cc6bbb0eb26a$var$CIRCLE_CIRCUMFERENCE - battery_circumference}`;
-        current_offset -= battery_circumference;
-        let grid_dashoffset = "" + current_offset;
-        let grid_dasharray = `${grid_circumference} ${$a399cc6bbb0eb26a$var$CIRCLE_CIRCUMFERENCE - grid_circumference}`;
-        current_offset -= grid_circumference;
-        let generation_dashoffset = "" + current_offset;
-        let generation_dasharray = `${generation_circumference} ${$a399cc6bbb0eb26a$var$CIRCLE_CIRCUMFERENCE - generation_circumference}`;
-        let homeSliceDashValuesOld = [
-            {
-                stroke_dashoffset: generation_dashoffset,
-                stroke_dasharray: generation_dasharray
-            },
-            {
-                stroke_dashoffset: grid_dashoffset,
-                stroke_dasharray: grid_dasharray
-            },
-            {
-                stroke_dashoffset: battery_dashoffset,
-                stroke_dasharray: battery_dasharray
-            }
-        ];
-        console.log(homeSliceDashValuesOld);
-        console.log("------------");
         const totalFlow = (parseFloat(this._grid_to_house_entity) || 0) + (parseFloat(this._generation_to_grid_entity) || 0) + (parseFloat(this._generation_to_battery_entity) || 0) + (parseFloat(this._generation_to_house_entity) || 0) + (parseFloat(this._battery_to_house_entity) || 0) + (parseFloat(this._battery_to_grid_entity) || 0);
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <ha-card .header=${"My Tesla Distro"}>
