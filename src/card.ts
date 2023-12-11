@@ -16,6 +16,7 @@ import {
   mdiSolarPower,
   mdiCarSports,
   mdiTransmissionTower,
+  mdiCloseOutline,
 } from "@mdi/js";
 
 interface Config extends LovelaceCardConfig {
@@ -33,6 +34,11 @@ interface Config extends LovelaceCardConfig {
   appliance1_consumption_entity: string;
   appliance2_state_entity: string;
   appliance2_consumption_entity: string;
+}
+
+interface DashValues {
+  stroke_dashoffset: string;
+  stroke_dasharray: string;
 }
 
 const CIRCLE_CIRCUMFERENCE = 238.76104;
@@ -96,42 +102,37 @@ export class TestlaPowerDistribution extends LitElement {
   // declarative part
   static styles = styles;
 
+  private calcStrokeDashValues(values: number[]): DashValues[] {
+    let total = values.reduce((a, v) => {
+      return a + v;
+    }, 0);
+    let offset = 0;
+    let return_values: DashValues[] = [];
+    values.reduce((a: DashValues[], v: number) => {
+      let circle_slice: number = CIRCLE_CIRCUMFERENCE * (v / total);
+      let newDashValue: DashValues = {
+        stroke_dashoffset: `${offset}`,
+        stroke_dasharray: `${circle_slice} ${
+          CIRCLE_CIRCUMFERENCE - circle_slice
+        }`,
+      };
+      a.push(newDashValue);
+      offset -= circle_slice;
+      return a;
+    }, return_values);
+    return return_values;
+  }
+
   render() {
-    let generation_to_house: number | undefined = parseFloat(
-      this._generation_to_house_entity
-    );
-    let grid_to_house: number | undefined = parseFloat(
-      this._grid_to_house_entity
-    );
-    let battery_to_house: number | undefined = parseFloat(
-      this._battery_to_house_entity
-    );
+    let generation_to_house = parseFloat(this._generation_to_house_entity);
+    let grid_to_house = parseFloat(this._grid_to_house_entity);
+    let battery_to_house = parseFloat(this._battery_to_house_entity);
 
-    let total_to_house: number | undefined =
-      generation_to_house + grid_to_house + battery_to_house;
-
-    let generation_circumference: number | undefined =
-      CIRCLE_CIRCUMFERENCE * (generation_to_house! / total_to_house);
-    let grid_circumference: number | undefined =
-      CIRCLE_CIRCUMFERENCE * (grid_to_house! / total_to_house);
-    let battery_circumference: number | undefined =
-      CIRCLE_CIRCUMFERENCE * (battery_to_house! / total_to_house);
-
-    let current_offset: number = 0;
-    let battery_dashoffset: string = "" + current_offset;
-    let battery_dasharray: string = `${battery_circumference} ${
-      CIRCLE_CIRCUMFERENCE - battery_circumference
-    }`;
-    current_offset -= battery_circumference;
-    let grid_dashoffset: string = "" + current_offset;
-    let grid_dasharray: string = `${grid_circumference} ${
-      CIRCLE_CIRCUMFERENCE - grid_circumference
-    }`;
-    current_offset -= grid_circumference;
-    let generation_dashoffset: string = "" + current_offset;
-    let generation_dasharray: string = `${generation_circumference} ${
-      CIRCLE_CIRCUMFERENCE - generation_circumference
-    }`;
+    let homeSliceDashValues: DashValues[] = this.calcStrokeDashValues([
+      battery_to_house,
+      grid_to_house,
+      generation_to_house,
+    ]);
 
     const totalFlow =
       (parseFloat(this._grid_to_house_entity) || 0) +
@@ -195,9 +196,9 @@ export class TestlaPowerDistribution extends LitElement {
                 ${this._house_extra_entity} kW
                 <svg>
                   ${svg`
-                    <circle class="battery" cx="40" cy="40" r="38" stroke-dasharray="${battery_dasharray}" stroke-dashoffset="${battery_dashoffset}"></circle>
-                    <circle class="grid"    cx="40" cy="40" r="38" stroke-dasharray="${grid_dasharray}" stroke-dashoffset="${grid_dashoffset}"></circle>
-                    <circle class="solar"   cx="40" cy="40" r="38" stroke-dasharray="${generation_dasharray}" stroke-dashoffset="${generation_dashoffset}"></circle>
+                    <circle class="battery" cx="40" cy="40" r="38" stroke-dasharray="${homeSliceDashValues[0].stroke_dasharray}" stroke-dashoffset="${homeSliceDashValues[0].stroke_dashoffset}"></circle>
+                    <circle class="grid"    cx="40" cy="40" r="38" stroke-dasharray="${homeSliceDashValues[1].stroke_dasharray}" stroke-dashoffset="${homeSliceDashValues[1].stroke_dashoffset}"></circle>
+                    <circle class="solar"   cx="40" cy="40" r="38" stroke-dasharray="${homeSliceDashValues[2].stroke_dasharray}" stroke-dashoffset="${homeSliceDashValues[2].stroke_dashoffset}"></circle>
                   `}
                 </svg>
               </div>
