@@ -45,21 +45,6 @@ interface DashValues {
 const CIRCLE_CIRCUMFERENCE = 238.76104;
 
 export class TestlaPowerDistribution extends LitElement {
-  // internal reactive states
-  // @state() private _grid_to_house_entity: HassEntity;
-  // @state() private _generation_to_grid_entity: HassEntity;
-  // @state() private _generation_to_battery_entity: HassEntity;
-  // @state() private _generation_to_house_entity: HassEntity;
-  // @state() private _battery_to_house_entity: HassEntity;
-  // @state() private _battery_to_grid_entity: HassEntity;
-  // @state() private _battery_extra_entity: HassEntity;
-  // @state() private _house_extra_entity: HassEntity;
-  // @state() private _grid_extra_entity: HassEntity;
-  // @state() private _appliance1_state_entity: HassEntity;
-  // @state() private _appliance1_consumption_entity: HassEntity;
-  // @state() private _appliance2_state_entity: HassEntity;
-  // @state() private _appliance2_consumption_entity: HassEntity;
-
   // For Config
   @state() private _grid_to_house_id: string | null;
   @state() private _generation_to_grid_id: string | null;
@@ -82,11 +67,6 @@ export class TestlaPowerDistribution extends LitElement {
   @state() private _generation_to_house_power: number;
   @state() private _battery_to_house_power: number;
   @state() private _battery_to_grid_power: number;
-  @state() private _battery_extra_power: number;
-  @state() private _house_extra_power: number;
-  @state() private _grid_extra_power: number;
-  @state() private _equipment1_power: number;
-  @state() private _equipment2_power: number;
   @state() private _total_flow_power: number;
 
   // Totals
