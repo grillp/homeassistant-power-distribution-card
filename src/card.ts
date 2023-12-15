@@ -85,16 +85,16 @@ export class TestlaPowerDistribution extends LitElement {
   @state() private _battery_extra_power: number;
   @state() private _house_extra_power: number;
   @state() private _grid_extra_power: number;
-  @state() private _equipment_1_power: number;
-  @state() private _equipment_2_power: number;
+  @state() private _equipment1_power: number;
+  @state() private _equipment2_power: number;
   @state() private _total_flow_power: number;
 
   // Totals
   @state() private _to_house_power: number;
   @state() private _from_grid_power: number;
   @state() private _from_generation_power: number;
-  @state() private _to_appliance_1_power: number;
-  @state() private _to_appliance_2_power: number;
+  @state() private _to_appliance1_power: number;
+  @state() private _to_appliance2_power: number;
   @state() private _to_battery_power: number;
 
   @state() private _generation_icon: string;
@@ -132,7 +132,9 @@ export class TestlaPowerDistribution extends LitElement {
   private extractFromId(entity_id: string): number {
     if (entity_id) {
       if (this._hass.states[entity_id]) {
-        return parseFloat(this._hass.states[entity_id].state);
+        return Number(
+          parseFloat(this._hass.states[entity_id].state).toFixed(1)
+        );
       } else {
         return parseFloat(entity_id);
       }
@@ -161,63 +163,41 @@ export class TestlaPowerDistribution extends LitElement {
     this._battery_extra_power = this.extractFromId(this._battery_extra_id);
     this._house_extra_power = this.extractFromId(this._house_extra_id);
     this._grid_extra_power = this.extractFromId(this._grid_extra_id);
-    this._to_appliance_1_power = this.extractFromId(
+    this._to_appliance1_power = this.extractFromId(
       this._appliance1_consumption_id
     );
-    this._to_appliance_2_power = this.extractFromId(
+    this._to_appliance2_power = this.extractFromId(
       this._appliance2_consumption_id
     );
 
-    // if (this._grid_to_house_id)
-    //   this._grid_to_house_entity = hass.states[this._grid_to_house_id];
-    // if (this._generation_to_grid_id)
-    //   this._generation_to_grid_entity =
-    //     hass.states[this._generation_to_grid_id];
-    // if (this._generation_to_battery_id)
-    //   this._generation_to_battery_entity =
-    //     hass.states[this._generation_to_battery_id];
-    // if (this._generation_to_house_id)
-    //   this._generation_to_house_entity =
-    //     hass.states[this._generation_to_house_id];
-    // if (this._battery_to_house_id)
-    //   this._battery_to_house_entity = hass.states[this._battery_to_house_id];
-    // if (this._battery_to_grid_id)
-    //   this._battery_to_grid_entity = hass.states[this._battery_to_grid_id];
-    // if (this._battery_extra_id)
-    //   this._battery_extra_entity = hass.states[this._battery_extra_id];
-    // if (this._house_extra_id)
-    //   this._house_extra_entity = hass.states[this._house_extra_id];
-    // if (this._grid_extra_id)
-    //   this._grid_extra_entity = hass.states[this._grid_extra_id];
-    // if (this._appliance1_state_id)
-    //   this._appliance1_state_entity = hass.states[this._appliance1_state_id];
-    // if (this._appliance1_consumption_id)
-    //   this._appliance1_consumption_entity =
-    //     hass.states[this._appliance1_consumption_id];
-    // if (this._appliance2_state_id)
-    //   this._appliance2_state_entity = hass.states[this._appliance2_state_id];
-    // if (this._appliance2_consumption_id)
-    //   this._appliance2_consumption_entity =
-    //     hass.states[this._appliance2_consumption_id];
-
-    this._to_house_power =
-      this._battery_to_house_power +
-      this._grid_to_house_power +
-      this._generation_to_house_power;
-    this._from_grid_power =
-      this._grid_to_house_power +
-      -1 * this._battery_to_grid_power +
-      -1 * this._generation_to_grid_power;
-    this._from_generation_power =
-      this._generation_to_grid_power +
-      this._generation_to_battery_power +
-      this._generation_to_house_power;
-    this._to_battery_power =
-      -1 * this._battery_to_house_power +
-      this._generation_to_battery_power +
-      -1 * this._battery_to_grid_power;
-    this._to_appliance_1_power = 1;
-    this._to_appliance_2_power = 1;
+    this._to_house_power = Number(
+      (
+        this._battery_to_house_power +
+        this._grid_to_house_power +
+        this._generation_to_house_power
+      ).toFixed(1)
+    );
+    this._from_grid_power = Number(
+      (
+        this._grid_to_house_power +
+        -1 * this._battery_to_grid_power +
+        -1 * this._generation_to_grid_power
+      ).toFixed(1)
+    );
+    this._from_generation_power = Number(
+      (
+        this._generation_to_grid_power +
+        this._generation_to_battery_power +
+        this._generation_to_house_power
+      ).toFixed(1)
+    );
+    this._to_battery_power = Number(
+      (
+        -1 * this._battery_to_house_power +
+        this._generation_to_battery_power +
+        -1 * this._battery_to_grid_power
+      ).toFixed(1)
+    );
 
     this._total_flow_power =
       this._grid_to_house_power +
@@ -264,14 +244,37 @@ export class TestlaPowerDistribution extends LitElement {
     style: string,
     href: string
   ): any {
-    return power > 0
+    if (power > 0 && this._total_flow_power > 0) {
+      console.log(`${style}:total ${this._total_flow_power}`);
+      console.log(`${style}:power ${power}`);
+      console.log(
+        `${style}:ratio ${
+          power / (this._total_flow_power == power ? 6 : this._total_flow_power)
+        }`
+      );
+      console.log(
+        `${style}:time ${
+          6 -
+          (power /
+            (this._total_flow_power == power ? 6 : this._total_flow_power)) *
+            6
+        }s`
+      );
+    }
+
+    return power > 0 && this._total_flow_power > 0
       ? svg`<circle
         r="1"
         class="${style}"
         vector-effect="non-scaling-stroke"
       >
         <animateMotion
-          dur="${6 - (power / this._total_flow_power) * 6}s"
+          dur="${
+            6 -
+            (power /
+              (this._total_flow_power == power ? 6 : this._total_flow_power)) *
+              6
+          }s"
           repeatCount="indefinite"
           calcMode="linear"
         >
@@ -302,13 +305,13 @@ export class TestlaPowerDistribution extends LitElement {
                 ${this._from_generation_power} kW
               </div>
             </div>
-            <div class="circle-container equipment-1">
-              <span class="label"> Equipment 1 </span>
+            <div class="circle-container appliance-1">
+              <span class="label"> Appliance 1 </span>
               <div class="circle">
                 <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                ${this._to_appliance_1_power} kW
+                ${this._to_appliance1_power} kW
               </div>
-                          </div>
+            </div>
           </div>
           <div class="row">
             <div class="circle-container grid">
@@ -318,10 +321,12 @@ export class TestlaPowerDistribution extends LitElement {
                   this._from_grid_power >= 0
                     ? html`
                         <span class="consumption">
-                          <ha-svg-icon
-                            class="small"
-                            .path=${mdiArrowRight}
-                          ></ha-svg-icon>
+                          ${this._from_grid_power > 0
+                            ? html`<ha-svg-icon
+                                class="small"
+                                .path=${mdiArrowRight}
+                              ></ha-svg-icon>`
+                            : ""}
                           ${this._from_grid_power} kW
                         </span>
                       `
@@ -362,10 +367,12 @@ export class TestlaPowerDistribution extends LitElement {
                   this._to_battery_power >= 0
                     ? html`
                         <span class="battery-in">
-                          <ha-svg-icon
-                            class="small"
-                            .path=${mdiArrowDown}
-                          ></ha-svg-icon>
+                          ${this._to_battery_power > 0
+                            ? html`<ha-svg-icon
+                                class="small"
+                                .path=${mdiArrowDown}
+                              ></ha-svg-icon>`
+                            : ""}
                           ${this._to_battery_power} kW
                         </span>
                       `
@@ -383,12 +390,12 @@ export class TestlaPowerDistribution extends LitElement {
               </div>
               <span class="label">Battery</span>
             </div>
-            <div class="circle-container equipment-2">
+            <div class="circle-container appliance-2">
               <div class="circle">
                 <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                ${this._to_appliance_2_power}kW
+                ${this._to_appliance2_power} kW
               </div>
-              <span class="label"> Equipment 2 </span>
+              <span class="label"> Appliance 2 </span>
             </div>
           </div>
 
@@ -463,9 +470,9 @@ export class TestlaPowerDistribution extends LitElement {
                   "#solar-to-battery"
                 )}
                 ${this.renderPowerAnnimation(
-                  this._grid_to_house_power,
-                  "grid",
-                  "#grid-to-house"
+                  this._generation_to_grid_power,
+                  "return",
+                  "#generation-to-grid"
                 )}
               `}
             </svg>
@@ -476,12 +483,12 @@ export class TestlaPowerDistribution extends LitElement {
                 <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
                 <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
                 ${this.renderPowerAnnimation(
-                  this._to_appliance_1_power,
+                  this._to_appliance1_power,
                   "grid",
                   "#equipment-1"
                 )}
                 ${this.renderPowerAnnimation(
-                  this._to_appliance_2_power,
+                  this._to_appliance2_power,
                   "grid",
                   "#equipment-2"
                 )}

@@ -8796,7 +8796,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
     }
     extractFromId(entity_id) {
         if (entity_id) {
-            if (this._hass.states[entity_id]) return parseFloat(this._hass.states[entity_id].state);
+            if (this._hass.states[entity_id]) return Number(parseFloat(this._hass.states[entity_id].state).toFixed(1));
             else return parseFloat(entity_id);
         } else return 0;
     }
@@ -8846,12 +8846,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         // if (this._appliance2_consumption_id)
         //   this._appliance2_consumption_entity =
         //     hass.states[this._appliance2_consumption_id];
-        this._to_house_power = this._battery_to_house_power + this._grid_to_house_power + this._generation_to_house_power;
-        this._from_grid_power = this._grid_to_house_power + -1 * this._battery_to_grid_power + -1 * this._generation_to_grid_power;
-        this._from_generation_power = this._generation_to_grid_power + this._generation_to_battery_power + this._generation_to_house_power;
-        this._to_battery_power = -1 * this._battery_to_house_power + this._generation_to_battery_power + -1 * this._battery_to_grid_power;
-        this._to_appliance_1_power = 1;
-        this._to_appliance_2_power = 1;
+        this._to_house_power = Number((this._battery_to_house_power + this._grid_to_house_power + this._generation_to_house_power).toFixed(1));
+        this._from_grid_power = Number((this._grid_to_house_power + -1 * this._battery_to_grid_power + -1 * this._generation_to_grid_power).toFixed(1));
+        this._from_generation_power = Number((this._generation_to_grid_power + this._generation_to_battery_power + this._generation_to_house_power).toFixed(1));
+        this._to_battery_power = Number((-1 * this._battery_to_house_power + this._generation_to_battery_power + -1 * this._battery_to_grid_power).toFixed(1));
         this._total_flow_power = this._grid_to_house_power + this._generation_to_grid_power + this._generation_to_battery_power + this._generation_to_house_power + this._battery_to_house_power + this._battery_to_grid_power;
     // this._state = hass.states[this._id];
     // if (this._state) {
@@ -8882,6 +8880,27 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         }, return_values);
         return return_values;
     }
+    renderPowerAnnimation(power, style, href) {
+        if (power > 0 && this._total_flow_power > 0) {
+            console.log(`${style}:total ${this._total_flow_power}`);
+            console.log(`${style}:power ${power}`);
+            console.log(`${style}:ratio ${power / (this._total_flow_power == power ? 6 : this._total_flow_power)}`);
+            console.log(`${style}:time ${6 - power / (this._total_flow_power == power ? 6 : this._total_flow_power) * 6}s`);
+        }
+        return power > 0 && this._total_flow_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
+        r="1"
+        class="${style}"
+        vector-effect="non-scaling-stroke"
+      >
+        <animateMotion
+          dur="${6 - power / (this._total_flow_power == power ? 6 : this._total_flow_power) * 6}s"
+          repeatCount="indefinite"
+          calcMode="linear"
+        >
+          <mpath href="${href}"></mpath>
+        </animateMotion>
+      </circle>` : "";
+    }
     render() {
         console.log("Render");
         let homeSliceDashValues = this.calcStrokeDashValues([
@@ -8907,7 +8926,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
                 ${this._to_appliance_1_power} kW
               </div>
-                          </div>
+            </div>
           </div>
           <div class="row">
             <div class="circle-container grid">
@@ -8915,10 +8934,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$844b17e409f9e79a}></ha-svg-icon>
                 ${this._from_grid_power >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                         <span class="consumption">
-                          <ha-svg-icon
-                            class="small"
-                            .path=${0, $04557c061247a0a6$export$f66c996b267e1dc0}
-                          ></ha-svg-icon>
+                          ${this._from_grid_power > 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<ha-svg-icon
+                                class="small"
+                                .path=${0, $04557c061247a0a6$export$f66c996b267e1dc0}
+                              ></ha-svg-icon>` : ""}
                           ${this._from_grid_power} kW
                         </span>
                       ` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
@@ -8955,10 +8974,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$3b4ef04a2844e473}></ha-svg-icon>
                 ${this._to_battery_power >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                         <span class="battery-in">
-                          <ha-svg-icon
-                            class="small"
-                            .path=${0, $04557c061247a0a6$export$9b2580347f0d218f}
-                          ></ha-svg-icon>
+                          ${this._to_battery_power > 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<ha-svg-icon
+                                class="small"
+                                .path=${0, $04557c061247a0a6$export$9b2580347f0d218f}
+                              ></ha-svg-icon>` : ""}
                           ${this._to_battery_power} kW
                         </span>
                       ` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
@@ -8977,7 +8996,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             <div class="circle-container equipment-2">
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
-                ${this._to_appliance_2_power}kW
+                ${this._to_appliance_2_power} kW
               </div>
               <span class="label"> Equipment 2 </span>
             </div>
@@ -9028,119 +9047,23 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                   vector-effect="non-scaling-stroke"
                 >
                 </path>
-                ${this._grid_to_house_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
-                        r="1"
-                        class="grid"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${6 - this._grid_to_house_power / this._total_flow_power * 6}s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#grid-to-house"></mpath>
-                        </animateMotion>
-                      </circle>` : ""}
-                ${this._generation_to_house_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
-                        r="1"
-                        class="solar"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${6 - this._generation_to_house_power / this._total_flow_power * 6}s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#generation-to-house"></mpath>
-                        </animateMotion>
-                      </circle>` : ""}
-                ${this._battery_to_house_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
-                        r="1"
-                        class="battery-house"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${6 - this._battery_to_house_power / this._total_flow_power * 6}s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#battery-to-house"></mpath>
-                        </animateMotion>
-                      </circle>` : ""}
-                ${this._battery_to_grid_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
-                        r="1"
-                        class="battery-from-grid"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${6 - this._battery_to_grid_power / this._total_flow_power * 6}s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#battery-to-grid"></mpath>
-                        </animateMotion>
-                      </circle>` : ""}
-                ${this._generation_to_battery_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
-                        r="1"
-                        class="battery-solar"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${6 - this._generation_to_battery_power / this._total_flow_power * 6}s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#solar-to-battery"></mpath>
-                        </animateMotion>
-                      </circle>` : ""}
-                ${this._grid_to_house_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
-                        r="1"
-                        class="grid"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${6 - this._grid_to_house_power / this._total_flow_power * 6}s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#grid-to-house"></mpath>
-                        </animateMotion>
-                      </circle>` : ""}
-                `}
-                </svg>
-              </div>
+                ${this.renderPowerAnnimation(this._grid_to_house_power, "grid", "#grid-to-house")}
+                ${this.renderPowerAnnimation(this._generation_to_house_power, "solar", "#generation-to-house")}
+                ${this.renderPowerAnnimation(this._battery_to_house_power, "battery-house", "#battery-to-house")}
+                ${this.renderPowerAnnimation(this._battery_to_grid_power, "battery-from-grid", "#battery-to-grid")}
+                ${this.renderPowerAnnimation(this._generation_to_battery_power, "battery-solar", "#solar-to-battery")}
+                ${this.renderPowerAnnimation(this._generation_to_grid_power, "return", "#generation-to-grid")}
+              `}
+            </svg>
+          </div>
           <div class="lines right">
-              <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 50 100">
-                ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
-                  <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
-                  <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
-                  ${this._to_appliance_1_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
-                          r="1"
-                          class="grid"
-                          vector-effect="non-scaling-stroke"
-                        >
-                          <animateMotion
-                            dur="${6 - this._to_appliance_1_power / this._total_flow_power * 6}s"
-                            repeatCount="indefinite"
-                            calcMode="linear"
-                          >
-                            <mpath href="#equipment-1"></mpath>
-                          </animateMotion>
-                        </circle>` : ""}
-                ${this._to_appliance_2_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
-                        r="1"
-                        class="grid"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${6 - this._to_appliance_2_power / this._total_flow_power * 6}s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#equipment-2"></mpath>
-                        </animateMotion>
-                      </circle>` : ""}
-                `}
+             <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 50 100">
+              ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+                <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
+                <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
+                ${this.renderPowerAnnimation(this._to_appliance_1_power, "grid", "#equipment-1")}
+                ${this.renderPowerAnnimation(this._to_appliance_2_power, "grid", "#equipment-2")}
+              `}
             </svg>
           </div>
         </div>
