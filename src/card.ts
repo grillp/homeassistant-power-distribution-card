@@ -259,6 +259,28 @@ export class TestlaPowerDistribution extends LitElement {
     return return_values;
   }
 
+  private renderPowerAnnimation(
+    power: number,
+    style: string,
+    href: string
+  ): any {
+    return power > 0
+      ? svg`<circle
+        r="1"
+        class="${style}"
+        vector-effect="non-scaling-stroke"
+      >
+        <animateMotion
+          dur="${6 - (power / this._total_flow_power) * 6}s"
+          repeatCount="indefinite"
+          calcMode="linear"
+        >
+          <mpath href="${href}"></mpath>
+        </animateMotion>
+      </circle>`
+      : "";
+  }
+
   render() {
     console.log("Render");
 
@@ -415,191 +437,55 @@ export class TestlaPowerDistribution extends LitElement {
                   vector-effect="non-scaling-stroke"
                 >
                 </path>
-                ${
-                  this._grid_to_house_power > 0
-                    ? svg`<circle
-                        r="1"
-                        class="grid"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${
-                            6 -
-                            (this._grid_to_house_power /
-                              this._total_flow_power) *
-                              6
-                          }s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#grid-to-house"></mpath>
-                        </animateMotion>
-                      </circle>`
-                    : ""
-                }
-                ${
-                  this._generation_to_house_power > 0
-                    ? svg`<circle
-                        r="1"
-                        class="solar"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${
-                            6 -
-                            (this._generation_to_house_power /
-                              this._total_flow_power) *
-                              6
-                          }s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#generation-to-house"></mpath>
-                        </animateMotion>
-                      </circle>`
-                    : ""
-                }
-                ${
-                  this._battery_to_house_power > 0
-                    ? svg`<circle
-                        r="1"
-                        class="battery-house"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${
-                            6 -
-                            (this._battery_to_house_power /
-                              this._total_flow_power) *
-                              6
-                          }s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#battery-to-house"></mpath>
-                        </animateMotion>
-                      </circle>`
-                    : ""
-                }
-                ${
-                  this._battery_to_grid_power > 0
-                    ? svg`<circle
-                        r="1"
-                        class="battery-from-grid"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${
-                            6 -
-                            (this._battery_to_grid_power /
-                              this._total_flow_power) *
-                              6
-                          }s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#battery-to-grid"></mpath>
-                        </animateMotion>
-                      </circle>`
-                    : ""
-                }
-                ${
-                  this._generation_to_battery_power > 0
-                    ? svg`<circle
-                        r="1"
-                        class="battery-solar"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${
-                            6 -
-                            (this._generation_to_battery_power /
-                              this._total_flow_power) *
-                              6
-                          }s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#solar-to-battery"></mpath>
-                        </animateMotion>
-                      </circle>`
-                    : ""
-                }
-                ${
-                  this._grid_to_house_power > 0
-                    ? svg`<circle
-                        r="1"
-                        class="grid"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${
-                            6 -
-                            (this._grid_to_house_power /
-                              this._total_flow_power) *
-                              6
-                          }s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#grid-to-house"></mpath>
-                        </animateMotion>
-                      </circle>`
-                    : ""
-                }
-                `}
-                </svg>
-              </div>
+                ${this.renderPowerAnnimation(
+                  this._grid_to_house_power,
+                  "grid",
+                  "#grid-to-house"
+                )}
+                ${this.renderPowerAnnimation(
+                  this._generation_to_house_power,
+                  "solar",
+                  "#generation-to-house"
+                )}
+                ${this.renderPowerAnnimation(
+                  this._battery_to_house_power,
+                  "battery-house",
+                  "#battery-to-house"
+                )}
+                ${this.renderPowerAnnimation(
+                  this._battery_to_grid_power,
+                  "battery-from-grid",
+                  "#battery-to-grid"
+                )}
+                ${this.renderPowerAnnimation(
+                  this._generation_to_battery_power,
+                  "battery-solar",
+                  "#solar-to-battery"
+                )}
+                ${this.renderPowerAnnimation(
+                  this._grid_to_house_power,
+                  "grid",
+                  "#grid-to-house"
+                )}
+              `}
+            </svg>
+          </div>
           <div class="lines right">
-              <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 50 100">
-                ${svg`
-                  <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
-                  <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
-                  ${
-                    this._to_appliance_1_power > 0
-                      ? svg`<circle
-                          r="1"
-                          class="grid"
-                          vector-effect="non-scaling-stroke"
-                        >
-                          <animateMotion
-                            dur="${
-                              6 -
-                              (this._to_appliance_1_power /
-                                this._total_flow_power) *
-                                6
-                            }s"
-                            repeatCount="indefinite"
-                            calcMode="linear"
-                          >
-                            <mpath href="#equipment-1"></mpath>
-                          </animateMotion>
-                        </circle>`
-                      : ""
-                  }
-                ${
-                  this._to_appliance_2_power > 0
-                    ? svg`<circle
-                        r="1"
-                        class="grid"
-                        vector-effect="non-scaling-stroke"
-                      >
-                        <animateMotion
-                          dur="${
-                            6 -
-                            (this._to_appliance_2_power /
-                              this._total_flow_power) *
-                              6
-                          }s"
-                          repeatCount="indefinite"
-                          calcMode="linear"
-                        >
-                          <mpath href="#equipment-2"></mpath>
-                        </animateMotion>
-                      </circle>`
-                    : ""
-                }
-                `}
+             <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 50 100">
+              ${svg`
+                <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
+                <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
+                ${this.renderPowerAnnimation(
+                  this._to_appliance_1_power,
+                  "grid",
+                  "#equipment-1"
+                )}
+                ${this.renderPowerAnnimation(
+                  this._to_appliance_2_power,
+                  "grid",
+                  "#equipment-2"
+                )}
+              `}
             </svg>
           </div>
         </div>
