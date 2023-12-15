@@ -453,7 +453,6 @@ var $24c52f343453d62d$export$2e2bcd8739ae039 = {
 };
 
 
-
 /**
  * @license
  * Copyright 2019 Google LLC
@@ -8775,32 +8774,90 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
     // lifecycle interface
     setConfig(config) {
         // this._header = config.header === "" ? nothing : config.header;
-        // this._entity = config.entity;
-        this._grid_to_house_entity = config.grid_to_house_entity;
-        this._generation_to_grid_entity = config.generation_to_grid_entity;
-        this._generation_to_battery_entity = config.generation_to_battery_entity;
-        this._generation_to_house_entity = config.generation_to_house_entity;
-        this._battery_to_house_entity = config.battery_to_house_entity;
-        this._battery_to_grid_entity = config.battery_to_grid_entity;
-        this._battery_extra_entity = config.battery_extra_entity;
-        this._house_extra_entity = config.house_extra_entity;
-        this._grid_extra_entity = config.grid_extra_entity;
+        // this._id = config.entity;
+        console.log("setConfig");
+        this._grid_to_house_id = config.grid_to_house_id;
+        this._generation_to_grid_id = config.generation_to_grid_id;
+        this._generation_to_battery_id = config.generation_to_battery_id;
+        this._generation_to_house_id = config.generation_to_house_id;
+        this._battery_to_house_id = config.battery_to_house_id;
+        this._battery_to_grid_id = config.battery_to_grid_id;
+        this._battery_extra_id = config.battery_extra_id;
+        this._house_extra_id = config.house_extra_id;
+        this._grid_extra_id = config.grid_extra_id;
         this._generation_icon = config.generation_icon;
-        this._appliance1_state_entity = config.appliance1_state_entity;
-        this._appliance1_consumption_entity = config.appliance1_consumption_entity;
-        this._appliance2_state_entity = config.appliance2_state_entity;
-        this._appliance2_consumption_entity = config.appliance2_consumption_entity;
+        this._appliance1_state_id = config.appliance1_state_id;
+        this._appliance1_consumption_id = config.appliance1_consumption_id;
+        this._appliance2_state_id = config.appliance2_state_id;
+        this._appliance2_consumption_id = config.appliance2_consumption_id;
         // call set hass() to immediately adjust to a changed entity
         // while editing the entity in the card editor
         if (this._hass) this.hass = this._hass;
     }
+    extractFromId(entity_id) {
+        if (entity_id) {
+            if (this._hass.states[entity_id]) return parseFloat(this._hass.states[entity_id].state);
+            else return parseFloat(entity_id);
+        } else return 0;
+    }
     set hass(hass) {
+        console.log("Hass");
         this._hass = hass;
-    // this._state = hass.states[this._entity];
+        this._grid_to_house_power = this.extractFromId(this._grid_to_house_id);
+        this._grid_to_house_power = this.extractFromId(this._grid_to_house_id);
+        this._generation_to_grid_power = this.extractFromId(this._generation_to_grid_id);
+        this._generation_to_battery_power = this.extractFromId(this._generation_to_battery_id);
+        this._generation_to_house_power = this.extractFromId(this._generation_to_house_id);
+        this._battery_to_house_power = this.extractFromId(this._battery_to_house_id);
+        this._battery_to_grid_power = this.extractFromId(this._battery_to_grid_id);
+        this._battery_extra_power = this.extractFromId(this._battery_extra_id);
+        this._house_extra_power = this.extractFromId(this._house_extra_id);
+        this._grid_extra_power = this.extractFromId(this._grid_extra_id);
+        this._to_appliance_1_power = this.extractFromId(this._appliance1_consumption_id);
+        this._to_appliance_2_power = this.extractFromId(this._appliance2_consumption_id);
+        // if (this._grid_to_house_id)
+        //   this._grid_to_house_entity = hass.states[this._grid_to_house_id];
+        // if (this._generation_to_grid_id)
+        //   this._generation_to_grid_entity =
+        //     hass.states[this._generation_to_grid_id];
+        // if (this._generation_to_battery_id)
+        //   this._generation_to_battery_entity =
+        //     hass.states[this._generation_to_battery_id];
+        // if (this._generation_to_house_id)
+        //   this._generation_to_house_entity =
+        //     hass.states[this._generation_to_house_id];
+        // if (this._battery_to_house_id)
+        //   this._battery_to_house_entity = hass.states[this._battery_to_house_id];
+        // if (this._battery_to_grid_id)
+        //   this._battery_to_grid_entity = hass.states[this._battery_to_grid_id];
+        // if (this._battery_extra_id)
+        //   this._battery_extra_entity = hass.states[this._battery_extra_id];
+        // if (this._house_extra_id)
+        //   this._house_extra_entity = hass.states[this._house_extra_id];
+        // if (this._grid_extra_id)
+        //   this._grid_extra_entity = hass.states[this._grid_extra_id];
+        // if (this._appliance1_state_id)
+        //   this._appliance1_state_entity = hass.states[this._appliance1_state_id];
+        // if (this._appliance1_consumption_id)
+        //   this._appliance1_consumption_entity =
+        //     hass.states[this._appliance1_consumption_id];
+        // if (this._appliance2_state_id)
+        //   this._appliance2_state_entity = hass.states[this._appliance2_state_id];
+        // if (this._appliance2_consumption_id)
+        //   this._appliance2_consumption_entity =
+        //     hass.states[this._appliance2_consumption_id];
+        this._to_house_power = this._battery_to_house_power + this._grid_to_house_power + this._generation_to_house_power;
+        this._from_grid_power = this._grid_to_house_power + -1 * this._battery_to_grid_power + -1 * this._generation_to_grid_power;
+        this._from_generation_power = this._generation_to_grid_power + this._generation_to_battery_power + this._generation_to_house_power;
+        this._to_battery_power = -1 * this._battery_to_house_power + this._generation_to_battery_power + -1 * this._battery_to_grid_power;
+        this._to_appliance_1_power = 1;
+        this._to_appliance_2_power = 1;
+        this._total_flow_power = this._grid_to_house_power + this._generation_to_grid_power + this._generation_to_battery_power + this._generation_to_house_power + this._battery_to_house_power + this._battery_to_grid_power;
+    // this._state = hass.states[this._id];
     // if (this._state) {
     //   this._status = this._state.state;
     //   let fn = this._state.attributes.friendly_name;
-    //   this._name = fn ? fn : this._entity;
+    //   this._name = fn ? fn : this._id;
     // }
     }
     static #_ = (()=>{
@@ -8826,15 +8883,12 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         return return_values;
     }
     render() {
-        let generation_to_house = parseFloat(this._generation_to_house_entity);
-        let grid_to_house = parseFloat(this._grid_to_house_entity);
-        let battery_to_house = parseFloat(this._battery_to_house_entity);
+        console.log("Render");
         let homeSliceDashValues = this.calcStrokeDashValues([
-            battery_to_house,
-            grid_to_house,
-            generation_to_house
+            this._battery_to_house_power,
+            this._grid_to_house_power,
+            this._generation_to_house_power
         ]);
-        const totalFlow = (parseFloat(this._grid_to_house_entity) || 0) + (parseFloat(this._generation_to_grid_entity) || 0) + (parseFloat(this._generation_to_battery_entity) || 0) + (parseFloat(this._generation_to_house_entity) || 0) + (parseFloat(this._battery_to_house_entity) || 0) + (parseFloat(this._battery_to_grid_entity) || 0);
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <ha-card .header=${"My Tesla Distro"}>
         <div class="card-content">
@@ -8844,14 +8898,14 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
               <span class="label"> Solar </span>
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$709e1cf7b54ff1ad}></ha-svg-icon>
-                ${this._generation_to_battery_entity} kW
+                ${this._from_generation_power} kW
               </div>
             </div>
             <div class="circle-container equipment-1">
               <span class="label"> Equipment 1 </span>
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
-                ${this._appliance1_state_entity}kW
+                ${this._to_appliance_1_power} kW
               </div>
                           </div>
           </div>
@@ -8859,13 +8913,13 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             <div class="circle-container grid">
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$844b17e409f9e79a}></ha-svg-icon>
-                ${parseFloat(this._grid_extra_entity) >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+                ${this._from_grid_power >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                         <span class="consumption">
                           <ha-svg-icon
                             class="small"
                             .path=${0, $04557c061247a0a6$export$f66c996b267e1dc0}
                           ></ha-svg-icon>
-                          ${parseFloat(this._grid_extra_entity)} kW
+                          ${this._from_grid_power} kW
                         </span>
                       ` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                         <span class="return">
@@ -8873,7 +8927,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                             class="small"
                             .path=${0, $04557c061247a0a6$export$9e1028c34656e2fe}
                           ></ha-svg-icon>
-                          ${parseFloat(this._grid_extra_entity) * -1} kW
+                          ${this._from_grid_power * -1} kW
                         </span>
                       `}
               </div>
@@ -8882,7 +8936,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             <div class="circle-container home">
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$234f98a0020e0d42}></ha-svg-icon>
-                ${this._house_extra_entity} kW
+                ${this._to_house_power} kW
                 <svg>
                   ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                     <circle class="battery" cx="40" cy="40" r="38" stroke-dasharray="${homeSliceDashValues[0].stroke_dasharray}" stroke-dashoffset="${homeSliceDashValues[0].stroke_dashoffset}"></circle>
@@ -8899,13 +8953,13 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             <div class="circle-container battery">
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$3b4ef04a2844e473}></ha-svg-icon>
-                ${parseFloat(this._battery_extra_entity) >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+                ${this._to_battery_power >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                         <span class="battery-in">
                           <ha-svg-icon
                             class="small"
                             .path=${0, $04557c061247a0a6$export$9b2580347f0d218f}
                           ></ha-svg-icon>
-                          ${parseFloat(this._battery_extra_entity)} kW
+                          ${this._to_battery_power} kW
                         </span>
                       ` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                         <span class="battery-out">
@@ -8913,7 +8967,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                             class="small"
                             .path=${0, $04557c061247a0a6$export$9ac2ce0684fedc2d}
                           ></ha-svg-icon>
-                          ${parseFloat(this._battery_extra_entity) * -1} kW
+                          ${this._to_battery_power * -1} kW
                         </span>
                       `}
 
@@ -8923,7 +8977,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             <div class="circle-container equipment-2">
               <div class="circle">
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
-                ${this._appliance2_state_entity}kW
+                ${this._to_appliance_2_power}kW
               </div>
               <span class="label"> Equipment 2 </span>
             </div>
@@ -8974,84 +9028,84 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                   vector-effect="non-scaling-stroke"
                 >
                 </path>
-                <circle
-                    r="1"
-                    class="grid"
-                    vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${6 - parseFloat(this._grid_to_house_entity) / totalFlow * 6}s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#grid-to-house"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="solar"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${6 - parseFloat(this._generation_to_house_entity) / totalFlow * 6}s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#generation-to-house"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="battery-house"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${6 - parseFloat(this._battery_to_house_entity) / totalFlow * 6}s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#battery-to-house"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="battery-from-grid"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${6 - parseFloat(this._battery_to_grid_entity) / totalFlow * 6}s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#battery-to-grid"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="battery-solar"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${6 - parseFloat(this._generation_to_battery_entity) / totalFlow * 6}s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#solar-to-battery"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="grid"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${6 - parseFloat(this._grid_to_house_entity) / totalFlow * 6}s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#grid-to-house"></mpath>
-                  </animateMotion>
-                </circle>
+                ${this._grid_to_house_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
+                        r="1"
+                        class="grid"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${6 - this._grid_to_house_power / this._total_flow_power * 6}s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#grid-to-house"></mpath>
+                        </animateMotion>
+                      </circle>` : ""}
+                ${this._generation_to_house_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
+                        r="1"
+                        class="solar"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${6 - this._generation_to_house_power / this._total_flow_power * 6}s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#generation-to-house"></mpath>
+                        </animateMotion>
+                      </circle>` : ""}
+                ${this._battery_to_house_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
+                        r="1"
+                        class="battery-house"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${6 - this._battery_to_house_power / this._total_flow_power * 6}s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#battery-to-house"></mpath>
+                        </animateMotion>
+                      </circle>` : ""}
+                ${this._battery_to_grid_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
+                        r="1"
+                        class="battery-from-grid"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${6 - this._battery_to_grid_power / this._total_flow_power * 6}s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#battery-to-grid"></mpath>
+                        </animateMotion>
+                      </circle>` : ""}
+                ${this._generation_to_battery_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
+                        r="1"
+                        class="battery-solar"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${6 - this._generation_to_battery_power / this._total_flow_power * 6}s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#solar-to-battery"></mpath>
+                        </animateMotion>
+                      </circle>` : ""}
+                ${this._grid_to_house_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
+                        r="1"
+                        class="grid"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${6 - this._grid_to_house_power / this._total_flow_power * 6}s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#grid-to-house"></mpath>
+                        </animateMotion>
+                      </circle>` : ""}
                 `}
                 </svg>
               </div>
@@ -9060,32 +9114,32 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                   <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
                   <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
-                <circle
-                  r="1"
-                  class="grid"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${6 - parseFloat(this._grid_to_house_entity) / totalFlow * 6}s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#equipment-1"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="grid"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${6 - parseFloat(this._grid_to_house_entity) / totalFlow * 6}s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#equipment-2"></mpath>
-                  </animateMotion>
-                </circle>
+                  ${this._to_appliance_1_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
+                          r="1"
+                          class="grid"
+                          vector-effect="non-scaling-stroke"
+                        >
+                          <animateMotion
+                            dur="${6 - this._to_appliance_1_power / this._total_flow_power * 6}s"
+                            repeatCount="indefinite"
+                            calcMode="linear"
+                          >
+                            <mpath href="#equipment-1"></mpath>
+                          </animateMotion>
+                        </circle>` : ""}
+                ${this._to_appliance_2_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
+                        r="1"
+                        class="grid"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${6 - this._to_appliance_2_power / this._total_flow_power * 6}s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#equipment-2"></mpath>
+                        </animateMotion>
+                      </circle>` : ""}
                 `}
             </svg>
           </div>
@@ -9099,65 +9153,119 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
     }
     static getStubConfig() {
         return {
-            grid_to_house_entity: "1",
-            generation_to_grid_entity: "1",
-            generation_to_battery_entity: "1",
-            generation_to_house_entity: "1",
-            battery_to_house_entity: "1",
-            battery_to_grid_entity: "1",
-            battery_extra_entity: "1",
-            house_extra_entity: "1",
-            grid_extra_entity: "1",
+            grid_to_house_id: "1",
+            generation_to_grid_id: "1",
+            generation_to_battery_id: "1",
+            generation_to_house_id: "1",
+            battery_to_house_id: "1",
+            battery_to_grid_id: "1",
+            battery_extra_id: "1",
+            house_extra_id: "1",
+            grid_extra_id: "1",
             // generation_icon: "1",
-            appliance1_state_entity: "1",
-            appliance1_consumption_entity: "1",
-            appliance2_state_entity: "1",
-            appliance2_consumption_entity: "1"
+            appliance1_state_id: "1",
+            appliance1_consumption_id: "1",
+            appliance2_state_id: "1",
+            appliance2_consumption_id: "1"
         };
     }
 }
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_to_house_entity", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_to_house_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_grid_entity", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_grid_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_battery_entity", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_battery_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_house_entity", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_house_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_to_house_entity", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_to_house_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_to_grid_entity", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_to_grid_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_extra_entity", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_extra_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_house_extra_entity", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_house_extra_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_extra_entity", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_extra_id", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_appliance1_state_id", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_appliance1_consumption_id", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_appliance2_state_id", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_appliance2_consumption_id", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_to_house_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_grid_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_battery_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_house_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_to_house_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_to_grid_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_extra_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_house_extra_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_extra_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment_1_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment_2_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_total_flow_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_house_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_from_grid_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_from_generation_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_appliance_1_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_appliance_2_power", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_battery_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_icon", void 0);
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_appliance1_state_entity", void 0);
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_appliance1_consumption_entity", void 0);
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_appliance2_state_entity", void 0);
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_appliance2_consumption_entity", void 0);
 
 
 
@@ -9185,58 +9293,58 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
             <form class="table">
                 <div class="row">
-                  <label class="label cell" for="grid_to_house_entity">grid_to_house_entity:</label>
+                  <label class="label cell" for="grid_to_house_id">grid_to_house_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="grid_to_house_entity" value="${this._config.grid_to_house_entity}"></input>
+                        class="value cell" id="grid_to_house_id" value="${this._config.grid_to_house_id}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="generation_to_grid_entity">generation_to_grid_entity:</label>
+                  <label class="label cell" for="generation_to_grid_id">generation_to_grid_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="generation_to_grid_entity" value="${this._config.generation_to_grid_entity}"></input>
+                        class="value cell" id="generation_to_grid_id" value="${this._config.generation_to_grid_id}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="generation_to_battery_entity">generation_to_battery_entity:</label>
+                  <label class="label cell" for="generation_to_battery_id">generation_to_battery_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="generation_to_battery_entity" value="${this._config.generation_to_battery_entity}"></input>
+                        class="value cell" id="generation_to_battery_id" value="${this._config.generation_to_battery_id}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="generation_to_house_entity">generation_to_house_entity:</label>
+                  <label class="label cell" for="generation_to_house_id">generation_to_house_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="generation_to_house_entity" value="${this._config.generation_to_house_entity}"></input>
+                        class="value cell" id="generation_to_house_id" value="${this._config.generation_to_house_id}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="battery_to_house_entity">battery_to_house_entity:</label>
+                  <label class="label cell" for="battery_to_house_id">battery_to_house_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="battery_to_house_entity" value="${this._config.battery_to_house_entity}"></input>
+                        class="value cell" id="battery_to_house_id" value="${this._config.battery_to_house_id}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="battery_to_grid_entity">battery_to_grid_entity:</label>
+                  <label class="label cell" for="battery_to_grid_id">battery_to_grid_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="battery_to_grid_entity" value="${this._config.battery_to_grid_entity}"></input>
+                        class="value cell" id="battery_to_grid_id" value="${this._config.battery_to_grid_id}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="battery_extra_entity">battery_extra_entity:</label>
+                  <label class="label cell" for="battery_extra_id">battery_extra_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="battery_extra_entity" value="${this._config.battery_extra_entity}"></input>
+                        class="value cell" id="battery_extra_id" value="${this._config.battery_extra_id}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="house_extra_entity">house_extra_entity:</label>
+                  <label class="label cell" for="house_extra_id">house_extra_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="house_extra_entity" value="${this._config.house_extra_entity}"></input>
+                        class="value cell" id="house_extra_id" value="${this._config.house_extra_id}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="grid_extra_entity">grid_extra_entity:</label>
+                  <label class="label cell" for="grid_extra_id">grid_extra_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="grid_extra_entity" value="${this._config.grid_extra_entity}"></input>
+                        class="value cell" id="grid_extra_id" value="${this._config.grid_extra_id}"></input>
                 </div>
                 <div class="row">
                   <label class="label cell" for="generation_icon">generation_icon:</label>
@@ -9245,28 +9353,28 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
                         class="value cell" id="generation_icon" value="${this._config.generation_icon}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="appliance1_state_entity">appliance1_state_entity:</label>
+                  <label class="label cell" for="appliance1_state_id">appliance1_state_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="appliance1_state_entity" value="${this._config.appliance1_state_entity}"></input>
+                        class="value cell" id="appliance1_state_id" value="${this._config.appliance1_state_id}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="appliance1_consumption_entity">appliance1_consumption_entity:</label>
+                  <label class="label cell" for="appliance1_consumption_id">appliance1_consumption_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="appliance1_consumption_entity" value="${this._config.appliance1_consumption_entity}"></input>
+                        class="value cell" id="appliance1_consumption_id" value="${this._config.appliance1_consumption_id}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="appliance2_state_entity">appliance2_state_entity:</label>
+                  <label class="label cell" for="appliance2_state_id">appliance2_state_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="appliance2_state_entity" value="${this._config.appliance2_state_entity}"></input>
+                        class="value cell" id="appliance2_state_id" value="${this._config.appliance2_state_id}"></input>
                 </div>
                 <div class="row">
-                  <label class="label cell" for="appliance2_consumption_entity">appliance2_consumption_entity:</label>
+                  <label class="label cell" for="appliance2_consumption_id">appliance2_consumption_id:</label>
                   <input
                         @change="${this.handleChangedEvent}"
-                        class="value cell" id="appliance2_consumption_entity" value="${this._config.appliance2_consumption_entity}"></input>
+                        class="value cell" id="appliance2_consumption_id" value="${this._config.appliance2_consumption_id}"></input>
                 </div>
                 </form>
         `;
@@ -9275,20 +9383,20 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         const target = changedEvent.target;
         // this._config is readonly, copy needed
         const newConfig = Object.assign({}, this._config);
-        if (target.id == "grid_to_house_entity") newConfig.grid_to_house_entity = target.value;
-        else if (target.id == "generation_to_grid_entity") newConfig.generation_to_grid_entity = target.value;
-        else if (target.id == "generation_to_battery_entity") newConfig.generation_to_battery_entity = target.value;
-        else if (target.id == "generation_to_house_entity") newConfig.generation_to_house_entity = target.value;
-        else if (target.id == "battery_to_house_entity") newConfig.battery_to_house_entity = target.value;
-        else if (target.id == "battery_to_grid_entity") newConfig.battery_to_grid_entity = target.value;
-        else if (target.id == "battery_extra_entity") newConfig.battery_extra_entity = target.value;
-        else if (target.id == "house_extra_entity") newConfig.house_extra_entity = target.value;
-        else if (target.id == "grid_extra_entity") newConfig.grid_extra_entity = target.value;
+        if (target.id == "grid_to_house_id") newConfig.grid_to_house_id = target.value;
+        else if (target.id == "generation_to_grid_id") newConfig.generation_to_grid_id = target.value;
+        else if (target.id == "generation_to_battery_id") newConfig.generation_to_battery_id = target.value;
+        else if (target.id == "generation_to_house_id") newConfig.generation_to_house_id = target.value;
+        else if (target.id == "battery_to_house_id") newConfig.battery_to_house_id = target.value;
+        else if (target.id == "battery_to_grid_id") newConfig.battery_to_grid_id = target.value;
+        else if (target.id == "battery_extra_id") newConfig.battery_extra_id = target.value;
+        else if (target.id == "house_extra_id") newConfig.house_extra_id = target.value;
+        else if (target.id == "grid_extra_id") newConfig.grid_extra_id = target.value;
         else if (target.id == "generation_icon") newConfig.generation_icon = target.value;
-        else if (target.id == "appliance1_state_entity") newConfig.appliance1_state_entity = target.value;
-        else if (target.id == "appliance1_consumption_entity") newConfig.appliance1_consumption_entity = target.value;
-        else if (target.id == "appliance2_state_entity") newConfig.appliance2_state_entity = target.value;
-        else if (target.id == "appliance2_consumption_entity") newConfig.appliance2_consumption_entity = target.value;
+        else if (target.id == "appliance1_state_id") newConfig.appliance1_state_id = target.value;
+        else if (target.id == "appliance1_consumption_id") newConfig.appliance1_consumption_id = target.value;
+        else if (target.id == "appliance2_state_id") newConfig.appliance2_state_id = target.value;
+        else if (target.id == "appliance2_consumption_id") newConfig.appliance2_consumption_id = target.value;
         const messageEvent = new CustomEvent("config-changed", {
             detail: {
                 config: newConfig

@@ -17,23 +17,24 @@ import {
   mdiCarSports,
   mdiTransmissionTower,
   mdiCloseOutline,
+  mdiTagHidden,
 } from "@mdi/js";
 
 interface Config extends LovelaceCardConfig {
-  grid_to_house_entity: string;
-  generation_to_grid_entity: string;
-  generation_to_battery_entity: string;
-  generation_to_house_entity: string;
-  battery_to_house_entity: string;
-  battery_to_grid_entity: string;
-  battery_extra_entity: string;
-  house_extra_entity: string;
-  grid_extra_entity: string;
+  grid_to_house_id: string;
+  generation_to_grid_id: string;
+  generation_to_battery_id: string;
+  generation_to_house_id: string;
+  battery_to_house_id: string;
+  battery_to_grid_id: string;
+  battery_extra_id: string;
+  house_extra_id: string;
+  grid_extra_id: string;
   generation_icon: string;
-  appliance1_state_entity: string;
-  appliance1_consumption_entity: string;
-  appliance2_state_entity: string;
-  appliance2_consumption_entity: string;
+  appliance1_state_id: string;
+  appliance1_consumption_id: string;
+  appliance2_state_id: string;
+  appliance2_consumption_id: string;
 }
 
 interface DashValues {
@@ -45,20 +46,58 @@ const CIRCLE_CIRCUMFERENCE = 238.76104;
 
 export class TestlaPowerDistribution extends LitElement {
   // internal reactive states
-  @state() private _grid_to_house_entity: string;
-  @state() private _generation_to_grid_entity: string;
-  @state() private _generation_to_battery_entity: string;
-  @state() private _generation_to_house_entity: string;
-  @state() private _battery_to_house_entity: string;
-  @state() private _battery_to_grid_entity: string;
-  @state() private _battery_extra_entity: string;
-  @state() private _house_extra_entity: string;
-  @state() private _grid_extra_entity: string;
+  // @state() private _grid_to_house_entity: HassEntity;
+  // @state() private _generation_to_grid_entity: HassEntity;
+  // @state() private _generation_to_battery_entity: HassEntity;
+  // @state() private _generation_to_house_entity: HassEntity;
+  // @state() private _battery_to_house_entity: HassEntity;
+  // @state() private _battery_to_grid_entity: HassEntity;
+  // @state() private _battery_extra_entity: HassEntity;
+  // @state() private _house_extra_entity: HassEntity;
+  // @state() private _grid_extra_entity: HassEntity;
+  // @state() private _appliance1_state_entity: HassEntity;
+  // @state() private _appliance1_consumption_entity: HassEntity;
+  // @state() private _appliance2_state_entity: HassEntity;
+  // @state() private _appliance2_consumption_entity: HassEntity;
+
+  // For Config
+  @state() private _grid_to_house_id: string | null;
+  @state() private _generation_to_grid_id: string | null;
+  @state() private _generation_to_battery_id: string | null;
+  @state() private _generation_to_house_id: string | null;
+  @state() private _battery_to_house_id: string | null;
+  @state() private _battery_to_grid_id: string | null;
+  @state() private _battery_extra_id: string | null;
+  @state() private _house_extra_id: string | null;
+  @state() private _grid_extra_id: string | null;
+  @state() private _appliance1_state_id: string | null;
+  @state() private _appliance1_consumption_id: string | null;
+  @state() private _appliance2_state_id: string | null;
+  @state() private _appliance2_consumption_id: string | null;
+
+  // Entity Values
+  @state() private _grid_to_house_power: number;
+  @state() private _generation_to_grid_power: number;
+  @state() private _generation_to_battery_power: number;
+  @state() private _generation_to_house_power: number;
+  @state() private _battery_to_house_power: number;
+  @state() private _battery_to_grid_power: number;
+  @state() private _battery_extra_power: number;
+  @state() private _house_extra_power: number;
+  @state() private _grid_extra_power: number;
+  @state() private _equipment_1_power: number;
+  @state() private _equipment_2_power: number;
+  @state() private _total_flow_power: number;
+
+  // Totals
+  @state() private _to_house_power: number;
+  @state() private _from_grid_power: number;
+  @state() private _from_generation_power: number;
+  @state() private _to_appliance_1_power: number;
+  @state() private _to_appliance_2_power: number;
+  @state() private _to_battery_power: number;
+
   @state() private _generation_icon: string;
-  @state() private _appliance1_state_entity: string;
-  @state() private _appliance1_consumption_entity: string;
-  @state() private _appliance2_state_entity: string;
-  @state() private _appliance2_consumption_entity: string;
 
   // private property
   private _hass;
@@ -66,21 +105,22 @@ export class TestlaPowerDistribution extends LitElement {
   // lifecycle interface
   setConfig(config: Config) {
     // this._header = config.header === "" ? nothing : config.header;
-    // this._entity = config.entity;
-    this._grid_to_house_entity = config.grid_to_house_entity;
-    this._generation_to_grid_entity = config.generation_to_grid_entity;
-    this._generation_to_battery_entity = config.generation_to_battery_entity;
-    this._generation_to_house_entity = config.generation_to_house_entity;
-    this._battery_to_house_entity = config.battery_to_house_entity;
-    this._battery_to_grid_entity = config.battery_to_grid_entity;
-    this._battery_extra_entity = config.battery_extra_entity;
-    this._house_extra_entity = config.house_extra_entity;
-    this._grid_extra_entity = config.grid_extra_entity;
+    // this._id = config.entity;
+    console.log("setConfig");
+    this._grid_to_house_id = config.grid_to_house_id;
+    this._generation_to_grid_id = config.generation_to_grid_id;
+    this._generation_to_battery_id = config.generation_to_battery_id;
+    this._generation_to_house_id = config.generation_to_house_id;
+    this._battery_to_house_id = config.battery_to_house_id;
+    this._battery_to_grid_id = config.battery_to_grid_id;
+    this._battery_extra_id = config.battery_extra_id;
+    this._house_extra_id = config.house_extra_id;
+    this._grid_extra_id = config.grid_extra_id;
     this._generation_icon = config.generation_icon;
-    this._appliance1_state_entity = config.appliance1_state_entity;
-    this._appliance1_consumption_entity = config.appliance1_consumption_entity;
-    this._appliance2_state_entity = config.appliance2_state_entity;
-    this._appliance2_consumption_entity = config.appliance2_consumption_entity;
+    this._appliance1_state_id = config.appliance1_state_id;
+    this._appliance1_consumption_id = config.appliance1_consumption_id;
+    this._appliance2_state_id = config.appliance2_state_id;
+    this._appliance2_consumption_id = config.appliance2_consumption_id;
 
     // call set hass() to immediately adjust to a changed entity
     // while editing the entity in the card editor
@@ -89,13 +129,109 @@ export class TestlaPowerDistribution extends LitElement {
     }
   }
 
+  private extractFromId(entity_id: string): number {
+    if (entity_id) {
+      if (this._hass.states[entity_id]) {
+        return parseFloat(this._hass.states[entity_id].state);
+      } else {
+        return parseFloat(entity_id);
+      }
+    } else return 0;
+  }
+
   set hass(hass: HomeAssistant) {
+    console.log("Hass");
     this._hass = hass;
-    // this._state = hass.states[this._entity];
+
+    this._grid_to_house_power = this.extractFromId(this._grid_to_house_id);
+    this._grid_to_house_power = this.extractFromId(this._grid_to_house_id);
+    this._generation_to_grid_power = this.extractFromId(
+      this._generation_to_grid_id
+    );
+    this._generation_to_battery_power = this.extractFromId(
+      this._generation_to_battery_id
+    );
+    this._generation_to_house_power = this.extractFromId(
+      this._generation_to_house_id
+    );
+    this._battery_to_house_power = this.extractFromId(
+      this._battery_to_house_id
+    );
+    this._battery_to_grid_power = this.extractFromId(this._battery_to_grid_id);
+    this._battery_extra_power = this.extractFromId(this._battery_extra_id);
+    this._house_extra_power = this.extractFromId(this._house_extra_id);
+    this._grid_extra_power = this.extractFromId(this._grid_extra_id);
+    this._to_appliance_1_power = this.extractFromId(
+      this._appliance1_consumption_id
+    );
+    this._to_appliance_2_power = this.extractFromId(
+      this._appliance2_consumption_id
+    );
+
+    // if (this._grid_to_house_id)
+    //   this._grid_to_house_entity = hass.states[this._grid_to_house_id];
+    // if (this._generation_to_grid_id)
+    //   this._generation_to_grid_entity =
+    //     hass.states[this._generation_to_grid_id];
+    // if (this._generation_to_battery_id)
+    //   this._generation_to_battery_entity =
+    //     hass.states[this._generation_to_battery_id];
+    // if (this._generation_to_house_id)
+    //   this._generation_to_house_entity =
+    //     hass.states[this._generation_to_house_id];
+    // if (this._battery_to_house_id)
+    //   this._battery_to_house_entity = hass.states[this._battery_to_house_id];
+    // if (this._battery_to_grid_id)
+    //   this._battery_to_grid_entity = hass.states[this._battery_to_grid_id];
+    // if (this._battery_extra_id)
+    //   this._battery_extra_entity = hass.states[this._battery_extra_id];
+    // if (this._house_extra_id)
+    //   this._house_extra_entity = hass.states[this._house_extra_id];
+    // if (this._grid_extra_id)
+    //   this._grid_extra_entity = hass.states[this._grid_extra_id];
+    // if (this._appliance1_state_id)
+    //   this._appliance1_state_entity = hass.states[this._appliance1_state_id];
+    // if (this._appliance1_consumption_id)
+    //   this._appliance1_consumption_entity =
+    //     hass.states[this._appliance1_consumption_id];
+    // if (this._appliance2_state_id)
+    //   this._appliance2_state_entity = hass.states[this._appliance2_state_id];
+    // if (this._appliance2_consumption_id)
+    //   this._appliance2_consumption_entity =
+    //     hass.states[this._appliance2_consumption_id];
+
+    this._to_house_power =
+      this._battery_to_house_power +
+      this._grid_to_house_power +
+      this._generation_to_house_power;
+    this._from_grid_power =
+      this._grid_to_house_power +
+      -1 * this._battery_to_grid_power +
+      -1 * this._generation_to_grid_power;
+    this._from_generation_power =
+      this._generation_to_grid_power +
+      this._generation_to_battery_power +
+      this._generation_to_house_power;
+    this._to_battery_power =
+      -1 * this._battery_to_house_power +
+      this._generation_to_battery_power +
+      -1 * this._battery_to_grid_power;
+    this._to_appliance_1_power = 1;
+    this._to_appliance_2_power = 1;
+
+    this._total_flow_power =
+      this._grid_to_house_power +
+      this._generation_to_grid_power +
+      this._generation_to_battery_power +
+      this._generation_to_house_power +
+      this._battery_to_house_power +
+      this._battery_to_grid_power;
+
+    // this._state = hass.states[this._id];
     // if (this._state) {
     //   this._status = this._state.state;
     //   let fn = this._state.attributes.friendly_name;
-    //   this._name = fn ? fn : this._entity;
+    //   this._name = fn ? fn : this._id;
     // }
   }
 
@@ -124,23 +260,13 @@ export class TestlaPowerDistribution extends LitElement {
   }
 
   render() {
-    let generation_to_house = parseFloat(this._generation_to_house_entity);
-    let grid_to_house = parseFloat(this._grid_to_house_entity);
-    let battery_to_house = parseFloat(this._battery_to_house_entity);
+    console.log("Render");
 
     let homeSliceDashValues: DashValues[] = this.calcStrokeDashValues([
-      battery_to_house,
-      grid_to_house,
-      generation_to_house,
+      this._battery_to_house_power,
+      this._grid_to_house_power,
+      this._generation_to_house_power,
     ]);
-
-    const totalFlow =
-      (parseFloat(this._grid_to_house_entity) || 0) +
-      (parseFloat(this._generation_to_grid_entity) || 0) +
-      (parseFloat(this._generation_to_battery_entity) || 0) +
-      (parseFloat(this._generation_to_house_entity) || 0) +
-      (parseFloat(this._battery_to_house_entity) || 0) +
-      (parseFloat(this._battery_to_grid_entity) || 0);
 
     return html`
       <ha-card .header=${"My Tesla Distro"}>
@@ -151,14 +277,14 @@ export class TestlaPowerDistribution extends LitElement {
               <span class="label"> Solar </span>
               <div class="circle">
                 <ha-svg-icon .path=${mdiSolarPower}></ha-svg-icon>
-                ${this._generation_to_battery_entity} kW
+                ${this._from_generation_power} kW
               </div>
             </div>
             <div class="circle-container equipment-1">
               <span class="label"> Equipment 1 </span>
               <div class="circle">
                 <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                ${this._appliance1_state_entity}kW
+                ${this._to_appliance_1_power} kW
               </div>
                           </div>
           </div>
@@ -167,14 +293,14 @@ export class TestlaPowerDistribution extends LitElement {
               <div class="circle">
                 <ha-svg-icon .path=${mdiTransmissionTower}></ha-svg-icon>
                 ${
-                  parseFloat(this._grid_extra_entity) >= 0
+                  this._from_grid_power >= 0
                     ? html`
                         <span class="consumption">
                           <ha-svg-icon
                             class="small"
                             .path=${mdiArrowRight}
                           ></ha-svg-icon>
-                          ${parseFloat(this._grid_extra_entity)} kW
+                          ${this._from_grid_power} kW
                         </span>
                       `
                     : html`
@@ -183,7 +309,7 @@ export class TestlaPowerDistribution extends LitElement {
                             class="small"
                             .path=${mdiArrowLeft}
                           ></ha-svg-icon>
-                          ${parseFloat(this._grid_extra_entity) * -1} kW
+                          ${this._from_grid_power * -1} kW
                         </span>
                       `
                 }
@@ -193,7 +319,7 @@ export class TestlaPowerDistribution extends LitElement {
             <div class="circle-container home">
               <div class="circle">
                 <ha-svg-icon .path=${mdiHome}></ha-svg-icon>
-                ${this._house_extra_entity} kW
+                ${this._to_house_power} kW
                 <svg>
                   ${svg`
                     <circle class="battery" cx="40" cy="40" r="38" stroke-dasharray="${homeSliceDashValues[0].stroke_dasharray}" stroke-dashoffset="${homeSliceDashValues[0].stroke_dashoffset}"></circle>
@@ -211,14 +337,14 @@ export class TestlaPowerDistribution extends LitElement {
               <div class="circle">
                 <ha-svg-icon .path=${mdiBatteryHigh}></ha-svg-icon>
                 ${
-                  parseFloat(this._battery_extra_entity) >= 0
+                  this._to_battery_power >= 0
                     ? html`
                         <span class="battery-in">
                           <ha-svg-icon
                             class="small"
                             .path=${mdiArrowDown}
                           ></ha-svg-icon>
-                          ${parseFloat(this._battery_extra_entity)} kW
+                          ${this._to_battery_power} kW
                         </span>
                       `
                     : html`
@@ -227,7 +353,7 @@ export class TestlaPowerDistribution extends LitElement {
                             class="small"
                             .path=${mdiArrowUp}
                           ></ha-svg-icon>
-                          ${parseFloat(this._battery_extra_entity) * -1} kW
+                          ${this._to_battery_power * -1} kW
                         </span>
                       `
                 }
@@ -238,7 +364,7 @@ export class TestlaPowerDistribution extends LitElement {
             <div class="circle-container equipment-2">
               <div class="circle">
                 <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                ${this._appliance2_state_entity}kW
+                ${this._to_appliance_2_power}kW
               </div>
               <span class="label"> Equipment 2 </span>
             </div>
@@ -289,107 +415,138 @@ export class TestlaPowerDistribution extends LitElement {
                   vector-effect="non-scaling-stroke"
                 >
                 </path>
-                <circle
-                    r="1"
-                    class="grid"
-                    vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${
-                      6 -
-                      (parseFloat(this._grid_to_house_entity) / totalFlow) * 6
-                    }s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#grid-to-house"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="solar"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${
-                      6 -
-                      (parseFloat(this._generation_to_house_entity) /
-                        totalFlow) *
-                        6
-                    }s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#generation-to-house"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="battery-house"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${
-                      6 -
-                      (parseFloat(this._battery_to_house_entity) / totalFlow) *
-                        6
-                    }s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#battery-to-house"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="battery-from-grid"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${
-                      6 -
-                      (parseFloat(this._battery_to_grid_entity) / totalFlow) * 6
-                    }s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#battery-to-grid"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="battery-solar"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${
-                      6 -
-                      (parseFloat(this._generation_to_battery_entity) /
-                        totalFlow) *
-                        6
-                    }s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#solar-to-battery"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="grid"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${
-                      6 -
-                      (parseFloat(this._grid_to_house_entity) / totalFlow) * 6
-                    }s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#grid-to-house"></mpath>
-                  </animateMotion>
-                </circle>
+                ${
+                  this._grid_to_house_power > 0
+                    ? svg`<circle
+                        r="1"
+                        class="grid"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${
+                            6 -
+                            (this._grid_to_house_power /
+                              this._total_flow_power) *
+                              6
+                          }s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#grid-to-house"></mpath>
+                        </animateMotion>
+                      </circle>`
+                    : ""
+                }
+                ${
+                  this._generation_to_house_power > 0
+                    ? svg`<circle
+                        r="1"
+                        class="solar"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${
+                            6 -
+                            (this._generation_to_house_power /
+                              this._total_flow_power) *
+                              6
+                          }s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#generation-to-house"></mpath>
+                        </animateMotion>
+                      </circle>`
+                    : ""
+                }
+                ${
+                  this._battery_to_house_power > 0
+                    ? svg`<circle
+                        r="1"
+                        class="battery-house"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${
+                            6 -
+                            (this._battery_to_house_power /
+                              this._total_flow_power) *
+                              6
+                          }s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#battery-to-house"></mpath>
+                        </animateMotion>
+                      </circle>`
+                    : ""
+                }
+                ${
+                  this._battery_to_grid_power > 0
+                    ? svg`<circle
+                        r="1"
+                        class="battery-from-grid"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${
+                            6 -
+                            (this._battery_to_grid_power /
+                              this._total_flow_power) *
+                              6
+                          }s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#battery-to-grid"></mpath>
+                        </animateMotion>
+                      </circle>`
+                    : ""
+                }
+                ${
+                  this._generation_to_battery_power > 0
+                    ? svg`<circle
+                        r="1"
+                        class="battery-solar"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${
+                            6 -
+                            (this._generation_to_battery_power /
+                              this._total_flow_power) *
+                              6
+                          }s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#solar-to-battery"></mpath>
+                        </animateMotion>
+                      </circle>`
+                    : ""
+                }
+                ${
+                  this._grid_to_house_power > 0
+                    ? svg`<circle
+                        r="1"
+                        class="grid"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${
+                            6 -
+                            (this._grid_to_house_power /
+                              this._total_flow_power) *
+                              6
+                          }s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#grid-to-house"></mpath>
+                        </animateMotion>
+                      </circle>`
+                    : ""
+                }
                 `}
                 </svg>
               </div>
@@ -398,38 +555,50 @@ export class TestlaPowerDistribution extends LitElement {
                 ${svg`
                   <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
                   <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
-                <circle
-                  r="1"
-                  class="grid"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${
-                      6 -
-                      (parseFloat(this._grid_to_house_entity) / totalFlow) * 6
-                    }s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#equipment-1"></mpath>
-                  </animateMotion>
-                </circle>
-                <circle
-                  r="1"
-                  class="grid"
-                  vector-effect="non-scaling-stroke"
-                  >
-                  <animateMotion
-                    dur="${
-                      6 -
-                      (parseFloat(this._grid_to_house_entity) / totalFlow) * 6
-                    }s"
-                    repeatCount="indefinite"
-                    calcMode="linear"
-                  >
-                    <mpath href="#equipment-2"></mpath>
-                  </animateMotion>
-                </circle>
+                  ${
+                    this._to_appliance_1_power > 0
+                      ? svg`<circle
+                          r="1"
+                          class="grid"
+                          vector-effect="non-scaling-stroke"
+                        >
+                          <animateMotion
+                            dur="${
+                              6 -
+                              (this._to_appliance_1_power /
+                                this._total_flow_power) *
+                                6
+                            }s"
+                            repeatCount="indefinite"
+                            calcMode="linear"
+                          >
+                            <mpath href="#equipment-1"></mpath>
+                          </animateMotion>
+                        </circle>`
+                      : ""
+                  }
+                ${
+                  this._to_appliance_2_power > 0
+                    ? svg`<circle
+                        r="1"
+                        class="grid"
+                        vector-effect="non-scaling-stroke"
+                      >
+                        <animateMotion
+                          dur="${
+                            6 -
+                            (this._to_appliance_2_power /
+                              this._total_flow_power) *
+                              6
+                          }s"
+                          repeatCount="indefinite"
+                          calcMode="linear"
+                        >
+                          <mpath href="#equipment-2"></mpath>
+                        </animateMotion>
+                      </circle>`
+                    : ""
+                }
                 `}
             </svg>
           </div>
@@ -445,20 +614,20 @@ export class TestlaPowerDistribution extends LitElement {
 
   static getStubConfig() {
     return {
-      grid_to_house_entity: "1",
-      generation_to_grid_entity: "1",
-      generation_to_battery_entity: "1",
-      generation_to_house_entity: "1",
-      battery_to_house_entity: "1",
-      battery_to_grid_entity: "1",
-      battery_extra_entity: "1",
-      house_extra_entity: "1",
-      grid_extra_entity: "1",
+      grid_to_house_id: "1",
+      generation_to_grid_id: "1",
+      generation_to_battery_id: "1",
+      generation_to_house_id: "1",
+      battery_to_house_id: "1",
+      battery_to_grid_id: "1",
+      battery_extra_id: "1",
+      house_extra_id: "1",
+      grid_extra_id: "1",
       // generation_icon: "1",
-      appliance1_state_entity: "1",
-      appliance1_consumption_entity: "1",
-      appliance2_state_entity: "1",
-      appliance2_consumption_entity: "1",
+      appliance1_state_id: "1",
+      appliance1_consumption_id: "1",
+      appliance2_state_id: "1",
+      appliance2_consumption_id: "1",
     };
   }
 }
