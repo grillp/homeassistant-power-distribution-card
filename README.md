@@ -8,8 +8,9 @@ Changed to '/workspaces/home-assistant/.devcontainer/devcontainer.json':
 
 Commands after updating container
 
-
 ```bash
+cd config
+wget -O - https://get.hacs.xyz | bash -
 cd config/www/cards/tesla-power-distribution/
 sudo apt -y update
 sudo apt -y install npm inetutils-ping
@@ -32,4 +33,6 @@ git push --set-upstream cancas main
 test comamnds:
 ```bash
 npm run build
+npm run watch
+
 ```
