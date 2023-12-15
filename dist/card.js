@@ -453,6 +453,7 @@ var $24c52f343453d62d$export$2e2bcd8739ae039 = {
 };
 
 
+
 /**
  * @license
  * Copyright 2019 Google LLC
@@ -1103,6 +1104,30 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     bottom: 100px;
     height: 156px;
   }
+  .lines.right {
+    right: 0px;
+    width: 110px;
+    left: calc(100% - 110px);
+    bottom: 101px;
+    height: 155px;
+  }
+
+  .lines svg {
+    width: calc(100% - 160px);
+    height: 100%;
+    max-width: 340px;
+  }
+
+  .lines.right svg {
+    width: 110px;
+    height: 140;
+  }
+
+  .right circle.grid {
+    stroke-width: 4;
+    strok-fill: ;
+  }
+
   .lines svg {
     width: calc(100% - 160px);
     height: 100%;
@@ -8828,7 +8853,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
                 ${this._appliance1_state_entity}kW
               </div>
-            </div>
+                          </div>
           </div>
           <div class="row">
             <div class="circle-container grid">
@@ -8911,7 +8936,8 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
               xmlns="http://www.w3.org/2000/svg"
               preserveAspectRatio="xMidYMid slice"
             >
-              ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<path
+              ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+                <path
                   id="generation-to-grid"
                   class="return"
                   d="M45,0 v15 c0,35 -10,30 -30,30 h-20"
@@ -9026,8 +9052,41 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                     <mpath href="#grid-to-house"></mpath>
                   </animateMotion>
                 </circle>
-
-            `}
+                `}
+                </svg>
+              </div>
+          <div class="lines right">
+              <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 50 100">
+                ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+                  <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
+                  <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
+                <circle
+                  r="1"
+                  class="grid"
+                  vector-effect="non-scaling-stroke"
+                  >
+                  <animateMotion
+                    dur="${6 - parseFloat(this._grid_to_house_entity) / totalFlow * 6}s"
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                  >
+                    <mpath href="#equipment-1"></mpath>
+                  </animateMotion>
+                </circle>
+                <circle
+                  r="1"
+                  class="grid"
+                  vector-effect="non-scaling-stroke"
+                  >
+                  <animateMotion
+                    dur="${6 - parseFloat(this._grid_to_house_entity) / totalFlow * 6}s"
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                  >
+                    <mpath href="#equipment-2"></mpath>
+                  </animateMotion>
+                </circle>
+                `}
             </svg>
           </div>
         </div>

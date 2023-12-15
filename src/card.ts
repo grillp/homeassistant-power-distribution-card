@@ -160,7 +160,7 @@ export class TestlaPowerDistribution extends LitElement {
                 <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
                 ${this._appliance1_state_entity}kW
               </div>
-            </div>
+                          </div>
           </div>
           <div class="row">
             <div class="circle-container grid">
@@ -251,7 +251,8 @@ export class TestlaPowerDistribution extends LitElement {
               xmlns="http://www.w3.org/2000/svg"
               preserveAspectRatio="xMidYMid slice"
             >
-              ${svg`<path
+              ${svg`
+                <path
                   id="generation-to-grid"
                   class="return"
                   d="M45,0 v15 c0,35 -10,30 -30,30 h-20"
@@ -389,8 +390,47 @@ export class TestlaPowerDistribution extends LitElement {
                     <mpath href="#grid-to-house"></mpath>
                   </animateMotion>
                 </circle>
-
-            `}
+                `}
+                </svg>
+              </div>
+          <div class="lines right">
+              <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 50 100">
+                ${svg`
+                  <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
+                  <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
+                <circle
+                  r="1"
+                  class="grid"
+                  vector-effect="non-scaling-stroke"
+                  >
+                  <animateMotion
+                    dur="${
+                      6 -
+                      (parseFloat(this._grid_to_house_entity) / totalFlow) * 6
+                    }s"
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                  >
+                    <mpath href="#equipment-1"></mpath>
+                  </animateMotion>
+                </circle>
+                <circle
+                  r="1"
+                  class="grid"
+                  vector-effect="non-scaling-stroke"
+                  >
+                  <animateMotion
+                    dur="${
+                      6 -
+                      (parseFloat(this._grid_to_house_entity) / totalFlow) * 6
+                    }s"
+                    repeatCount="indefinite"
+                    calcMode="linear"
+                  >
+                    <mpath href="#equipment-2"></mpath>
+                  </animateMotion>
+                </circle>
+                `}
             </svg>
           </div>
         </div>

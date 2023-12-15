@@ -26,6 +26,30 @@ export const styles = css`
     bottom: 100px;
     height: 156px;
   }
+  .lines.right {
+    right: 0px;
+    width: 110px;
+    left: calc(100% - 110px);
+    bottom: 101px;
+    height: 155px;
+  }
+
+  .lines svg {
+    width: calc(100% - 160px);
+    height: 100%;
+    max-width: 340px;
+  }
+
+  .lines.right svg {
+    width: 110px;
+    height: 140;
+  }
+
+  .right circle.grid {
+    stroke-width: 4;
+    strok-fill: ;
+  }
+
   .lines svg {
     width: calc(100% - 160px);
     height: 100%;
