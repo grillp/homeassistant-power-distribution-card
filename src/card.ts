@@ -15,29 +15,29 @@ interface Config extends LovelaceCardConfig {
   generation_to_load_id: string;
   storage_to_load_id: string;
   storage_to_grid_id: string;
-  equipment1_power_id: string;
-  equipment2_power_id: string;
+  load_top_power_id: string;
+  load_bottom_power_id: string;
 
   grid_info_id: string;
   storage_info_id: string;
   load_info_id: string;
   generation_info_id: string;
-  equipment1_info_id: string;
-  equipment2_info_id: string;
+  load_top_info_id: string;
+  load_bottom_info_id: string;
 
   grid_title: string;
   generation_title: string;
   storage_title: string;
   load_title: string;
-  equipment1_title: string;
-  equipment2_title: string;
+  load_top_title: string;
+  load_bottom_title: string;
 
   grid_icon: string;
   generation_icon: string;
   storage_icon: string;
   load_icon: string;
-  equipment1_icon: string;
-  equipment2_icon: string;
+  load_top_icon: string;
+  load_bottom_icon: string;
 }
 
 interface DashValues {
@@ -55,16 +55,16 @@ export class TestlaPowerDistribution extends LitElement {
   @state() private _generation_to_load_power_id: string | null;
   @state() private _storage_to_load_power_id: string | null;
   @state() private _storage_to_grid_power_id: string | null;
-  @state() private _equipment1_power_id: string | null;
-  @state() private _equipment2_power_id: string | null;
+  @state() private _load_top_power_id: string | null;
+  @state() private _load_bottom_power_id: string | null;
 
   // Extra Info Entities
   @state() private _grid_info_id: string | null;
   @state() private _generation_info_id: string | null;
   @state() private _storage_info_id: string | null;
   @state() private _load_info_id: string | null;
-  @state() private _equipment1_info_id: string | null;
-  @state() private _equipment2_info_id: string | null;
+  @state() private _load_top_info_id: string | null;
+  @state() private _load_bottom_info_id: string | null;
 
   // Extra Info Entities
   @state() private _card_title: string | null;
@@ -72,8 +72,8 @@ export class TestlaPowerDistribution extends LitElement {
   @state() private _load_title: string | null;
   @state() private _generation_title: string | null;
   @state() private _storage_title: string | null;
-  @state() private _equipment1_title: string | null;
-  @state() private _equipment2_title: string | null;
+  @state() private _load_top_title: string | null;
+  @state() private _load_bottom_title: string | null;
 
   // Entity Values
   @state() private _grid_to_load_power: number;
@@ -88,23 +88,23 @@ export class TestlaPowerDistribution extends LitElement {
   @state() private _to_load_power: number;
   @state() private _from_grid_power: number;
   @state() private _from_generation_power: number;
-  @state() private _to_equipment1_power: number;
-  @state() private _to_equipment2_power: number;
+  @state() private _to_load_top_power: number;
+  @state() private _to_load_bottom_power: number;
   @state() private _to_storage_power: number;
 
   @state() private _generation_icon: string;
   @state() private _grid_icon: string;
   @state() private _storage_icon: string;
   @state() private _load_icon: string;
-  @state() private _equipment1_icon: string;
-  @state() private _equipment2_icon: string;
+  @state() private _load_top_icon: string;
+  @state() private _load_bottom_icon: string;
 
   // private property
   private _hass;
   private _has_generation: boolean;
   private _has_storage: boolean;
-  private _has_equipment1: boolean;
-  private _has_equipment2: boolean;
+  private _has_load_top: boolean;
+  private _has_load_bottom: boolean;
 
   // lifecycle interface
   setConfig(config: Config) {
@@ -122,25 +122,25 @@ export class TestlaPowerDistribution extends LitElement {
     this._load_info_id = config.load_info_id;
     this._grid_info_id = config.grid_info_id;
     this._generation_info_id = config.generation_info_id;
-    this._equipment1_info_id = config.equipment1_info_id;
-    this._equipment1_power_id = config.equipment1_power_id;
-    this._equipment2_info_id = config.equipment2_info_id;
-    this._equipment2_power_id = config.equipment2_power_id;
+    this._load_top_info_id = config.load_top_info_id;
+    this._load_top_power_id = config.load_top_power_id;
+    this._load_bottom_info_id = config.load_bottom_info_id;
+    this._load_bottom_power_id = config.load_bottom_power_id;
 
     this._card_title = config.card_title;
     this._grid_title = config.grid_title;
     this._generation_title = config.generation_title;
     this._storage_title = config.storage_title;
     this._load_title = config.load_title;
-    this._equipment1_title = config.equipment1_title;
-    this._equipment2_title = config.equipment2_title;
+    this._load_top_title = config.load_top_title;
+    this._load_bottom_title = config.load_bottom_title;
 
     this._generation_icon = config.generation_icon || "mdi:solar-power";
     this._load_icon = config.load_icon || "mdi:home";
     this._storage_icon = config.storage_icon || "mdi:battery-high";
     this._grid_icon = config.grid_icon || "mdi:transmission-tower";
-    this._equipment1_icon = config.equipment1_icon || "mdi:car-sports";
-    this._equipment2_icon = config.equipment2_icon || "mdi:car-sports";
+    this._load_top_icon = config.load_top_icon || "mdi:car-sports";
+    this._load_bottom_icon = config.load_bottom_icon || "mdi:car-sports";
 
     this._has_generation = !(
       this._generation_to_grid_power_id === "" &&
@@ -152,8 +152,8 @@ export class TestlaPowerDistribution extends LitElement {
       this._generation_to_storage_power_id === "" &&
       this._storage_to_load_power_id == ""
     );
-    this._has_equipment1 = !(this._equipment1_power_id === "");
-    this._has_equipment2 = !(this._equipment2_power_id === "");
+    this._has_load_top = !(this._load_top_power_id === "");
+    this._has_load_bottom = !(this._load_bottom_power_id === "");
 
     // call set hass() to immediately adjust to a changed entity
     // while editing the entity in the card editor
@@ -212,11 +212,9 @@ export class TestlaPowerDistribution extends LitElement {
     this._storage_info_id = this.extractStringFromId(this._storage_info_id);
     this._load_info_id = this.extractStringFromId(this._load_info_id);
     this._grid_info_id = this.extractStringFromId(this._grid_info_id);
-    this._to_equipment1_power = this.extractNumberFromId(
-      this._equipment1_power_id
-    );
-    this._to_equipment2_power = this.extractNumberFromId(
-      this._equipment2_power_id
+    this._to_load_top_power = this.extractNumberFromId(this._load_top_power_id);
+    this._to_load_bottom_power = this.extractNumberFromId(
+      this._load_bottom_power_id
     );
 
     this._to_load_power = Number(
@@ -328,7 +326,7 @@ export class TestlaPowerDistribution extends LitElement {
       <ha-card .header=${this._card_title}>
         <div class="card-content">
           ${
-            this._has_generation || this._has_equipment1
+            this._has_generation || this._has_load_top
               ? html` <div class="row">
                   <div class="spacer"></div>
                   <div class="circle-container generation">
@@ -354,25 +352,25 @@ export class TestlaPowerDistribution extends LitElement {
                         `
                       : ""}
                   </div>
-                  ${this._has_equipment1
-                    ? html` <div class="circle-container equipment1">
+                  ${this._has_load_top
+                    ? html` <div class="circle-container load_top">
                         <span class="label"> ${this.extractStringFromId(
-                          this._equipment1_title
+                          this._load_top_title
                         )} </span>
                         <div class="circle">
                           ${
-                            this._equipment1_info_id
+                            this._load_top_info_id
                               ? html`<span
                                   >${this.extractStringFromId(
-                                    this._equipment1_info_id
+                                    this._load_top_info_id
                                   )}</span
                                 >`
                               : ""
                           }
                           <ha-icon class="small" icon="${
-                            this._equipment1_icon
+                            this._load_top_icon
                           }"></ha-icon>
-                          ${this._to_equipment1_power} kW
+                          ${this._to_load_top_power} kW
                         </div>
                       </div>
                 </div>`
@@ -444,7 +442,7 @@ export class TestlaPowerDistribution extends LitElement {
             </div>
           </div>
           ${
-            this._has_storage || this._has_equipment2
+            this._has_storage || this._has_load_bottom
               ? html`
                   <div class="row">
                     <div class="spacer"></div>
@@ -491,26 +489,26 @@ export class TestlaPowerDistribution extends LitElement {
                           >
                         </div>`
                       : html`<div class="spacer"></div>`}
-                    ${this._has_equipment2
+                    ${this._has_load_bottom
                       ? html`
-                          <div class="circle-container equipment2">
+                          <div class="circle-container load-bottom">
                             <div class="circle">
-                              ${this._equipment2_info_id
+                              ${this._load_bottom_info_id
                                 ? html`<span
                                     >${this.extractStringFromId(
-                                      this._equipment2_info_id
+                                      this._load_bottom_info_id
                                     )}</span
                                   >`
                                 : ""}
                               <ha-icon
                                 class="small"
-                                icon="${this._equipment2_icon}"
+                                icon="${this._load_bottom_icon}"
                               ></ha-icon>
-                              ${this._to_equipment2_power} kW
+                              ${this._to_load_bottom_power} kW
                             </div>
                             <span class="label">
                               ${this.extractStringFromId(
-                                this._equipment2_title
+                                this._load_bottom_title
                               )}
                             </span>
                           </div>
@@ -523,7 +521,7 @@ export class TestlaPowerDistribution extends LitElement {
         </div>
         <div
           class="lines ${
-            this._has_storage || this._has_equipment2 ? "high" : ""
+            this._has_storage || this._has_load_bottom ? "high" : ""
           }"
         >
           <svg
@@ -622,32 +620,32 @@ export class TestlaPowerDistribution extends LitElement {
         </div>
         <div
           class="lines right ${
-            this._has_storage || this._has_equipment2 ? "high" : ""
+            this._has_storage || this._has_load_bottom ? "high" : ""
           }"
           >
           ${
-            this._has_equipment1 || this._has_equipment2
+            this._has_load_top || this._has_load_bottom
               ? html`<svg
                   xmlns="http://www.w3.org/2000/svg"
                   preserveAspectRatio="xMidYMid slice"
                   viewBox="0 0 50 100"
                 >
-                  ${this._has_equipment1
+                  ${this._has_load_top
                     ? svg`
-                      <path id="equipment1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
+                      <path id="load_top" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
                       ${this.renderPowerAnnimation(
-                        this._to_equipment1_power,
+                        this._to_load_top_power,
                         "grid",
-                        "#equipment1"
+                        "#load_top"
                       )}`
                     : ""}
-                  ${this._has_equipment2
+                  ${this._has_load_bottom
                     ? svg`
-                      <path id="equipment2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
+                      <path id="load-bottom" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
                       ${this.renderPowerAnnimation(
-                        this._to_equipment2_power,
+                        this._to_load_bottom_power,
                         "grid",
-                        "#equipment2"
+                        "#load-bottom"
                       )}`
                     : ""}
                 </svg>`
@@ -680,8 +678,8 @@ export class TestlaPowerDistribution extends LitElement {
       generation_title: "Generation",
       storage_title: "Storage",
       load_title: "Load",
-      equipment1_title: "Appliance 1",
-      equipment2_title: "Appliance 2",
+      load_top_title: "Load Top",
+      load_bottom_title: "Load Bottom",
     };
   }
 }

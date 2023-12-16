@@ -1152,7 +1152,7 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     margin: 0 4px;
     height: 130px;
   }
-  .circle-container.equipment1 {
+  .circle-container.load_top {
     margin-left: 4px;
     height: 130px;
   }
@@ -1165,7 +1165,7 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     height: 110px;
     justify-content: flex-end;
   }
-  .circle-container.equipment2 {
+  .circle-container.load-bottom {
     margin-left: 4px;
     height: 110px;
     justify-content: flex-end;
@@ -8785,27 +8785,27 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._load_info_id = config.load_info_id;
         this._grid_info_id = config.grid_info_id;
         this._generation_info_id = config.generation_info_id;
-        this._equipment1_info_id = config.equipment1_info_id;
-        this._equipment1_power_id = config.equipment1_power_id;
-        this._equipment2_info_id = config.equipment2_info_id;
-        this._equipment2_power_id = config.equipment2_power_id;
+        this._load_top_info_id = config.load_top_info_id;
+        this._load_top_power_id = config.load_top_power_id;
+        this._load_bottom_info_id = config.load_bottom_info_id;
+        this._load_bottom_power_id = config.load_bottom_power_id;
         this._card_title = config.card_title;
         this._grid_title = config.grid_title;
         this._generation_title = config.generation_title;
         this._storage_title = config.storage_title;
         this._load_title = config.load_title;
-        this._equipment1_title = config.equipment1_title;
-        this._equipment2_title = config.equipment2_title;
+        this._load_top_title = config.load_top_title;
+        this._load_bottom_title = config.load_bottom_title;
         this._generation_icon = config.generation_icon || "mdi:solar-power";
         this._load_icon = config.load_icon || "mdi:home";
         this._storage_icon = config.storage_icon || "mdi:battery-high";
         this._grid_icon = config.grid_icon || "mdi:transmission-tower";
-        this._equipment1_icon = config.equipment1_icon || "mdi:car-sports";
-        this._equipment2_icon = config.equipment2_icon || "mdi:car-sports";
+        this._load_top_icon = config.load_top_icon || "mdi:car-sports";
+        this._load_bottom_icon = config.load_bottom_icon || "mdi:car-sports";
         this._has_generation = !(this._generation_to_grid_power_id === "" && this._generation_to_storage_power_id === "" && this._generation_to_load_power_id == "");
         this._has_storage = !(this._storage_to_grid_power_id === "" && this._generation_to_storage_power_id === "" && this._storage_to_load_power_id == "");
-        this._has_equipment1 = !(this._equipment1_power_id === "");
-        this._has_equipment2 = !(this._equipment2_power_id === "");
+        this._has_load_top = !(this._load_top_power_id === "");
+        this._has_load_bottom = !(this._load_bottom_power_id === "");
         // call set hass() to immediately adjust to a changed entity
         // while editing the entity in the card editor
         if (this._hass) this.hass = this._hass;
@@ -8835,8 +8835,8 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._storage_info_id = this.extractStringFromId(this._storage_info_id);
         this._load_info_id = this.extractStringFromId(this._load_info_id);
         this._grid_info_id = this.extractStringFromId(this._grid_info_id);
-        this._to_equipment1_power = this.extractNumberFromId(this._equipment1_power_id);
-        this._to_equipment2_power = this.extractNumberFromId(this._equipment2_power_id);
+        this._to_load_top_power = this.extractNumberFromId(this._load_top_power_id);
+        this._to_load_bottom_power = this.extractNumberFromId(this._load_bottom_power_id);
         this._to_load_power = Number((this._storage_to_load_power + this._grid_to_load_power + this._generation_to_load_power).toFixed(1));
         this._from_grid_power = Number((this._grid_to_load_power + -1 * this._storage_to_grid_power + -1 * this._generation_to_grid_power).toFixed(1));
         this._from_generation_power = Number((this._generation_to_grid_power + this._generation_to_storage_power + this._generation_to_load_power).toFixed(1));
@@ -8896,7 +8896,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <ha-card .header=${this._card_title}>
         <div class="card-content">
-          ${this._has_generation || this._has_equipment1 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="row">
+          ${this._has_generation || this._has_load_top ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="row">
                   <div class="spacer"></div>
                   <div class="circle-container generation">
                     ${this._has_generation ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
@@ -8915,14 +8915,14 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                           </div>
                         ` : ""}
                   </div>
-                  ${this._has_equipment1 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container equipment1">
-                        <span class="label"> ${this.extractStringFromId(this._equipment1_title)} </span>
+                  ${this._has_load_top ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container load_top">
+                        <span class="label"> ${this.extractStringFromId(this._load_top_title)} </span>
                         <div class="circle">
-                          ${this._equipment1_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
-                                  >${this.extractStringFromId(this._equipment1_info_id)}</span
+                          ${this._load_top_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                                  >${this.extractStringFromId(this._load_top_info_id)}</span
                                 >` : ""}
-                          <ha-icon class="small" icon="${this._equipment1_icon}"></ha-icon>
-                          ${this._to_equipment1_power} kW
+                          <ha-icon class="small" icon="${this._load_top_icon}"></ha-icon>
+                          ${this._to_load_top_power} kW
                         </div>
                       </div>
                 </div>` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="spacer"></div>`}
@@ -8972,7 +8972,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
               <span class="label"> ${this.extractStringFromId(this._load_title)} </span>
             </div>
           </div>
-          ${this._has_storage || this._has_equipment2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+          ${this._has_storage || this._has_load_bottom ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                   <div class="row">
                     <div class="spacer"></div>
                     ${this._has_storage ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container storage">
@@ -9006,20 +9006,20 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                             >${this.extractStringFromId(this._storage_title)}</span
                           >
                         </div>` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="spacer"></div>`}
-                    ${this._has_equipment2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
-                          <div class="circle-container equipment2">
+                    ${this._has_load_bottom ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+                          <div class="circle-container load-bottom">
                             <div class="circle">
-                              ${this._equipment2_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
-                                    >${this.extractStringFromId(this._equipment2_info_id)}</span
+                              ${this._load_bottom_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                                    >${this.extractStringFromId(this._load_bottom_info_id)}</span
                                   >` : ""}
                               <ha-icon
                                 class="small"
-                                icon="${this._equipment2_icon}"
+                                icon="${this._load_bottom_icon}"
                               ></ha-icon>
-                              ${this._to_equipment2_power} kW
+                              ${this._to_load_bottom_power} kW
                             </div>
                             <span class="label">
-                              ${this.extractStringFromId(this._equipment2_title)}
+                              ${this.extractStringFromId(this._load_bottom_title)}
                             </span>
                           </div>
                         ` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="spacer"></div>`}
@@ -9027,7 +9027,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 ` : ""}
         </div>
         <div
-          class="lines ${this._has_storage || this._has_equipment2 ? "high" : ""}"
+          class="lines ${this._has_storage || this._has_load_bottom ? "high" : ""}"
         >
           <svg
             viewBox="0 0 100 100"
@@ -9088,19 +9088,19 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
           </svg>
         </div>
         <div
-          class="lines right ${this._has_storage || this._has_equipment2 ? "high" : ""}"
+          class="lines right ${this._has_storage || this._has_load_bottom ? "high" : ""}"
           >
-          ${this._has_equipment1 || this._has_equipment2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<svg
+          ${this._has_load_top || this._has_load_bottom ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<svg
                   xmlns="http://www.w3.org/2000/svg"
                   preserveAspectRatio="xMidYMid slice"
                   viewBox="0 0 50 100"
                 >
-                  ${this._has_equipment1 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
-                      <path id="equipment1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
-                      ${this.renderPowerAnnimation(this._to_equipment1_power, "grid", "#equipment1")}` : ""}
-                  ${this._has_equipment2 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
-                      <path id="equipment2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
-                      ${this.renderPowerAnnimation(this._to_equipment2_power, "grid", "#equipment2")}` : ""}
+                  ${this._has_load_top ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+                      <path id="load_top" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
+                      ${this.renderPowerAnnimation(this._to_load_top_power, "grid", "#load_top")}` : ""}
+                  ${this._has_load_bottom ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+                      <path id="load-bottom" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
+                      ${this.renderPowerAnnimation(this._to_load_bottom_power, "grid", "#load-bottom")}` : ""}
                 </svg>` : ""}
         </div>
       </div>
@@ -9113,6 +9113,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
     }
     static getStubConfig() {
         return {
+            card_title: "Insta Pow-a!",
             grid_to_load_id: "1",
             generation_to_grid_id: "1",
             generation_to_storage_id: "1",
@@ -9120,20 +9121,12 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             storage_to_load_id: "1",
             storage_to_grid_id: "1",
             storage_info_id: "1",
-            load_info_id: "1",
-            grid_info_id: "1",
-            // generation_icon: "1",
-            equipment1_state_id: "1",
-            equipment1_power_id: "1",
-            equipment2_state_id: "1",
-            equipment2_power_id: "1",
-            card_title: "Instant Power!",
             grid_title: "Grid",
             generation_title: "Generation",
             storage_title: "Storage",
-            load_title: "House",
-            equipment1_title: "Appliance 1",
-            equipment2_title: "Appliance 2"
+            load_title: "Load",
+            load_top_title: "Load Top",
+            load_bottom_title: "Load Bottom"
         };
     }
 }
@@ -9157,10 +9150,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_to_grid_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment1_power_id", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_top_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment2_power_id", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_bottom_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_info_id", void 0);
@@ -9175,10 +9168,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_info_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment1_info_id", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_top_info_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment2_info_id", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_bottom_info_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_card_title", void 0);
@@ -9196,10 +9189,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment1_title", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_top_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment2_title", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_bottom_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_to_load_power", void 0);
@@ -9232,10 +9225,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_from_generation_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_equipment1_power", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_load_top_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_equipment2_power", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_load_bottom_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_storage_power", void 0);
@@ -9253,10 +9246,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_icon", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment1_icon", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_top_icon", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment2_icon", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_bottom_icon", void 0);
 
 
 
@@ -9292,29 +9285,29 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       <div class="row"><label class="label cell" for="generation_to_load_id">Generation → House</label><input @change="${this.handleChangedEvent}" id="generation_to_load_id" value="${this._config.generation_to_load_id}"></input></div>
       <div class="row"><label class="label cell" for="storage_to_load_id">Storage → Storage</label><input @change="${this.handleChangedEvent}" id="storage_to_load_id" value="${this._config.storage_to_load_id}"></input></div>
       <div class="row"><label class="label cell" for="storage_to_grid_id">Storage → Grid</label><input @change="${this.handleChangedEvent}" id="storage_to_grid_id" value="${this._config.storage_to_grid_id}"></input></div>
-      <div class="row"><label class="label cell" for="equipment1_power_id">Home → Appliance 1</label><input @change="${this.handleChangedEvent}" id="equipment1_power_id" value="${this._config.equipment1_power_id}"></input></div>
-      <div class="row"><label class="label cell" for="equipment2_power_id">Home → Appliance 2</label><input @change="${this.handleChangedEvent}" id="equipment2_power_id" value="${this._config.equipment2_power_id}"></input></div>
+      <div class="row"><label class="label cell" for="load_top_power_id">Home → Appliance 1</label><input @change="${this.handleChangedEvent}" id="load_top_power_id" value="${this._config.load_top_power_id}"></input></div>
+      <div class="row"><label class="label cell" for="load_bottom_power_id">Home → Appliance 2</label><input @change="${this.handleChangedEvent}" id="load_bottom_power_id" value="${this._config.load_bottom_power_id}"></input></div>
       <div class="row"><h2>Extra Info</h2>Appears above the Icon in the Circle. Can be an entity id or a string. </div>
       <div class="row"><label class="label cell" for="grid_info_id">Grid:</label><input @change="${this.handleChangedEvent}" id="grid_info_id" value="${this._config.grid_info_id}"></input></div>
       <div class="row"><label class="label cell" for="load_info_id">House:</label><input @change="${this.handleChangedEvent}" id="load_info_id" value="${this._config.load_info_id}"></input></div>
       <div class="row"><label class="label cell" for="generation_info_id">Generation:</label><input @change="${this.handleChangedEvent}" id="generation_info_id" value="${this._config.generation_info_id}"></input></div>
       <div class="row"><label class="label cell" for="storage_info_id">Storage:</label><input @change="${this.handleChangedEvent}" id="storage_info_id" value="${this._config.storage_info_id}"></input></div>
-      <div class="row"><label class="label cell" for="equipment1_info_id">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="equipment1_info_id" value="${this._config.equipment1_info_id}"></input></div>
-      <div class="row"><label class="label cell" for="equipment2_info_id">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="equipment2_info_id" value="${this._config.equipment2_info_id}"></input></div>
+      <div class="row"><label class="label cell" for="load_top_info_id">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="load_top_info_id" value="${this._config.load_top_info_id}"></input></div>
+      <div class="row"><label class="label cell" for="load_bottom_info_id">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="load_bottom_info_id" value="${this._config.load_bottom_info_id}"></input></div>
       <div class="row"><h2>Titles</h2>Titles of the  elements. Can be an entity id or a positive numeric value. </div>
       <div class="row"><label class="label cell" for="grid_title">Grid:</label><input @change="${this.handleChangedEvent}" id="grid_title" value="${this._config.grid_title}"></input></div>
       <div class="row"><label class="label cell" for="load_title">Home:</label><input @change="${this.handleChangedEvent}" id="load_title" value="${this._config.load_title}"></input></div>
       <div class="row"><label class="label cell" for="storage_title">Storage:</label><input @change="${this.handleChangedEvent}" id="storage_title" value="${this._config.storage_title}"></input></div>
       <div class="row"><label class="label cell" for="generation_title">Generation:</label><input @change="${this.handleChangedEvent}" id="generation_title" value="${this._config.generation_title}"></input></div>
-      <div class="row"><label class="label cell" for="equipment1_title">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="equipment1_title" value="${this._config.equipment1_title}"></input></div>
-      <div class="row"><label class="label cell" for="equipment2_title">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="equipment2_title" value="${this._config.equipment2_title}"></input></div>
+      <div class="row"><label class="label cell" for="load_top_title">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="load_top_title" value="${this._config.load_top_title}"></input></div>
+      <div class="row"><label class="label cell" for="load_bottom_title">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="load_bottom_title" value="${this._config.load_bottom_title}"></input></div>
       <div class="row"><h2>Icons</h2></div>
       <div class="row"><label class="label cell" for="grid_icon">grid_icon:</label><input @change="${this.handleChangedEvent}" id="grid_icon" value="${this._config.grid_icon}"></input></div>
       <div class="row"><label class="label cell" for="generation_icon">generation_icon:</label><input @change="${this.handleChangedEvent}" id="generation_icon" value="${this._config.generation_icon}"></input></div>
       <div class="row"><label class="label cell" for="storage_icon">storage_icon:</label><input @change="${this.handleChangedEvent}" id="storage_icon" value="${this._config.storage_icon}"></input></div>
       <div class="row"><label class="label cell" for="load_icon">load_icon:</label><input @change="${this.handleChangedEvent}" id="load_icon" value="${this._config.load_icon}"></input></div>
-      <div class="row"><label class="label cell" for="equipment1_icon">equipment1_icon:</label><input @change="${this.handleChangedEvent}" id="equipment1_icon" value="${this._config.equipment1_icon}"></input></div>
-      <div class="row"><label class="label cell" for="equipment2_icon">equipment2_icon:</label><input @change="${this.handleChangedEvent}" id="equipment2_icon" value="${this._config.equipment2_icon}"></input></div>
+      <div class="row"><label class="label cell" for="load_top_icon">load_top_icon:</label><input @change="${this.handleChangedEvent}" id="load_top_icon" value="${this._config.load_top_icon}"></input></div>
+      <div class="row"><label class="label cell" for="load_bottom_icon">load_bottom_icon:</label><input @change="${this.handleChangedEvent}" id="load_bottom_icon" value="${this._config.load_bottom_icon}"></input></div>
     </form>`;
     }
     handleChangedEvent(changedEvent) {

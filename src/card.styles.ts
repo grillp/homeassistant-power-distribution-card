@@ -75,7 +75,7 @@ export const styles = css`
     margin: 0 4px;
     height: 130px;
   }
-  .circle-container.equipment1 {
+  .circle-container.load_top {
     margin-left: 4px;
     height: 130px;
   }
@@ -88,7 +88,7 @@ export const styles = css`
     height: 110px;
     justify-content: flex-end;
   }
-  .circle-container.equipment2 {
+  .circle-container.load-bottom {
     margin-left: 4px;
     height: 110px;
     justify-content: flex-end;
