@@ -331,7 +331,7 @@ export class TestlaPowerDistribution extends LitElement {
             this._has_generation || this._has_equipment1
               ? html` <div class="row">
                   <div class="spacer"></div>
-                  <div class="circle-container solar">
+                  <div class="circle-container generation">
                     ${this._has_generation
                       ? html`
                           <span class="label">
@@ -434,7 +434,7 @@ export class TestlaPowerDistribution extends LitElement {
                   ${svg`
                     <circle class="storage" cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[0].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[0].stroke_dashoffset}"></circle>
                     <circle class="grid"    cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[1].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[1].stroke_dashoffset}"></circle>
-                    <circle class="solar"   cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[2].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[2].stroke_dashoffset}"></circle>
+                    <circle class="generation"   cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[2].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[2].stroke_dashoffset}"></circle>
                   `}
                 </svg>
               </div>
@@ -561,13 +561,13 @@ export class TestlaPowerDistribution extends LitElement {
                   )}
                   <path
                     id="generation-to-load"
-                    class="solar"
+                    class="generation"
                     d="M55,0 v15 c0,35 10,30 30,30 h20"
                     vector-effect="non-scaling-stroke"
                   ></path>
                   ${this.renderPowerAnnimation(
                     this._generation_to_load_power,
-                    "solar",
+                    "generation",
                     "#generation-to-load"
                   )}
                 `
@@ -577,15 +577,15 @@ export class TestlaPowerDistribution extends LitElement {
               this._has_generation && this._has_storage
                 ? svg`
                     <path
-                      id="solar-to-storage"
-                      class="storage-solar"
+                      id="generation-to-storage"
+                      class="storage-generation"
                       d="M50,0 V100"
                       vector-effect="non-scaling-stroke"
                     ></path>
                     ${this.renderPowerAnnimation(
                       this._generation_to_storage_power,
-                      "storage-solar",
-                      "#solar-to-storage"
+                      "storage-generation",
+                      "#generation-to-storage"
                     )}
                   `
                 : ""
@@ -666,6 +666,8 @@ export class TestlaPowerDistribution extends LitElement {
 
   static getStubConfig() {
     return {
+      card_title: "Insta Pow-a!",
+
       grid_to_load_id: "1",
       generation_to_grid_id: "1",
       generation_to_storage_id: "1",
@@ -673,19 +675,11 @@ export class TestlaPowerDistribution extends LitElement {
       storage_to_load_id: "1",
       storage_to_grid_id: "1",
       storage_info_id: "1",
-      load_info_id: "1",
-      grid_info_id: "1",
-      // generation_icon: "1",
-      equipment1_state_id: "1",
-      equipment1_power_id: "1",
-      equipment2_state_id: "1",
-      equipment2_power_id: "1",
 
-      card_title: "Instant Power!",
       grid_title: "Grid",
-      generation_title: "Solar",
+      generation_title: "Generation",
       storage_title: "Storage",
-      load_title: "House",
+      load_title: "Load",
       equipment1_title: "Appliance 1",
       equipment2_title: "Appliance 2",
     };

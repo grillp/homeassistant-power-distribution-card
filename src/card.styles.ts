@@ -71,7 +71,7 @@ export const styles = css`
   .circle-container.low-carbon {
     margin-right: 4px;
   }
-  .circle-container.solar {
+  .circle-container.generation {
     margin: 0 4px;
     height: 130px;
   }
@@ -179,14 +179,14 @@ export const styles = css`
     stroke: var(--energy-non-fossil-color);
     fill: var(--energy-non-fossil-color);
   }
-  .solar .circle {
+  .generation .circle {
     border-color: var(--energy-solar-color);
   }
-  circle.solar,
-  path.solar {
+  circle.generation,
+  path.generation {
     stroke: var(--energy-solar-color);
   }
-  circle.solar {
+  circle.generation {
     stroke-width: 4;
     fill: var(--energy-solar-color);
   }
@@ -205,11 +205,11 @@ export const styles = css`
     stroke-width: 4;
     fill: var(--energy-battery-out-color);
   }
-  path.storage-solar,
-  circle.storage-solar {
+  path.storage-generation,
+  circle.storage-generation {
     stroke: var(--energy-battery-in-color);
   }
-  circle.storage-solar {
+  circle.storage-generation {
     stroke-width: 4;
     fill: var(--energy-battery-in-color);
   }

@@ -1148,7 +1148,7 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
   .circle-container.low-carbon {
     margin-right: 4px;
   }
-  .circle-container.solar {
+  .circle-container.generation {
     margin: 0 4px;
     height: 130px;
   }
@@ -1256,14 +1256,14 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     stroke: var(--energy-non-fossil-color);
     fill: var(--energy-non-fossil-color);
   }
-  .solar .circle {
+  .generation .circle {
     border-color: var(--energy-solar-color);
   }
-  circle.solar,
-  path.solar {
+  circle.generation,
+  path.generation {
     stroke: var(--energy-solar-color);
   }
-  circle.solar {
+  circle.generation {
     stroke-width: 4;
     fill: var(--energy-solar-color);
   }
@@ -1282,11 +1282,11 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     stroke-width: 4;
     fill: var(--energy-battery-out-color);
   }
-  path.storage-solar,
-  circle.storage-solar {
+  path.storage-generation,
+  circle.storage-generation {
     stroke: var(--energy-battery-in-color);
   }
-  circle.storage-solar {
+  circle.storage-generation {
     stroke-width: 4;
     fill: var(--energy-battery-in-color);
   }
@@ -8898,7 +8898,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         <div class="card-content">
           ${this._has_generation || this._has_equipment1 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="row">
                   <div class="spacer"></div>
-                  <div class="circle-container solar">
+                  <div class="circle-container generation">
                     ${this._has_generation ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                           <span class="label">
                             ${this.extractStringFromId(this._generation_title)}
@@ -8965,7 +8965,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                   ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                     <circle class="storage" cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[0].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[0].stroke_dashoffset}"></circle>
                     <circle class="grid"    cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[1].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[1].stroke_dashoffset}"></circle>
-                    <circle class="solar"   cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[2].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[2].stroke_dashoffset}"></circle>
+                    <circle class="generation"   cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[2].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[2].stroke_dashoffset}"></circle>
                   `}
                 </svg>
               </div>
@@ -9054,20 +9054,20 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                   ${this.renderPowerAnnimation(this._generation_to_grid_power, "return", "#generation-to-grid")}
                   <path
                     id="generation-to-load"
-                    class="solar"
+                    class="generation"
                     d="M55,0 v15 c0,35 10,30 30,30 h20"
                     vector-effect="non-scaling-stroke"
                   ></path>
-                  ${this.renderPowerAnnimation(this._generation_to_load_power, "solar", "#generation-to-load")}
+                  ${this.renderPowerAnnimation(this._generation_to_load_power, "generation", "#generation-to-load")}
                 ` : ""}
             ${this._has_generation && this._has_storage ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                     <path
-                      id="solar-to-storage"
-                      class="storage-solar"
+                      id="generation-to-storage"
+                      class="storage-generation"
                       d="M50,0 V100"
                       vector-effect="non-scaling-stroke"
                     ></path>
-                    ${this.renderPowerAnnimation(this._generation_to_storage_power, "storage-solar", "#solar-to-storage")}
+                    ${this.renderPowerAnnimation(this._generation_to_storage_power, "storage-generation", "#generation-to-storage")}
                   ` : ""}
             ${this._has_storage ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                     <path
@@ -9129,7 +9129,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             equipment2_power_id: "1",
             card_title: "Instant Power!",
             grid_title: "Grid",
-            generation_title: "Solar",
+            generation_title: "Generation",
             storage_title: "Storage",
             load_title: "House",
             equipment1_title: "Appliance 1",
