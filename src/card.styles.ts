@@ -78,7 +78,7 @@ export const styles = css`
     margin: 0 4px;
     height: 130px;
   }
-  .circle-container.appliance1 {
+  .circle-container.equipment1 {
     margin-left: 4px;
     height: 130px;
   }
@@ -91,7 +91,7 @@ export const styles = css`
     height: 110px;
     justify-content: flex-end;
   }
-  .circle-container.appliance2 {
+  .circle-container.equipment2 {
     margin-left: 4px;
     height: 110px;
     justify-content: flex-end;
@@ -257,11 +257,11 @@ export const styles = css`
     stroke-width: 4;
     fill: var(--energy-grid-consumption-color);
   }
-  .home .circle {
+  .load .circle {
     border-width: 0;
     border-color: var(--primary-color);
   }
-  .home .circle.border {
+  .load .circle.border {
     border-width: 2px;
   }
   .circle svg circle {
