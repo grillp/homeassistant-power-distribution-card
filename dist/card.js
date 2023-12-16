@@ -9248,23 +9248,24 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
     render() {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
             <form class="table">
-                <div class="row"><h2>Power</h2></div>
-                <div class="row"><label class="label cell" for="Grid → House">grid_to_house_id:</label><input @change="${this.handleChangedEvent}" id="grid_to_house_id" value="${this._config.grid_to_house_id}"></input></div>
-                <div class="row"><label class="label cell" for="Generation → Grid">generation_to_grid_id:</label><input @change="${this.handleChangedEvent}" id="generation_to_grid_id" value="${this._config.generation_to_grid_id}"></input></div>
-                <div class="row"><label class="label cell" for="Generation → Battery">generation_to_battery_id:</label><input @change="${this.handleChangedEvent}" id="generation_to_battery_id" value="${this._config.generation_to_battery_id}"></input></div>
-                <div class="row"><label class="label cell" for="Generation → House">generation_to_house_id:</label><input @change="${this.handleChangedEvent}" id="generation_to_house_id" value="${this._config.generation_to_house_id}"></input></div>
-                <div class="row"><label class="label cell" for="Battery → Battery">battery_to_house_id:</label><input @change="${this.handleChangedEvent}" id="battery_to_house_id" value="${this._config.battery_to_house_id}"></input></div>
-                <div class="row"><label class="label cell" for="Battery → Grid">battery_to_grid_id:</label><input @change="${this.handleChangedEvent}" id="battery_to_grid_id" value="${this._config.battery_to_grid_id}"></input></div>
-                <div class="row"><label class="label cell" for="Home → Appliance 1">appliance1_power_id:</label><input @change="${this.handleChangedEvent}" id="appliance1_power_id" value="${this._config.appliance1_power_id}"></input></div>
-                <div class="row"><label class="label cell" for="Home → Appliance 2">appliance2_power_id:</label><input @change="${this.handleChangedEvent}" id="appliance2_power_id" value="${this._config.appliance2_power_id}"></input></div>
-                <div class="row"><h2>Extra Info</h2></div>
+                <div class="row"><h2>Power Entites</h2>All can be an editity id or a numeric value for constant. All in kW.</div>
+
+                <div class="row"><label class="label cell" for="grid_to_house_id">Grid → House</label><input @change="${this.handleChangedEvent}" id="grid_to_house_id" value="${this._config.grid_to_house_id}"></input></div>
+                <div class="row"><label class="label cell" for="generation_to_grid_id">Generation → Grid</label><input @change="${this.handleChangedEvent}" id="generation_to_grid_id" value="${this._config.generation_to_grid_id}"></input></div>
+                <div class="row"><label class="label cell" for="generation_to_battery_id">Generation → Battery</label><input @change="${this.handleChangedEvent}" id="generation_to_battery_id" value="${this._config.generation_to_battery_id}"></input></div>
+                <div class="row"><label class="label cell" for="generation_to_house_id">Generation → House</label><input @change="${this.handleChangedEvent}" id="generation_to_house_id" value="${this._config.generation_to_house_id}"></input></div>
+                <div class="row"><label class="label cell" for="battery_to_house_id">Battery → Battery</label><input @change="${this.handleChangedEvent}" id="battery_to_house_id" value="${this._config.battery_to_house_id}"></input></div>
+                <div class="row"><label class="label cell" for="battery_to_grid_id">Battery → Grid</label><input @change="${this.handleChangedEvent}" id="battery_to_grid_id" value="${this._config.battery_to_grid_id}"></input></div>
+                <div class="row"><label class="label cell" for="appliance1_power_id">Home → Appliance 1</label><input @change="${this.handleChangedEvent}" id="appliance1_power_id" value="${this._config.appliance1_power_id}"></input></div>
+                <div class="row"><label class="label cell" for="appliance2_power_id">Home → Appliance 2</label><input @change="${this.handleChangedEvent}" id="appliance2_power_id" value="${this._config.appliance2_power_id}"></input></div>
+                <div class="row"><h2>Extra Info</h2>Appears above the Icon in the Circle</div>
                 <div class="row"><label class="label cell" for="grid_info_id">Grid:</label><input @change="${this.handleChangedEvent}" id="grid_info_id" value="${this._config.grid_info_id}"></input></div>
                 <div class="row"><label class="label cell" for="battery_info_id">Battery:</label><input @change="${this.handleChangedEvent}" id="battery_info_id" value="${this._config.battery_info_id}"></input></div>
                 <div class="row"><label class="label cell" for="house_info_id">House:</label><input @change="${this.handleChangedEvent}" id="house_info_id" value="${this._config.house_info_id}"></input></div>
                 <div class="row"><label class="label cell" for="generation_info_id">Generation:</label><input @change="${this.handleChangedEvent}" id="generation_info_id" value="${this._config.generation_info_id}"></input></div>
                 <div class="row"><label class="label cell" for="appliance1_info_id">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="appliance1_info_id" value="${this._config.appliance1_info_id}"></input></div>
                 <div class="row"><label class="label cell" for="appliance2_info_id">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="appliance2_info_id" value="${this._config.appliance2_info_id}"></input></div>
-                <div class="row"><h2>Titles</h2></div>
+                <div class="row"><h2>Titles</h2>Titles of the  elements</div>
                 <div class="row"><label class="label cell" for="grid_info_id">Grid:</label><input @change="${this.handleChangedEvent}" id="grid_title" value="${this._config.grid_title}"></input></div>
                 <div class="row"><label class="label cell" for="battery_title">Battery:</label><input @change="${this.handleChangedEvent}" id="battery_title" value="${this._config.battery_title}"></input></div>
                 <div class="row"><label class="label cell" for="home_title">Home:</label><input @change="${this.handleChangedEvent}" id="home_title" value="${this._config.home_title}"></input></div>
