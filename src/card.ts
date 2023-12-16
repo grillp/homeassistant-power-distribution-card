@@ -322,7 +322,7 @@ export class TestlaPowerDistribution extends LitElement {
                       : ""}
                   </div>
                   ${this._has_appliance1
-                    ? html` <div class="circle-container appliance-1">
+                    ? html` <div class="circle-container appliance1">
                         <span class="label"> Appliance 1 </span>
                         <div class="circle">
                           ${
@@ -382,14 +382,14 @@ export class TestlaPowerDistribution extends LitElement {
             </div>
             <div class="circle-container home">
               <div class="circle">
-              ${
-                this._house_info_id
-                  ? html`<span
-                      >${this.extractStringFromId(this._house_info_id)}</span
-                    >`
-                  : ""
-              }
-              <ha-svg-icon .path=${mdiHome}></ha-svg-icon>
+                ${
+                  this._house_info_id
+                    ? html`<span
+                        >${this.extractStringFromId(this._house_info_id)}</span
+                      >`
+                    : ""
+                }
+                <ha-svg-icon .path=${mdiHome}></ha-svg-icon>
                 ${this._to_house_power} kW
                 <svg>
                   ${svg`
@@ -445,7 +445,7 @@ export class TestlaPowerDistribution extends LitElement {
                       : html`<div class="spacer"></div>`}
                     ${this._has_appliance2
                       ? html`
-                          <div class="circle-container appliance-2">
+                          <div class="circle-container appliance2">
                             <div class="circle">
                               ${this._appliance2_info_id
                                 ? html`<span
@@ -465,16 +465,18 @@ export class TestlaPowerDistribution extends LitElement {
                 `
               : ""
           }
-          </div>
-          <div class="lines ${
+        </div>
+        <div
+          class="lines ${
             this._has_battery || this._has_appliance2 ? "high" : ""
-          }">
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="xMidYMid slice"
-            >
-              ${svg`
+          }"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice"
+          >
+            ${svg`
                 <path
                   class="grid"
                   id="grid-to-house"
@@ -487,38 +489,38 @@ export class TestlaPowerDistribution extends LitElement {
                   "grid",
                   "#grid-to-house"
                 )}
-                `}
-                ${
-                  this._has_generation
-                    ? svg`
-                    <path
-                      id="generation-to-grid"
-                      class="return"
-                      d="M45,0 v15 c0,35 -10,30 -30,30 h-20"
-                      vector-effect="non-scaling-stroke"
-                    ></path>
-                    ${this.renderPowerAnnimation(
-                      this._generation_to_grid_power,
-                      "return",
-                      "#generation-to-grid"
-                    )}
-                    <path
-                      id="generation-to-house"
-                      class="solar"
-                      d="M55,0 v15 c0,35 10,30 30,30 h20"
-                      vector-effect="non-scaling-stroke"
-                    ></path>
-                    ${this.renderPowerAnnimation(
-                      this._generation_to_house_power,
-                      "solar",
-                      "#generation-to-house"
-                    )}
-                  `
-                    : ""
-                }
-                ${
-                  this._has_generation && this._has_battery
-                    ? svg`
+            `}
+            ${
+              this._has_generation
+                ? svg`
+                  <path
+                    id="generation-to-grid"
+                    class="return"
+                    d="M45,0 v15 c0,35 -10,30 -30,30 h-20"
+                    vector-effect="non-scaling-stroke"
+                  ></path>
+                  ${this.renderPowerAnnimation(
+                    this._generation_to_grid_power,
+                    "return",
+                    "#generation-to-grid"
+                  )}
+                  <path
+                    id="generation-to-house"
+                    class="solar"
+                    d="M55,0 v15 c0,35 10,30 30,30 h20"
+                    vector-effect="non-scaling-stroke"
+                  ></path>
+                  ${this.renderPowerAnnimation(
+                    this._generation_to_house_power,
+                    "solar",
+                    "#generation-to-house"
+                  )}
+                `
+                : ""
+            }
+            ${
+              this._has_generation && this._has_battery
+                ? svg`
                     <path
                       id="solar-to-battery"
                       class="battery-solar"
@@ -531,11 +533,11 @@ export class TestlaPowerDistribution extends LitElement {
                       "#solar-to-battery"
                     )}
                   `
-                    : ""
-                }
-                ${
-                  this._has_battery
-                    ? svg`
+                : ""
+            }
+            ${
+              this._has_battery
+                ? svg`
                     <path
                       id="battery-to-house"
                       class="battery-house"
@@ -559,41 +561,45 @@ export class TestlaPowerDistribution extends LitElement {
                       "#battery-to-grid"
                     )}
                   `
-                    : ""
-                }
-            </svg>
-          </div>
+                : ""
+            }
+          </svg>
+        </div>
+        <div
+          class="lines right ${
+            this._has_battery || this._has_appliance2 ? "high" : ""
+          }"
+          >
           ${
             this._has_appliance1 || this._has_appliance2
-              ? html`<div class="lines right">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    preserveAspectRatio="xMidYMid slice"
-                    viewBox="0 0 50 100"
-                  >
-                    ${this._has_appliance1
-                      ? svg`
-                <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
-                ${this.renderPowerAnnimation(
-                  this._to_appliance1_power,
-                  "grid",
-                  "#equipment-1"
-                )}`
-                      : ""}
-                    ${this._has_appliance2
-                      ? svg`
-                <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
-                ${this.renderPowerAnnimation(
-                  this._to_appliance2_power,
-                  "grid",
-                  "#equipment-2"
-                )}`
-                      : ""}
-                  </svg>
-                </div>`
+              ? html`<svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="xMidYMid slice"
+                  viewBox="0 0 50 100"
+                >
+                  ${this._has_appliance1
+                    ? svg`
+                      <path id="equipment1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
+                      ${this.renderPowerAnnimation(
+                        this._to_appliance1_power,
+                        "grid",
+                        "#equipment1"
+                      )}`
+                    : ""}
+                  ${this._has_appliance2
+                    ? svg`
+                      <path id="equipment2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
+                      ${this.renderPowerAnnimation(
+                        this._to_appliance2_power,
+                        "grid",
+                        "#equipment2"
+                      )}`
+                    : ""}
+                </svg>`
               : ""
           }
         </div>
+      </div>
       </ha-card>
     `;
   }

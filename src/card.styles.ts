@@ -13,25 +13,18 @@ export const styles = css`
   }
   .lines {
     position: absolute;
-    bottom: -30px;
-    left: 0;
+    bottom: -10px;
+    left: 0px;
     width: 100%;
-    height: 180px;
+    height: 158px;
     display: flex;
     justify-content: center;
-    padding: 0 16px 16px;
+    padding: 0px 16px 16px;
     box-sizing: border-box;
   }
+
   .lines.high {
     bottom: 100px;
-    height: 156px;
-  }
-  .lines.right {
-    right: 0px;
-    width: 110px;
-    left: calc(100% - 110px);
-    bottom: 101px;
-    height: 155px;
   }
 
   .lines svg {
@@ -40,9 +33,21 @@ export const styles = css`
     max-width: 340px;
   }
 
-  .lines.right svg {
+  .lines.right {
+    right: 0px;
     width: 110px;
-    height: 140;
+    left: calc(100% - 110px);
+    bottom: -8px;
+    height: 155px;
+  }
+
+  .lines.right.high {
+    bottom: 100px;
+    height: 156px;
+  }
+
+  .lines.right svg {
+    width: 100%;
   }
 
   .right circle.grid {
@@ -73,11 +78,7 @@ export const styles = css`
     margin: 0 4px;
     height: 130px;
   }
-  .circle-container.gas {
-    margin-left: 4px;
-    height: 130px;
-  }
-  .circle-container.water {
+  .circle-container.appliance1 {
     margin-left: 4px;
     height: 130px;
   }
@@ -90,7 +91,8 @@ export const styles = css`
     height: 110px;
     justify-content: flex-end;
   }
-  .circle-container.appliance-2 {
+  .circle-container.appliance2 {
+    margin-left: 4px;
     height: 110px;
     justify-content: flex-end;
   }

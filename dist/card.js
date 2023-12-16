@@ -1090,25 +1090,18 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
   }
   .lines {
     position: absolute;
-    bottom: -30px;
-    left: 0;
+    bottom: -10px;
+    left: 0px;
     width: 100%;
-    height: 180px;
+    height: 158px;
     display: flex;
     justify-content: center;
-    padding: 0 16px 16px;
+    padding: 0px 16px 16px;
     box-sizing: border-box;
   }
+
   .lines.high {
     bottom: 100px;
-    height: 156px;
-  }
-  .lines.right {
-    right: 0px;
-    width: 110px;
-    left: calc(100% - 110px);
-    bottom: 101px;
-    height: 155px;
   }
 
   .lines svg {
@@ -1117,9 +1110,21 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     max-width: 340px;
   }
 
-  .lines.right svg {
+  .lines.right {
+    right: 0px;
     width: 110px;
-    height: 140;
+    left: calc(100% - 110px);
+    bottom: -8px;
+    height: 155px;
+  }
+
+  .lines.right.high {
+    bottom: 100px;
+    height: 156px;
+  }
+
+  .lines.right svg {
+    width: 100%;
   }
 
   .right circle.grid {
@@ -1150,11 +1155,7 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     margin: 0 4px;
     height: 130px;
   }
-  .circle-container.gas {
-    margin-left: 4px;
-    height: 130px;
-  }
-  .circle-container.water {
+  .circle-container.appliance1 {
     margin-left: 4px;
     height: 130px;
   }
@@ -1167,7 +1168,8 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     height: 110px;
     justify-content: flex-end;
   }
-  .circle-container.appliance-2 {
+  .circle-container.appliance2 {
+    margin-left: 4px;
     height: 110px;
     justify-content: flex-end;
   }
@@ -8899,7 +8901,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                           </div>
                         ` : ""}
                   </div>
-                  ${this._has_appliance1 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container appliance-1">
+                  ${this._has_appliance1 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container appliance1">
                         <span class="label"> Appliance 1 </span>
                         <div class="circle">
                           ${this._appliance1_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
@@ -8940,10 +8942,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             </div>
             <div class="circle-container home">
               <div class="circle">
-              ${this._house_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
-                      >${this.extractStringFromId(this._house_info_id)}</span
-                    >` : ""}
-              <ha-svg-icon .path=${0, $04557c061247a0a6$export$234f98a0020e0d42}></ha-svg-icon>
+                ${this._house_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                        >${this.extractStringFromId(this._house_info_id)}</span
+                      >` : ""}
+                <ha-svg-icon .path=${0, $04557c061247a0a6$export$234f98a0020e0d42}></ha-svg-icon>
                 ${this._to_house_power} kW
                 <svg>
                   ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
@@ -8986,7 +8988,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                           <span class="label">Battery</span>
                         </div>` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="spacer"></div>`}
                     ${this._has_appliance2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
-                          <div class="circle-container appliance-2">
+                          <div class="circle-container appliance2">
                             <div class="circle">
                               ${this._appliance2_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
                                     >${this.extractStringFromId(this._appliance2_info_id)}</span
@@ -8999,14 +9001,16 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                         ` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="spacer"></div>`}
                   </div>
                 ` : ""}
-          </div>
-          <div class="lines ${this._has_battery || this._has_appliance2 ? "high" : ""}">
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="xMidYMid slice"
-            >
-              ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+        </div>
+        <div
+          class="lines ${this._has_battery || this._has_appliance2 ? "high" : ""}"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice"
+          >
+            ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                 <path
                   class="grid"
                   id="grid-to-house"
@@ -9015,24 +9019,24 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 >
                 </path>
                 ${this.renderPowerAnnimation(this._grid_to_house_power, "grid", "#grid-to-house")}
-                `}
-                ${this._has_generation ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
-                    <path
-                      id="generation-to-grid"
-                      class="return"
-                      d="M45,0 v15 c0,35 -10,30 -30,30 h-20"
-                      vector-effect="non-scaling-stroke"
-                    ></path>
-                    ${this.renderPowerAnnimation(this._generation_to_grid_power, "return", "#generation-to-grid")}
-                    <path
-                      id="generation-to-house"
-                      class="solar"
-                      d="M55,0 v15 c0,35 10,30 30,30 h20"
-                      vector-effect="non-scaling-stroke"
-                    ></path>
-                    ${this.renderPowerAnnimation(this._generation_to_house_power, "solar", "#generation-to-house")}
-                  ` : ""}
-                ${this._has_generation && this._has_battery ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+            `}
+            ${this._has_generation ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+                  <path
+                    id="generation-to-grid"
+                    class="return"
+                    d="M45,0 v15 c0,35 -10,30 -30,30 h-20"
+                    vector-effect="non-scaling-stroke"
+                  ></path>
+                  ${this.renderPowerAnnimation(this._generation_to_grid_power, "return", "#generation-to-grid")}
+                  <path
+                    id="generation-to-house"
+                    class="solar"
+                    d="M55,0 v15 c0,35 10,30 30,30 h20"
+                    vector-effect="non-scaling-stroke"
+                  ></path>
+                  ${this.renderPowerAnnimation(this._generation_to_house_power, "solar", "#generation-to-house")}
+                ` : ""}
+            ${this._has_generation && this._has_battery ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                     <path
                       id="solar-to-battery"
                       class="battery-solar"
@@ -9041,7 +9045,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                     ></path>
                     ${this.renderPowerAnnimation(this._generation_to_battery_power, "battery-solar", "#solar-to-battery")}
                   ` : ""}
-                ${this._has_battery ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+            ${this._has_battery ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                     <path
                       id="battery-to-house"
                       class="battery-house"
@@ -9057,23 +9061,25 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                     ></path>
                     ${this.renderPowerAnnimation(this._battery_to_grid_power, "battery-from-grid", "#battery-to-grid")}
                   ` : ""}
-            </svg>
-          </div>
-          ${this._has_appliance1 || this._has_appliance2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="lines right">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    preserveAspectRatio="xMidYMid slice"
-                    viewBox="0 0 50 100"
-                  >
-                    ${this._has_appliance1 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
-                <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
-                ${this.renderPowerAnnimation(this._to_appliance1_power, "grid", "#equipment-1")}` : ""}
-                    ${this._has_appliance2 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
-                <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
-                ${this.renderPowerAnnimation(this._to_appliance2_power, "grid", "#equipment-2")}` : ""}
-                  </svg>
-                </div>` : ""}
+          </svg>
         </div>
+        <div
+          class="lines right ${this._has_battery || this._has_appliance2 ? "high" : ""}"
+          >
+          ${this._has_appliance1 || this._has_appliance2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="xMidYMid slice"
+                  viewBox="0 0 50 100"
+                >
+                  ${this._has_appliance1 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+                      <path id="equipment1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
+                      ${this.renderPowerAnnimation(this._to_appliance1_power, "grid", "#equipment1")}` : ""}
+                  ${this._has_appliance2 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+                      <path id="equipment2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
+                      ${this.renderPowerAnnimation(this._to_appliance2_power, "grid", "#equipment2")}` : ""}
+                </svg>` : ""}
+        </div>
+      </div>
       </ha-card>
     `;
     }
