@@ -88,8 +88,8 @@ export class TestlaPowerDistribution extends LitElement {
   // private property
   private _hass;
   private _has_battery: boolean;
-  private _has_equipment1: boolean;
-  private _has_equipment2: boolean;
+  private _has_appliance1: boolean;
+  private _has_appliance2: boolean;
   private _has_solar: boolean;
 
   // lifecycle interface
@@ -113,6 +113,9 @@ export class TestlaPowerDistribution extends LitElement {
     this._appliance1_power_id = config.appliance1_power_id;
     this._appliance2_info_id = config.appliance2_info_id;
     this._appliance2_power_id = config.appliance2_power_id;
+
+    this._has_appliance1 = !(this._appliance1_power_id === "");
+    this._has_appliance2 = !(this._appliance2_power_id === "");
 
     // call set hass() to immediately adjust to a changed entity
     // while editing the entity in the card editor
@@ -322,22 +325,27 @@ export class TestlaPowerDistribution extends LitElement {
                 ${this._from_generation_power} kW
               </div>
             </div>
-            <div class="circle-container appliance-1">
-              <span class="label"> Appliance 1 </span>
-              <div class="circle">
-                ${
-                  this._appliance1_info_id
-                    ? html`<span
-                        >${this.extractStringFromId(
-                          this._appliance1_info_id
-                        )}</span
-                      >`
-                    : ""
-                }
-                <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                ${this._to_appliance1_power} kW
-              </div>
-            </div>
+            ${
+              this._has_appliance1
+                ? html` <div class="circle-container appliance-1">
+                    <span class="label"> Appliance 1 </span>
+                    <div class="circle">
+                      ${
+                        this._appliance1_info_id
+                          ? html`<span
+                              >${this.extractStringFromId(
+                                this._appliance1_info_id
+                              )}</span
+                            >`
+                          : ""
+                      }
+                      <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
+                      ${this._to_appliance1_power} kW
+                    </div>
+                  </div>
+            </div>`
+                : html`<div class="spacer"></div>`
+            }
           </div>
           <div class="row">
             <div class="circle-container grid">
@@ -439,22 +447,26 @@ export class TestlaPowerDistribution extends LitElement {
               </div>
               <span class="label">Battery</span>
             </div>
-            <div class="circle-container appliance-2">
-              <div class="circle">
-                ${
-                  this._appliance2_info_id
-                    ? html`<span
-                        >${this.extractStringFromId(
-                          this._appliance2_info_id
-                        )}</span
-                      >`
-                    : ""
-                }
-                <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                ${this._to_appliance2_power} kW
-              </div>
-              <span class="label"> Appliance 2 </span>
-            </div>
+            ${
+              this._has_appliance2
+                ? html`
+                    <div class="circle-container appliance-2">
+                      <div class="circle">
+                        ${this._appliance2_info_id
+                          ? html`<span
+                              >${this.extractStringFromId(
+                                this._appliance2_info_id
+                              )}</span
+                            >`
+                          : ""}
+                        <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
+                        ${this._to_appliance2_power} kW
+                      </div>
+                      <span class="label"> Appliance 2 </span>
+                    </div>
+                  `
+                : html`<div class="spacer"></div>`
+            }
           </div>
 
           </div>
@@ -535,24 +547,36 @@ export class TestlaPowerDistribution extends LitElement {
               `}
             </svg>
           </div>
-          <div class="lines right">
-             <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 50 100">
-              ${svg`
+          ${
+            this._has_appliance1 || this._has_appliance2
+              ? html`<div class="lines right">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="xMidYMid slice"
+                    viewBox="0 0 50 100"
+                  >
+                    ${this._has_appliance1
+                      ? svg`
                 <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
-                <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
                 ${this.renderPowerAnnimation(
                   this._to_appliance1_power,
                   "grid",
                   "#equipment-1"
-                )}
+                )}`
+                      : ""}
+                    ${this._has_appliance2
+                      ? svg`
+                <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
                 ${this.renderPowerAnnimation(
                   this._to_appliance2_power,
                   "grid",
                   "#equipment-2"
-                )}
-              `}
-            </svg>
-          </div>
+                )}`
+                      : ""}
+                  </svg>
+                </div>`
+              : ""
+          }
         </div>
       </ha-card>
     `;

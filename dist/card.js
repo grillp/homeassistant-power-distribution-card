@@ -8791,6 +8791,8 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._appliance1_power_id = config.appliance1_power_id;
         this._appliance2_info_id = config.appliance2_info_id;
         this._appliance2_power_id = config.appliance2_power_id;
+        this._has_appliance1 = !(this._appliance1_power_id === "");
+        this._has_appliance2 = !(this._appliance2_power_id === "");
         // call set hass() to immediately adjust to a changed entity
         // while editing the entity in the card editor
         if (this._hass) this.hass = this._hass;
@@ -8803,10 +8805,8 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
     }
     extractStringFromId(entity_id) {
         if (entity_id) {
-            if (this._hass.states[entity_id]) {
-                console.log(this._hass.states[entity_id]);
-                return this._hass.formatEntityState(this._hass.states[entity_id]);
-            } else return entity_id;
+            if (this._hass.states[entity_id]) return this._hass.formatEntityState(this._hass.states[entity_id]);
+            else return entity_id;
         } else return undefined;
     }
     set hass(hass) {
@@ -8912,16 +8912,17 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 ${this._from_generation_power} kW
               </div>
             </div>
-            <div class="circle-container appliance-1">
-              <span class="label"> Appliance 1 </span>
-              <div class="circle">
-                ${this._appliance1_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
-                        >${this.extractStringFromId(this._appliance1_info_id)}</span
-                      >` : ""}
-                <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
-                ${this._to_appliance1_power} kW
-              </div>
-            </div>
+            ${this._has_appliance1 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container appliance-1">
+                    <span class="label"> Appliance 1 </span>
+                    <div class="circle">
+                      ${this._appliance1_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                              >${this.extractStringFromId(this._appliance1_info_id)}</span
+                            >` : ""}
+                      <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
+                      ${this._to_appliance1_power} kW
+                    </div>
+                  </div>
+            </div>` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="spacer"></div>`}
           </div>
           <div class="row">
             <div class="circle-container grid">
@@ -8997,16 +8998,18 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
               </div>
               <span class="label">Battery</span>
             </div>
-            <div class="circle-container appliance-2">
-              <div class="circle">
-                ${this._appliance2_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
-                        >${this.extractStringFromId(this._appliance2_info_id)}</span
-                      >` : ""}
-                <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
-                ${this._to_appliance2_power} kW
-              </div>
-              <span class="label"> Appliance 2 </span>
-            </div>
+            ${this._has_appliance2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+                    <div class="circle-container appliance-2">
+                      <div class="circle">
+                        ${this._appliance2_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                              >${this.extractStringFromId(this._appliance2_info_id)}</span
+                            >` : ""}
+                        <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
+                        ${this._to_appliance2_power} kW
+                      </div>
+                      <span class="label"> Appliance 2 </span>
+                    </div>
+                  ` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="spacer"></div>`}
           </div>
 
           </div>
@@ -9063,16 +9066,20 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
               `}
             </svg>
           </div>
-          <div class="lines right">
-             <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 50 100">
-              ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+          ${this._has_appliance1 || this._has_appliance2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="lines right">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="xMidYMid slice"
+                    viewBox="0 0 50 100"
+                  >
+                    ${this._has_appliance1 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                 <path id="equipment-1" vector-effect="non-scaling-stroke" d="M25,25 v-20" class=""></path>
+                ${this.renderPowerAnnimation(this._to_appliance1_power, "grid", "#equipment-1")}` : ""}
+                    ${this._has_appliance2 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                 <path id="equipment-2" vector-effect="non-scaling-stroke" d="M25,75 v20"" class=""></path>
-                ${this.renderPowerAnnimation(this._to_appliance1_power, "grid", "#equipment-1")}
-                ${this.renderPowerAnnimation(this._to_appliance2_power, "grid", "#equipment-2")}
-              `}
-            </svg>
-          </div>
+                ${this.renderPowerAnnimation(this._to_appliance2_power, "grid", "#equipment-2")}` : ""}
+                  </svg>
+                </div>` : ""}
         </div>
       </ha-card>
     `;
