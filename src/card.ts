@@ -33,7 +33,7 @@ interface Config extends LovelaceCardConfig {
   grid_info_id: string;
   battery_info_id: string;
   house_info_id: string;
-  solar_info_id: string;
+  generation_info_id: string;
   appliance1_info_id: string;
   appliance2_info_id: string;
 
@@ -107,10 +107,11 @@ export class TestlaPowerDistribution extends LitElement {
     this._battery_info_id = config.battery_info_id;
     this._house_info_id = config.house_info_id;
     this._grid_info_id = config.grid_info_id;
+    this._generation_info_id = config.generation_info_id;
     this._generation_icon = config.generation_icon;
-    this._appliance1_info_id = config.appliance1_state_id;
+    this._appliance1_info_id = config.appliance1_info_id;
     this._appliance1_power_id = config.appliance1_power_id;
-    this._appliance2_info_id = config.appliance2_state_id;
+    this._appliance2_info_id = config.appliance2_info_id;
     this._appliance2_power_id = config.appliance2_power_id;
 
     // call set hass() to immediately adjust to a changed entity
@@ -135,7 +136,7 @@ export class TestlaPowerDistribution extends LitElement {
   private extractStringFromId(entity_id: string): string {
     if (entity_id) {
       if (this._hass.states[entity_id]) {
-        return this._hass.formatEntityState(entity_id);
+        return this._hass.formatEntityState(this._hass.states[entity_id]);
       } else {
         return entity_id;
       }
@@ -251,23 +252,23 @@ export class TestlaPowerDistribution extends LitElement {
     style: string,
     href: string
   ): any {
-    if (power > 0 && this._total_flow_power > 0) {
-      console.log(`${style}:total ${this._total_flow_power}`);
-      console.log(`${style}:power ${power}`);
-      console.log(
-        `${style}:ratio ${
-          power / (this._total_flow_power == power ? 6 : this._total_flow_power)
-        }`
-      );
-      console.log(
-        `${style}:time ${
-          6 -
-          (power /
-            (this._total_flow_power == power ? 6 : this._total_flow_power)) *
-            6
-        }s`
-      );
-    }
+    // if (power > 0 && this._total_flow_power > 0) {
+    //   console.log(`${style}:total ${this._total_flow_power}`);
+    //   console.log(`${style}:power ${power}`);
+    //   console.log(
+    //     `${style}:ratio ${
+    //       power / (this._total_flow_power == power ? 6 : this._total_flow_power)
+    //     }`
+    //   );
+    //   console.log(
+    //     `${style}:time ${
+    //       6 -
+    //       (power /
+    //         (this._total_flow_power == power ? 6 : this._total_flow_power)) *
+    //         6
+    //     }s`
+    //   );
+    // }
 
     return power > 0 && this._total_flow_power > 0
       ? svg`<circle
@@ -308,6 +309,15 @@ export class TestlaPowerDistribution extends LitElement {
             <div class="circle-container solar">
               <span class="label"> Solar </span>
               <div class="circle">
+                ${
+                  this._generation_info_id
+                    ? html`<span
+                        >${this.extractStringFromId(
+                          this._generation_info_id
+                        )}</span
+                      >`
+                    : ""
+                }
                 <ha-svg-icon .path=${mdiSolarPower}></ha-svg-icon>
                 ${this._from_generation_power} kW
               </div>
@@ -315,6 +325,15 @@ export class TestlaPowerDistribution extends LitElement {
             <div class="circle-container appliance-1">
               <span class="label"> Appliance 1 </span>
               <div class="circle">
+                ${
+                  this._appliance1_info_id
+                    ? html`<span
+                        >${this.extractStringFromId(
+                          this._appliance1_info_id
+                        )}</span
+                      >`
+                    : ""
+                }
                 <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
                 ${this._to_appliance1_power} kW
               </div>
@@ -323,6 +342,13 @@ export class TestlaPowerDistribution extends LitElement {
           <div class="row">
             <div class="circle-container grid">
               <div class="circle">
+                ${
+                  this._grid_info_id
+                    ? html`<span
+                        >${this.extractStringFromId(this._grid_info_id)}</span
+                      >`
+                    : ""
+                }
                 <ha-svg-icon .path=${mdiTransmissionTower}></ha-svg-icon>
                 ${
                   this._from_grid_power >= 0
@@ -352,7 +378,14 @@ export class TestlaPowerDistribution extends LitElement {
             </div>
             <div class="circle-container home">
               <div class="circle">
-                <ha-svg-icon .path=${mdiHome}></ha-svg-icon>
+              ${
+                this._house_info_id
+                  ? html`<span
+                      >${this.extractStringFromId(this._house_info_id)}</span
+                    >`
+                  : ""
+              }
+              <ha-svg-icon .path=${mdiHome}></ha-svg-icon>
                 ${this._to_house_power} kW
                 <svg>
                   ${svg`
@@ -369,6 +402,15 @@ export class TestlaPowerDistribution extends LitElement {
             <div class="spacer"></div>
             <div class="circle-container battery">
               <div class="circle">
+                ${
+                  this._battery_info_id
+                    ? html`<span
+                        >${this.extractStringFromId(
+                          this._battery_info_id
+                        )}</span
+                      >`
+                    : ""
+                }
                 <ha-svg-icon .path=${mdiBatteryHigh}></ha-svg-icon>
                 ${
                   this._to_battery_power >= 0
@@ -399,6 +441,15 @@ export class TestlaPowerDistribution extends LitElement {
             </div>
             <div class="circle-container appliance-2">
               <div class="circle">
+                ${
+                  this._appliance2_info_id
+                    ? html`<span
+                        >${this.extractStringFromId(
+                          this._appliance2_info_id
+                        )}</span
+                      >`
+                    : ""
+                }
                 <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
                 ${this._to_appliance2_power} kW
               </div>

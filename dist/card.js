@@ -8785,10 +8785,11 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._battery_info_id = config.battery_info_id;
         this._house_info_id = config.house_info_id;
         this._grid_info_id = config.grid_info_id;
+        this._generation_info_id = config.generation_info_id;
         this._generation_icon = config.generation_icon;
-        this._appliance1_info_id = config.appliance1_state_id;
+        this._appliance1_info_id = config.appliance1_info_id;
         this._appliance1_power_id = config.appliance1_power_id;
-        this._appliance2_info_id = config.appliance2_state_id;
+        this._appliance2_info_id = config.appliance2_info_id;
         this._appliance2_power_id = config.appliance2_power_id;
         // call set hass() to immediately adjust to a changed entity
         // while editing the entity in the card editor
@@ -8802,8 +8803,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
     }
     extractStringFromId(entity_id) {
         if (entity_id) {
-            if (this._hass.states[entity_id]) return this._hass.formatEntityState(entity_id);
-            else return entity_id;
+            if (this._hass.states[entity_id]) {
+                console.log(this._hass.states[entity_id]);
+                return this._hass.formatEntityState(this._hass.states[entity_id]);
+            } else return entity_id;
         } else return undefined;
     }
     set hass(hass) {
@@ -8856,12 +8859,23 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         return return_values;
     }
     renderPowerAnnimation(power, style, href) {
-        if (power > 0 && this._total_flow_power > 0) {
-            console.log(`${style}:total ${this._total_flow_power}`);
-            console.log(`${style}:power ${power}`);
-            console.log(`${style}:ratio ${power / (this._total_flow_power == power ? 6 : this._total_flow_power)}`);
-            console.log(`${style}:time ${6 - power / (this._total_flow_power == power ? 6 : this._total_flow_power) * 6}s`);
-        }
+        // if (power > 0 && this._total_flow_power > 0) {
+        //   console.log(`${style}:total ${this._total_flow_power}`);
+        //   console.log(`${style}:power ${power}`);
+        //   console.log(
+        //     `${style}:ratio ${
+        //       power / (this._total_flow_power == power ? 6 : this._total_flow_power)
+        //     }`
+        //   );
+        //   console.log(
+        //     `${style}:time ${
+        //       6 -
+        //       (power /
+        //         (this._total_flow_power == power ? 6 : this._total_flow_power)) *
+        //         6
+        //     }s`
+        //   );
+        // }
         return power > 0 && this._total_flow_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
         r="1"
         class="${style}"
@@ -8891,6 +8905,9 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             <div class="circle-container solar">
               <span class="label"> Solar </span>
               <div class="circle">
+                ${this._generation_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                        >${this.extractStringFromId(this._generation_info_id)}</span
+                      >` : ""}
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$709e1cf7b54ff1ad}></ha-svg-icon>
                 ${this._from_generation_power} kW
               </div>
@@ -8898,6 +8915,9 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             <div class="circle-container appliance-1">
               <span class="label"> Appliance 1 </span>
               <div class="circle">
+                ${this._appliance1_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                        >${this.extractStringFromId(this._appliance1_info_id)}</span
+                      >` : ""}
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
                 ${this._to_appliance1_power} kW
               </div>
@@ -8906,6 +8926,9 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
           <div class="row">
             <div class="circle-container grid">
               <div class="circle">
+                ${this._grid_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                        >${this.extractStringFromId(this._grid_info_id)}</span
+                      >` : ""}
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$844b17e409f9e79a}></ha-svg-icon>
                 ${this._from_grid_power >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                         <span class="consumption">
@@ -8929,7 +8952,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             </div>
             <div class="circle-container home">
               <div class="circle">
-                <ha-svg-icon .path=${0, $04557c061247a0a6$export$234f98a0020e0d42}></ha-svg-icon>
+              ${this._house_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                      >${this.extractStringFromId(this._house_info_id)}</span
+                    >` : ""}
+              <ha-svg-icon .path=${0, $04557c061247a0a6$export$234f98a0020e0d42}></ha-svg-icon>
                 ${this._to_house_power} kW
                 <svg>
                   ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
@@ -8946,6 +8972,9 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             <div class="spacer"></div>
             <div class="circle-container battery">
               <div class="circle">
+                ${this._battery_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                        >${this.extractStringFromId(this._battery_info_id)}</span
+                      >` : ""}
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$3b4ef04a2844e473}></ha-svg-icon>
                 ${this._to_battery_power >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                         <span class="battery-in">
@@ -8970,6 +8999,9 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             </div>
             <div class="circle-container appliance-2">
               <div class="circle">
+                ${this._appliance2_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                        >${this.extractStringFromId(this._appliance2_info_id)}</span
+                      >` : ""}
                 <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
                 ${this._to_appliance2_power} kW
               </div>
@@ -9190,7 +9222,7 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
                 <div class="row"><label class="label cell" for="grid_info_id">grid_info_id:</label><input @change="${this.handleChangedEvent}" id="grid_info_id" value="${this._config.grid_info_id}"></input></div>
                 <div class="row"><label class="label cell" for="battery_info_id">battery_info_id:</label><input @change="${this.handleChangedEvent}" id="battery_info_id" value="${this._config.battery_info_id}"></input></div>
                 <div class="row"><label class="label cell" for="house_info_id">house_info_id:</label><input @change="${this.handleChangedEvent}" id="house_info_id" value="${this._config.house_info_id}"></input></div>
-                <div class="row"><label class="label cell" for="solar_info_id">solar_info_id:</label><input @change="${this.handleChangedEvent}" id="solar_info_id" value="${this._config.solar_info_id}"></input></div>
+                <div class="row"><label class="label cell" for="generation_info_id">generation_info_id:</label><input @change="${this.handleChangedEvent}" id="generation_info_id" value="${this._config.generation_info_id}"></input></div>
                 <div class="row"><label class="label cell" for="appliance1_info_id">appliance1_info_id:</label><input @change="${this.handleChangedEvent}" id="appliance1_info_id" value="${this._config.appliance1_info_id}"></input></div>
                 <div class="row"><label class="label cell" for="appliance2_info_id">appliance2_info_id:</label><input @change="${this.handleChangedEvent}" id="appliance2_info_id" value="${this._config.appliance2_info_id}"></input></div>
                 <div class="row"><label class="label cell" for="generation_icon">generation_icon:</label><input @change="${this.handleChangedEvent}" id="generation_icon" value="${this._config.generation_icon}"></input></div>
@@ -9202,41 +9234,7 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         const target = changedEvent.target;
         // this._config is readonly, copy needed
         const newConfig = Object.assign({}, this._config);
-        console.log("ID:" + target.id);
-        console.log("value:" + target.value);
         newConfig[target.id] = target.value;
-        // if (target.id == "grid_to_house_id") {
-        //   newConfig.grid_to_house_id = target.value;
-        // } else if (target.id == "generation_to_grid_id") {
-        //   newConfig.generation_to_grid_id = target.value;
-        // } else if (target.id == "generation_to_battery_id") {
-        //   newConfig.generation_to_battery_id = target.value;
-        // } else if (target.id == "generation_to_house_id") {
-        //   newConfig.generation_to_house_id = target.value;
-        // } else if (target.id == "battery_to_house_id") {
-        //   newConfig.battery_to_house_id = target.value;
-        // } else if (target.id == "battery_to_grid_id") {
-        //   newConfig.battery_to_grid_id = target.value;
-        // } else if (target.id == "appliance1_power_id") {
-        //   newConfig.appliance1_power_id = target.value;
-        // } else if (target.id == "appliance2_power_id") {
-        //   newConfig.appliance2_power_id = target.value;
-        // } else if (target.id == "grid_info_id") {
-        //   newConfig.grid_info_id = target.value;
-        // } else if (target.id == "battery_info_id") {
-        //   newConfig.battery_info_id = target.value;
-        // } else if (target.id == "house_info_id") {
-        //   newConfig.house_info_id = target.value;
-        // } else if (target.id == "solar_info_id") {
-        //   newConfig.solar_info_id = target.value;
-        // } else if (target.id == "appliance1_info_id") {
-        //   newConfig.appliance1_info_id = target.value;
-        // } else if (target.id == "appliance2_info_id") {
-        //   newConfig.appliance2_info_id = target.value;
-        // } else if (target.id == "generation_icon") {
-        //   newConfig.generation_icon = target.value;
-        // }
-        console.log(newConfig);
         const messageEvent = new CustomEvent("config-changed", {
             detail: {
                 config: newConfig
