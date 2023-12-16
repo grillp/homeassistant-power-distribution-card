@@ -328,7 +328,9 @@ export class TestlaPowerDistribution extends LitElement {
                   <div class="circle-container solar">
                     ${this._has_generation
                       ? html`
-                          <span class="label"> ${this._generation_title} </span>
+                          <span class="label">
+                            ${this.extractStringFromId(this._generation_title)}
+                          </span>
                           <div class="circle">
                             ${this._generation_info_id
                               ? html`<span
@@ -345,7 +347,9 @@ export class TestlaPowerDistribution extends LitElement {
                   </div>
                   ${this._has_appliance1
                     ? html` <div class="circle-container appliance1">
-                        <span class="label"> ${this._appliance1_title} </span>
+                        <span class="label"> ${this.extractStringFromId(
+                          this._appliance1_title
+                        )} </span>
                         <div class="circle">
                           ${
                             this._appliance1_info_id
@@ -400,7 +404,9 @@ export class TestlaPowerDistribution extends LitElement {
                       `
                 }
               </div>
-              <span class="label"> ${this._grid_title} </span>
+              <span class="label"> ${this.extractStringFromId(
+                this._grid_title
+              )} </span>
             </div>
             <div class="circle-container home">
               <div class="circle">
@@ -421,7 +427,9 @@ export class TestlaPowerDistribution extends LitElement {
                   `}
                 </svg>
               </div>
-              <span class="label"> ${this._home_title} </span>
+              <span class="label"> ${this.extractStringFromId(
+                this._home_title
+              )} </span>
             </div>
           </div>
           ${
@@ -462,7 +470,11 @@ export class TestlaPowerDistribution extends LitElement {
                                   </span>
                                 `}
                           </div>
-                          <span class="label">${this._battery_title}</span>
+                          <span class="label"
+                            >${this.extractStringFromId(
+                              this._battery_title
+                            )}</span
+                          >
                         </div>`
                       : html`<div class="spacer"></div>`}
                     ${this._has_appliance2
@@ -480,7 +492,9 @@ export class TestlaPowerDistribution extends LitElement {
                               ${this._to_appliance2_power} kW
                             </div>
                             <span class="label">
-                              ${this._appliance2_title}
+                              ${this.extractStringFromId(
+                                this._appliance2_title
+                              )}
                             </span>
                           </div>
                         `
