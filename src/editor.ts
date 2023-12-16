@@ -26,7 +26,7 @@ export class TestlaPowerDistributionEditor extends LitElement {
     }
   `;
 
-  iconPicker(name: string): TemplateResult {
+  iconPickerRow(name: string): TemplateResult {
     return html`
       <div class="row">
         <label class="label cell" for="{${name}}">${name}</label>
@@ -40,7 +40,7 @@ export class TestlaPowerDistributionEditor extends LitElement {
     `;
   }
 
-  entryField(name: string, label: string): TemplateResult {
+  inputRow(name: string, label: string): TemplateResult {
     return html`
       <div class="row">
         </div>
@@ -60,44 +60,46 @@ export class TestlaPowerDistributionEditor extends LitElement {
         <h2>Card Title</h2>
         Entity or string
       </div>
-      ${this.entryField("card_title", "Title")}
+      ${this.inputRow("card_title", "Title")}
       <div class="row">
         <h2>Power Entites</h2>
         Can be an entity id or a positive numeric value. All expected to in kW.
       </div>
-      ${this.entryField("grid_to_load_id", "Grid → Load")}
-      ${this.entryField("generation_to_grid_id", "Generation → Grid")}
-      ${this.entryField("generation_to_storage_id", "Generation → Storage")}
-      ${this.entryField("generation_to_load_id", "Generation → Load")}
-      ${this.entryField("storage_to_load_id", "Storage → Load")}
-      ${this.entryField("storage_to_grid_id", "Storage → Grid")}
-      ${this.entryField("load_top_power_id", "Load → Top Load")}
-      ${this.entryField("load_bottom_power_id", "Load → Bottom Load")}
+      ${this.inputRow("grid_to_load_id", "Grid → Load")}
+      ${this.inputRow("generation_to_grid_id", "Generation → Grid")}
+      ${this.inputRow("generation_to_storage_id", "Generation → Storage")}
+      ${this.inputRow("generation_to_load_id", "Generation → Load")}
+      ${this.inputRow("storage_to_load_id", "Storage → Load")}
+      ${this.inputRow("storage_to_grid_id", "Storage → Grid")}
+      ${this.inputRow("load_top_power_id", "Load → Top Load")}
+      ${this.inputRow("load_bottom_power_id", "Load → Bottom Load")}
       <div class="row">
         <h2>Titles</h2>
         Can be an entity id or a positive numeric value.
       </div>
-      ${this.entryField("grid_title", "Grid")}
-      ${this.entryField("load_title", "Load")}
-      ${this.entryField("generation_title", "Generation")}
-      ${this.entryField("storage_title", "Storage")}
-      ${this.entryField("load_top_title", "Load Top")}
-      ${this.entryField("load_bottom_title", "Load Bottom")}
+      ${this.inputRow("grid_title", "Grid")}
+      ${this.inputRow("load_title", "Load")}
+      ${this.inputRow("generation_title", "Generation")}
+      ${this.inputRow("storage_title", "Storage")}
+      ${this.inputRow("load_top_title", "Load Top")}
+      ${this.inputRow("load_bottom_title", "Load Bottom")}
       <div class="row">
         <h2>Extra Info</h2>
         Appears above the Icon in the Circle. Can be an entity id or a string.
       </div>
-      ${this.entryField("grid_info_id", "Grid")}
-      ${this.entryField("load_info_id", "Load")}
-      ${this.entryField("generation_info_id", "Generation")}
-      ${this.entryField("storage_info_id", "Storage")}
-      ${this.entryField("load_top_info_id", "Load Top")}
-      ${this.entryField("load_bottom_info_id", "Load Bottom")}
+      ${this.inputRow("grid_info_id", "Grid")}
+      ${this.inputRow("load_info_id", "Load")}
+      ${this.inputRow("generation_info_id", "Generation")}
+      ${this.inputRow("storage_info_id", "Storage")}
+      ${this.inputRow("load_top_info_id", "Load Top")}
+      ${this.inputRow("load_bottom_info_id", "Load Bottom")}
 
       <div class="row"><h2>Icons</h2></div>
-      ${this.iconPicker("grid_icon")} ${this.iconPicker("generation_icon")}
-      ${this.iconPicker("storage_icon")} ${this.iconPicker("load_icon")}
-      ${this.iconPicker("load_top_icon")} ${this.iconPicker("load_bottom_icon")}
+      ${this.iconPickerRow("grid_icon")}
+      ${this.iconPickerRow("generation_icon")}
+      ${this.iconPickerRow("storage_icon")} ${this.iconPickerRow("load_icon")}
+      ${this.iconPickerRow("load_top_icon")}
+      ${this.iconPickerRow("load_bottom_icon")}
     </form>`;
   }
 
