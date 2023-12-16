@@ -37,6 +37,13 @@ interface Config extends LovelaceCardConfig {
   appliance1_info_id: string;
   appliance2_info_id: string;
 
+  grid_title: string;
+  generation_title: string;
+  battery_title: string;
+  home_title: string;
+  appliance1_title: string;
+  appliance2_title: string;
+
   generation_icon: string;
 }
 
@@ -54,6 +61,7 @@ export class TestlaPowerDistribution extends LitElement {
   @state() private _generation_to_battery_power_id: string | null;
   @state() private _generation_to_house_power_id: string | null;
   @state() private _battery_to_house_power_id: string | null;
+  @state() private _battery_to_grid_power_id: string | null;
   @state() private _appliance1_power_id: string | null;
   @state() private _appliance2_power_id: string | null;
 
@@ -61,10 +69,17 @@ export class TestlaPowerDistribution extends LitElement {
   @state() private _grid_info_id: string | null;
   @state() private _generation_info_id: string | null;
   @state() private _battery_info_id: string | null;
-  @state() private _battery_to_grid_power_id: string | null;
   @state() private _house_info_id: string | null;
   @state() private _appliance1_info_id: string | null;
   @state() private _appliance2_info_id: string | null;
+
+  // Extra Info Entities
+  @state() private _grid_title: string | null;
+  @state() private _generation_title: string | null;
+  @state() private _battery_title: string | null;
+  @state() private _home_title: string | null;
+  @state() private _appliance1_title: string | null;
+  @state() private _appliance2_title: string | null;
 
   // Entity Values
   @state() private _grid_to_house_power: number;
@@ -113,6 +128,13 @@ export class TestlaPowerDistribution extends LitElement {
     this._appliance1_power_id = config.appliance1_power_id;
     this._appliance2_info_id = config.appliance2_info_id;
     this._appliance2_power_id = config.appliance2_power_id;
+
+    this._grid_title = config.grid_title;
+    this._generation_title = config.generation_title;
+    this._battery_title = config.battery_title;
+    this._home_title = config.home_title;
+    this._appliance1_title = config.appliance1_title;
+    this._appliance2_title = config.appliance2_title;
 
     this._has_generation = !(
       this._generation_to_grid_power_id === "" &&
@@ -306,7 +328,7 @@ export class TestlaPowerDistribution extends LitElement {
                   <div class="circle-container solar">
                     ${this._has_generation
                       ? html`
-                          <span class="label"> Solar </span>
+                          <span class="label"> ${this._generation_title} </span>
                           <div class="circle">
                             ${this._generation_info_id
                               ? html`<span
@@ -323,7 +345,7 @@ export class TestlaPowerDistribution extends LitElement {
                   </div>
                   ${this._has_appliance1
                     ? html` <div class="circle-container appliance1">
-                        <span class="label"> Appliance 1 </span>
+                        <span class="label"> ${this._appliance1_title} </span>
                         <div class="circle">
                           ${
                             this._appliance1_info_id
@@ -378,7 +400,7 @@ export class TestlaPowerDistribution extends LitElement {
                       `
                 }
               </div>
-              <span class="label"> Grid </span>
+              <span class="label"> ${this._grid_title} </span>
             </div>
             <div class="circle-container home">
               <div class="circle">
@@ -399,7 +421,7 @@ export class TestlaPowerDistribution extends LitElement {
                   `}
                 </svg>
               </div>
-              <span class="label"> Home </span>
+              <span class="label"> ${this._home_title} </span>
             </div>
           </div>
           ${
@@ -440,7 +462,7 @@ export class TestlaPowerDistribution extends LitElement {
                                   </span>
                                 `}
                           </div>
-                          <span class="label">Battery</span>
+                          <span class="label">${this._battery_title}</span>
                         </div>`
                       : html`<div class="spacer"></div>`}
                     ${this._has_appliance2
@@ -457,7 +479,9 @@ export class TestlaPowerDistribution extends LitElement {
                               <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
                               ${this._to_appliance2_power} kW
                             </div>
-                            <span class="label"> Appliance 2 </span>
+                            <span class="label">
+                              ${this._appliance2_title}
+                            </span>
                           </div>
                         `
                       : html`<div class="spacer"></div>`}
@@ -625,6 +649,13 @@ export class TestlaPowerDistribution extends LitElement {
       appliance1_power_id: "1",
       appliance2_state_id: "1",
       appliance2_power_id: "1",
+
+      grid_title: "Grid",
+      generation_title: "Solar",
+      battery_title: "Battery",
+      home_title: "House",
+      appliance1_title: "Appliance 1",
+      appliance2_title: "Appliance 2",
     };
   }
 }
