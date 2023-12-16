@@ -50,7 +50,12 @@ export class TestlaPowerDistributionEditor extends LitElement {
       <div class="row"><label class="label cell" for="equipment1_title">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="equipment1_title" value="${this._config.equipment1_title}"></input></div>
       <div class="row"><label class="label cell" for="equipment2_title">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="equipment2_title" value="${this._config.equipment2_title}"></input></div>
       <div class="row"><h2>Icons</h2></div>
+      <div class="row"><label class="label cell" for="grid_icon">grid_icon:</label><input @change="${this.handleChangedEvent}" id="grid_icon" value="${this._config.grid_icon}"></input></div>
       <div class="row"><label class="label cell" for="generation_icon">generation_icon:</label><input @change="${this.handleChangedEvent}" id="generation_icon" value="${this._config.generation_icon}"></input></div>
+      <div class="row"><label class="label cell" for="battery_icon">battery_icon:</label><input @change="${this.handleChangedEvent}" id="battery_icon" value="${this._config.battery_icon}"></input></div>
+      <div class="row"><label class="label cell" for="load_icon">load_icon:</label><input @change="${this.handleChangedEvent}" id="load_icon" value="${this._config.load_icon}"></input></div>
+      <div class="row"><label class="label cell" for="equipment1_icon">equipment1_icon:</label><input @change="${this.handleChangedEvent}" id="equipment1_icon" value="${this._config.equipment1_icon}"></input></div>
+      <div class="row"><label class="label cell" for="equipment2_icon">equipment2_icon:</label><input @change="${this.handleChangedEvent}" id="equipment2_icon" value="${this._config.equipment2_icon}"></input></div>
     </form>`;
   }
 

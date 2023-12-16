@@ -1,9 +1,6 @@
 import { css } from "lit";
 
 export const styles = css`
-  :host {
-    --mdc-icon-size: 24px;
-  }
   ha-card {
     min-width: 210px;
   }
@@ -116,11 +113,11 @@ export const styles = css`
     text-decoration: none;
     color: var(--primary-text-color);
   }
-  ha-svg-icon {
+  ha-icon {
     padding-bottom: 2px;
   }
-  ha-svg-icon.small {
-    --mdc-icon-size: 12px;
+  ha-icon.small {
+    --mdc-icon-size: 24px;
   }
   .label {
     color: var(--secondary-text-color);
@@ -175,7 +172,7 @@ export const styles = css`
   .low-carbon .circle {
     border-color: var(--energy-non-fossil-color);
   }
-  .low-carbon ha-svg-icon {
+  .low-carbon ha-icon {
     color: var(--energy-non-fossil-color);
   }
   circle.low-carbon {

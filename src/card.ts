@@ -6,21 +6,7 @@ import { state } from "lit/decorators/state";
 
 import { HassEntity } from "home-assistant-js-websocket";
 import { HomeAssistant, LovelaceCardConfig } from "custom-card-helpers";
-import {
-  mdiArrowDown,
-  mdiArrowLeft,
-  mdiArrowRight,
-  mdiArrowUp,
-  mdiBatteryHigh,
-  mdiBatteryMedium,
-  mdiBatteryLow,
-  mdiHome,
-  mdiSolarPower,
-  mdiCarSports,
-  mdiTransmissionTower,
-  mdiCloseOutline,
-  mdiTagHidden,
-} from "@mdi/js";
+import { mdiArrowDown, mdiArrowLeft, mdiArrowRight, mdiArrowUp } from "@mdi/js";
 
 interface Config extends LovelaceCardConfig {
   grid_to_load_id: string;
@@ -46,7 +32,12 @@ interface Config extends LovelaceCardConfig {
   equipment1_title: string;
   equipment2_title: string;
 
+  grid_icon: string;
   generation_icon: string;
+  battery_icon: string;
+  load_icon: string;
+  equipment1_icon: string;
+  equipment2_icon: string;
 }
 
 interface DashValues {
@@ -102,6 +93,11 @@ export class TestlaPowerDistribution extends LitElement {
   @state() private _to_battery_power: number;
 
   @state() private _generation_icon: string;
+  @state() private _grid_icon: string;
+  @state() private _battery_icon: string;
+  @state() private _load_icon: string;
+  @state() private _equipment1_icon: string;
+  @state() private _equipment2_icon: string;
 
   // private property
   private _hass;
@@ -126,7 +122,6 @@ export class TestlaPowerDistribution extends LitElement {
     this._load_info_id = config.load_info_id;
     this._grid_info_id = config.grid_info_id;
     this._generation_info_id = config.generation_info_id;
-    this._generation_icon = config.generation_icon;
     this._equipment1_info_id = config.equipment1_info_id;
     this._equipment1_power_id = config.equipment1_power_id;
     this._equipment2_info_id = config.equipment2_info_id;
@@ -139,6 +134,13 @@ export class TestlaPowerDistribution extends LitElement {
     this._load_title = config.load_title;
     this._equipment1_title = config.equipment1_title;
     this._equipment2_title = config.equipment2_title;
+
+    this._generation_icon = config.generation_icon || "mdi:solar-power";
+    this._load_icon = config.load_icon || "mdi:home";
+    this._battery_icon = config.battery_icon || "mdi:battery-high";
+    this._grid_icon = config.grid_icon || "mdi:transmission-tower";
+    this._equipment1_icon = config.equipment1_icon || "mdi:car-sports";
+    this._equipment2_icon = config.equipment2_icon || "mdi:car-sports";
 
     this._has_generation = !(
       this._generation_to_grid_power_id === "" &&
@@ -343,7 +345,10 @@ export class TestlaPowerDistribution extends LitElement {
                                   )}</span
                                 >`
                               : ""}
-                            <ha-svg-icon .path=${mdiSolarPower}></ha-svg-icon>
+                            <ha-icon
+                              class="small"
+                              icon="${this._generation_icon}"
+                            ></ha-icon>
                             ${this._from_generation_power} kW
                           </div>
                         `
@@ -364,7 +369,9 @@ export class TestlaPowerDistribution extends LitElement {
                                 >`
                               : ""
                           }
-                          <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
+                          <ha-icon class="small" icon="${
+                            this._equipment1_icon
+                          }"></ha-icon>
                           ${this._to_equipment1_power} kW
                         </div>
                       </div>
@@ -383,7 +390,7 @@ export class TestlaPowerDistribution extends LitElement {
                       >`
                     : ""
                 }
-                <ha-svg-icon .path=${mdiTransmissionTower}></ha-svg-icon>
+                <ha-icon class="small" icon="${this._grid_icon}"></ha-icon>
                 ${
                   this._from_grid_power >= 0
                     ? html`
@@ -421,7 +428,7 @@ export class TestlaPowerDistribution extends LitElement {
                       >`
                     : ""
                 }
-                <ha-svg-icon .path=${mdiHome}></ha-svg-icon>
+                <ha-icon class="small" icon="${this._load_icon}"></ha-icon>
                 ${this._to_load_power} kW
                 <svg>
                   ${svg`
@@ -451,7 +458,10 @@ export class TestlaPowerDistribution extends LitElement {
                                   )}</span
                                 >`
                               : ""}
-                            <ha-svg-icon .path=${mdiBatteryHigh}></ha-svg-icon>
+                            <ha-icon
+                              class="small"
+                              icon="${this._battery_icon}"
+                            ></ha-icon>
                             ${this._to_battery_power >= 0
                               ? html`
                                   <span class="battery-in">
@@ -492,7 +502,10 @@ export class TestlaPowerDistribution extends LitElement {
                                     )}</span
                                   >`
                                 : ""}
-                              <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
+                              <ha-icon
+                                class="small"
+                                icon="${this._equipment2_icon}"
+                              ></ha-icon>
                               ${this._to_equipment2_power} kW
                             </div>
                             <span class="label">

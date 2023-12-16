@@ -1078,9 +1078,6 @@ const $ab210b2da7b39b9d$export$f5c524615a7708d6 = {
 
 
 const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$dbf350e5966cf602)`
-  :host {
-    --mdc-icon-size: 24px;
-  }
   ha-card {
     min-width: 210px;
   }
@@ -1193,11 +1190,11 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     text-decoration: none;
     color: var(--primary-text-color);
   }
-  ha-svg-icon {
+  ha-icon {
     padding-bottom: 2px;
   }
-  ha-svg-icon.small {
-    --mdc-icon-size: 12px;
+  ha-icon.small {
+    --mdc-icon-size: 24px;
   }
   .label {
     color: var(--secondary-text-color);
@@ -1252,7 +1249,7 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
   .low-carbon .circle {
     border-color: var(--energy-non-fossil-color);
   }
-  .low-carbon ha-svg-icon {
+  .low-carbon ha-icon {
     color: var(--energy-non-fossil-color);
   }
   circle.low-carbon {
@@ -8788,7 +8785,6 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._load_info_id = config.load_info_id;
         this._grid_info_id = config.grid_info_id;
         this._generation_info_id = config.generation_info_id;
-        this._generation_icon = config.generation_icon;
         this._equipment1_info_id = config.equipment1_info_id;
         this._equipment1_power_id = config.equipment1_power_id;
         this._equipment2_info_id = config.equipment2_info_id;
@@ -8800,6 +8796,12 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._load_title = config.load_title;
         this._equipment1_title = config.equipment1_title;
         this._equipment2_title = config.equipment2_title;
+        this._generation_icon = config.generation_icon || "mdi:solar-power";
+        this._load_icon = config.load_icon || "mdi:home";
+        this._battery_icon = config.battery_icon || "mdi:battery-high";
+        this._grid_icon = config.grid_icon || "mdi:transmission-tower";
+        this._equipment1_icon = config.equipment1_icon || "mdi:car-sports";
+        this._equipment2_icon = config.equipment2_icon || "mdi:car-sports";
         this._has_generation = !(this._generation_to_grid_power_id === "" && this._generation_to_battery_power_id === "" && this._generation_to_load_power_id == "");
         this._has_battery = !(this._battery_to_grid_power_id === "" && this._generation_to_battery_power_id === "" && this._battery_to_load_power_id == "");
         this._has_equipment1 = !(this._equipment1_power_id === "");
@@ -8905,7 +8907,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                             ${this._generation_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
                                   >${this.extractStringFromId(this._generation_info_id)}</span
                                 >` : ""}
-                            <ha-svg-icon .path=${0, $04557c061247a0a6$export$709e1cf7b54ff1ad}></ha-svg-icon>
+                            <ha-icon
+                              class="small"
+                              icon="${this._generation_icon}"
+                            ></ha-icon>
                             ${this._from_generation_power} kW
                           </div>
                         ` : ""}
@@ -8916,7 +8921,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                           ${this._equipment1_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
                                   >${this.extractStringFromId(this._equipment1_info_id)}</span
                                 >` : ""}
-                          <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
+                          <ha-icon class="small" icon="${this._equipment1_icon}"></ha-icon>
                           ${this._to_equipment1_power} kW
                         </div>
                       </div>
@@ -8928,7 +8933,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 ${this._grid_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
                         >${this.extractStringFromId(this._grid_info_id)}</span
                       >` : ""}
-                <ha-svg-icon .path=${0, $04557c061247a0a6$export$844b17e409f9e79a}></ha-svg-icon>
+                <ha-icon class="small" icon="${this._grid_icon}"></ha-icon>
                 ${this._from_grid_power >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                         <span class="consumption">
                           ${this._from_grid_power > 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<ha-svg-icon
@@ -8949,12 +8954,12 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
               </div>
               <span class="label"> ${this.extractStringFromId(this._grid_title)} </span>
             </div>
-            <div class="circle-container home">
+            <div class="circle-container load">
               <div class="circle">
                 ${this._load_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
                         >${this.extractStringFromId(this._load_info_id)}</span
                       >` : ""}
-                <ha-svg-icon .path=${0, $04557c061247a0a6$export$234f98a0020e0d42}></ha-svg-icon>
+                <ha-icon class="small" icon="${this._load_icon}"></ha-icon>
                 ${this._to_load_power} kW
                 <svg>
                   ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
@@ -8975,7 +8980,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                             ${this._battery_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
                                   >${this.extractStringFromId(this._battery_info_id)}</span
                                 >` : ""}
-                            <ha-svg-icon .path=${0, $04557c061247a0a6$export$3b4ef04a2844e473}></ha-svg-icon>
+                            <ha-icon
+                              class="small"
+                              icon="${this._battery_icon}"
+                            ></ha-icon>
                             ${this._to_battery_power >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                                   <span class="battery-in">
                                     ${this._to_battery_power > 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<ha-svg-icon
@@ -9004,7 +9012,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                               ${this._equipment2_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
                                     >${this.extractStringFromId(this._equipment2_info_id)}</span
                                   >` : ""}
-                              <ha-svg-icon .path=${0, $04557c061247a0a6$export$46558fa5e47f85e1}></ha-svg-icon>
+                              <ha-icon
+                                class="small"
+                                icon="${this._equipment2_icon}"
+                              ></ha-icon>
                               ${this._to_equipment2_power} kW
                             </div>
                             <span class="label">
@@ -9231,6 +9242,21 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_icon", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_icon", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_icon", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_icon", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment1_icon", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment2_icon", void 0);
 
 
 
@@ -9283,7 +9309,12 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       <div class="row"><label class="label cell" for="equipment1_title">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="equipment1_title" value="${this._config.equipment1_title}"></input></div>
       <div class="row"><label class="label cell" for="equipment2_title">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="equipment2_title" value="${this._config.equipment2_title}"></input></div>
       <div class="row"><h2>Icons</h2></div>
+      <div class="row"><label class="label cell" for="grid_icon">grid_icon:</label><input @change="${this.handleChangedEvent}" id="grid_icon" value="${this._config.grid_icon}"></input></div>
       <div class="row"><label class="label cell" for="generation_icon">generation_icon:</label><input @change="${this.handleChangedEvent}" id="generation_icon" value="${this._config.generation_icon}"></input></div>
+      <div class="row"><label class="label cell" for="battery_icon">battery_icon:</label><input @change="${this.handleChangedEvent}" id="battery_icon" value="${this._config.battery_icon}"></input></div>
+      <div class="row"><label class="label cell" for="load_icon">load_icon:</label><input @change="${this.handleChangedEvent}" id="load_icon" value="${this._config.load_icon}"></input></div>
+      <div class="row"><label class="label cell" for="equipment1_icon">equipment1_icon:</label><input @change="${this.handleChangedEvent}" id="equipment1_icon" value="${this._config.equipment1_icon}"></input></div>
+      <div class="row"><label class="label cell" for="equipment2_icon">equipment2_icon:</label><input @change="${this.handleChangedEvent}" id="equipment2_icon" value="${this._config.equipment2_icon}"></input></div>
     </form>`;
     }
     handleChangedEvent(changedEvent) {
