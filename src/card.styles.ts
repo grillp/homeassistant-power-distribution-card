@@ -90,7 +90,7 @@ export const styles = css`
     height: 110px;
     justify-content: flex-end;
   }
-  .circle-container.equipment-2 {
+  .circle-container.appliance-2 {
     height: 110px;
     justify-content: flex-end;
   }

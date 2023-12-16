@@ -27,14 +27,17 @@ interface Config extends LovelaceCardConfig {
   generation_to_house_id: string;
   battery_to_house_id: string;
   battery_to_grid_id: string;
-  battery_extra_id: string;
-  house_extra_id: string;
-  grid_extra_id: string;
+  appliance1_power_id: string;
+  appliance2_power_id: string;
+
+  grid_info_id: string;
+  battery_info_id: string;
+  house_info_id: string;
+  solar_info_id: string;
+  appliance1_info_id: string;
+  appliance2_info_id: string;
+
   generation_icon: string;
-  appliance1_state_id: string;
-  appliance1_consumption_id: string;
-  appliance2_state_id: string;
-  appliance2_consumption_id: string;
 }
 
 interface DashValues {
@@ -45,20 +48,23 @@ interface DashValues {
 const CIRCLE_CIRCUMFERENCE = 238.76104;
 
 export class TestlaPowerDistribution extends LitElement {
-  // For Config
-  @state() private _grid_to_house_id: string | null;
-  @state() private _generation_to_grid_id: string | null;
-  @state() private _generation_to_battery_id: string | null;
-  @state() private _generation_to_house_id: string | null;
-  @state() private _battery_to_house_id: string | null;
-  @state() private _battery_to_grid_id: string | null;
-  @state() private _battery_extra_id: string | null;
-  @state() private _house_extra_id: string | null;
-  @state() private _grid_extra_id: string | null;
-  @state() private _appliance1_state_id: string | null;
-  @state() private _appliance1_consumption_id: string | null;
-  @state() private _appliance2_state_id: string | null;
-  @state() private _appliance2_consumption_id: string | null;
+  // Primary Power Entities
+  @state() private _grid_to_house_power_id: string | null;
+  @state() private _generation_to_grid_power_id: string | null;
+  @state() private _generation_to_battery_power_id: string | null;
+  @state() private _generation_to_house_power_id: string | null;
+  @state() private _battery_to_house_power_id: string | null;
+  @state() private _appliance1_power_id: string | null;
+  @state() private _appliance2_power_id: string | null;
+
+  // Extra Info Entities
+  @state() private _grid_info_id: string | null;
+  @state() private _generation_info_id: string | null;
+  @state() private _battery_info_id: string | null;
+  @state() private _battery_to_grid_power_id: string | null;
+  @state() private _house_info_id: string | null;
+  @state() private _appliance1_info_id: string | null;
+  @state() private _appliance2_info_id: string | null;
 
   // Entity Values
   @state() private _grid_to_house_power: number;
@@ -81,26 +87,31 @@ export class TestlaPowerDistribution extends LitElement {
 
   // private property
   private _hass;
+  private _has_battery: boolean;
+  private _has_equipment1: boolean;
+  private _has_equipment2: boolean;
+  private _has_solar: boolean;
 
   // lifecycle interface
   setConfig(config: Config) {
     // this._header = config.header === "" ? nothing : config.header;
     // this._id = config.entity;
     console.log("setConfig");
-    this._grid_to_house_id = config.grid_to_house_id;
-    this._generation_to_grid_id = config.generation_to_grid_id;
-    this._generation_to_battery_id = config.generation_to_battery_id;
-    this._generation_to_house_id = config.generation_to_house_id;
-    this._battery_to_house_id = config.battery_to_house_id;
-    this._battery_to_grid_id = config.battery_to_grid_id;
-    this._battery_extra_id = config.battery_extra_id;
-    this._house_extra_id = config.house_extra_id;
-    this._grid_extra_id = config.grid_extra_id;
+    this._grid_to_house_power_id = config.grid_to_house_id;
+    this._generation_to_grid_power_id = config.generation_to_grid_id;
+    this._generation_to_battery_power_id = config.generation_to_battery_id;
+    this._generation_to_house_power_id = config.generation_to_house_id;
+    this._battery_to_house_power_id = config.battery_to_house_id;
+    this._battery_to_grid_power_id = config.battery_to_grid_id;
+
+    this._battery_info_id = config.battery_info_id;
+    this._house_info_id = config.house_info_id;
+    this._grid_info_id = config.grid_info_id;
     this._generation_icon = config.generation_icon;
-    this._appliance1_state_id = config.appliance1_state_id;
-    this._appliance1_consumption_id = config.appliance1_consumption_id;
-    this._appliance2_state_id = config.appliance2_state_id;
-    this._appliance2_consumption_id = config.appliance2_consumption_id;
+    this._appliance1_info_id = config.appliance1_state_id;
+    this._appliance1_power_id = config.appliance1_power_id;
+    this._appliance2_info_id = config.appliance2_state_id;
+    this._appliance2_power_id = config.appliance2_power_id;
 
     // call set hass() to immediately adjust to a changed entity
     // while editing the entity in the card editor
@@ -109,7 +120,7 @@ export class TestlaPowerDistribution extends LitElement {
     }
   }
 
-  private extractFromId(entity_id: string): number {
+  private extractNumberFromId(entity_id: string): number {
     if (entity_id) {
       if (this._hass.states[entity_id]) {
         return Number(
@@ -121,33 +132,49 @@ export class TestlaPowerDistribution extends LitElement {
     } else return 0;
   }
 
+  private extractStringFromId(entity_id: string): string {
+    if (entity_id) {
+      if (this._hass.states[entity_id]) {
+        return this._hass.formatEntityState(entity_id);
+      } else {
+        return entity_id;
+      }
+    } else return undefined;
+  }
+
   set hass(hass: HomeAssistant) {
     console.log("Hass");
     this._hass = hass;
 
-    this._grid_to_house_power = this.extractFromId(this._grid_to_house_id);
-    this._grid_to_house_power = this.extractFromId(this._grid_to_house_id);
-    this._generation_to_grid_power = this.extractFromId(
-      this._generation_to_grid_id
+    this._grid_to_house_power = this.extractNumberFromId(
+      this._grid_to_house_power_id
     );
-    this._generation_to_battery_power = this.extractFromId(
-      this._generation_to_battery_id
+    this._grid_to_house_power = this.extractNumberFromId(
+      this._grid_to_house_power_id
     );
-    this._generation_to_house_power = this.extractFromId(
-      this._generation_to_house_id
+    this._generation_to_grid_power = this.extractNumberFromId(
+      this._generation_to_grid_power_id
     );
-    this._battery_to_house_power = this.extractFromId(
-      this._battery_to_house_id
+    this._generation_to_battery_power = this.extractNumberFromId(
+      this._generation_to_battery_power_id
     );
-    this._battery_to_grid_power = this.extractFromId(this._battery_to_grid_id);
-    this._battery_extra_power = this.extractFromId(this._battery_extra_id);
-    this._house_extra_power = this.extractFromId(this._house_extra_id);
-    this._grid_extra_power = this.extractFromId(this._grid_extra_id);
-    this._to_appliance1_power = this.extractFromId(
-      this._appliance1_consumption_id
+    this._generation_to_house_power = this.extractNumberFromId(
+      this._generation_to_house_power_id
     );
-    this._to_appliance2_power = this.extractFromId(
-      this._appliance2_consumption_id
+    this._battery_to_house_power = this.extractNumberFromId(
+      this._battery_to_house_power_id
+    );
+    this._battery_to_grid_power = this.extractNumberFromId(
+      this._battery_to_grid_power_id
+    );
+    this._battery_info_id = this.extractStringFromId(this._battery_info_id);
+    this._house_info_id = this.extractStringFromId(this._house_info_id);
+    this._grid_info_id = this.extractStringFromId(this._grid_info_id);
+    this._to_appliance1_power = this.extractNumberFromId(
+      this._appliance1_power_id
+    );
+    this._to_appliance2_power = this.extractNumberFromId(
+      this._appliance2_power_id
     );
 
     this._to_house_power = Number(
@@ -493,14 +520,14 @@ export class TestlaPowerDistribution extends LitElement {
       generation_to_house_id: "1",
       battery_to_house_id: "1",
       battery_to_grid_id: "1",
-      battery_extra_id: "1",
-      house_extra_id: "1",
-      grid_extra_id: "1",
+      battery_info_id: "1",
+      house_info_id: "1",
+      grid_info_id: "1",
       // generation_icon: "1",
       appliance1_state_id: "1",
-      appliance1_consumption_id: "1",
+      appliance1_power_id: "1",
       appliance2_state_id: "1",
-      appliance2_consumption_id: "1",
+      appliance2_power_id: "1",
     };
   }
 }
