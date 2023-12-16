@@ -1161,7 +1161,7 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     top: -20px;
     margin-bottom: -20px;
   }
-  .circle-container.battery {
+  .circle-container.storage {
     height: 110px;
     justify-content: flex-end;
   }
@@ -1267,48 +1267,48 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     stroke-width: 4;
     fill: var(--energy-solar-color);
   }
-  .battery .circle {
+  .storage .circle {
     border-color: var(--energy-battery-in-color);
   }
-  circle.battery,
-  path.battery {
+  circle.storage,
+  path.storage {
     stroke: var(--energy-battery-out-color);
   }
-  path.battery-load,
-  circle.battery-load {
+  path.storage-load,
+  circle.storage-load {
     stroke: var(--energy-battery-out-color);
   }
-  circle.battery-load {
+  circle.storage-load {
     stroke-width: 4;
     fill: var(--energy-battery-out-color);
   }
-  path.battery-solar,
-  circle.battery-solar {
+  path.storage-solar,
+  circle.storage-solar {
     stroke: var(--energy-battery-in-color);
   }
-  circle.battery-solar {
+  circle.storage-solar {
     stroke-width: 4;
     fill: var(--energy-battery-in-color);
   }
-  .battery-in {
+  .storage-in {
     color: var(--energy-battery-in-color);
   }
-  .battery-out {
+  .storage-out {
     color: var(--energy-battery-out-color);
   }
-  path.battery-from-grid {
+  path.storage-from-grid {
     stroke: var(--energy-grid-consumption-color);
   }
-  path.battery-to-grid {
+  path.storage-to-grid {
     stroke: var(--energy-grid-return-color);
   }
   path.return,
   circle.return,
-  circle.battery-to-grid {
+  circle.storage-to-grid {
     stroke: var(--energy-grid-return-color);
   }
   circle.return,
-  circle.battery-to-grid {
+  circle.storage-to-grid {
     stroke-width: 4;
     fill: var(--energy-grid-return-color);
   }
@@ -1322,12 +1322,12 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     color: var(--energy-grid-consumption-color);
   }
   circle.grid,
-  circle.battery-from-grid,
+  circle.storage-from-grid,
   path.grid {
     stroke: var(--energy-grid-consumption-color);
   }
   circle.grid,
-  circle.battery-from-grid {
+  circle.storage-from-grid {
     stroke-width: 4;
     fill: var(--energy-grid-consumption-color);
   }
@@ -8777,11 +8777,11 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         console.log("setConfig");
         this._grid_to_load_power_id = config.grid_to_load_id;
         this._generation_to_grid_power_id = config.generation_to_grid_id;
-        this._generation_to_battery_power_id = config.generation_to_battery_id;
+        this._generation_to_storage_power_id = config.generation_to_storage_id;
         this._generation_to_load_power_id = config.generation_to_load_id;
-        this._battery_to_load_power_id = config.battery_to_load_id;
-        this._battery_to_grid_power_id = config.battery_to_grid_id;
-        this._battery_info_id = config.battery_info_id;
+        this._storage_to_load_power_id = config.storage_to_load_id;
+        this._storage_to_grid_power_id = config.storage_to_grid_id;
+        this._storage_info_id = config.storage_info_id;
         this._load_info_id = config.load_info_id;
         this._grid_info_id = config.grid_info_id;
         this._generation_info_id = config.generation_info_id;
@@ -8792,18 +8792,18 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._card_title = config.card_title;
         this._grid_title = config.grid_title;
         this._generation_title = config.generation_title;
-        this._battery_title = config.battery_title;
+        this._storage_title = config.storage_title;
         this._load_title = config.load_title;
         this._equipment1_title = config.equipment1_title;
         this._equipment2_title = config.equipment2_title;
         this._generation_icon = config.generation_icon || "mdi:solar-power";
         this._load_icon = config.load_icon || "mdi:home";
-        this._battery_icon = config.battery_icon || "mdi:battery-high";
+        this._storage_icon = config.storage_icon || "mdi:battery-high";
         this._grid_icon = config.grid_icon || "mdi:transmission-tower";
         this._equipment1_icon = config.equipment1_icon || "mdi:car-sports";
         this._equipment2_icon = config.equipment2_icon || "mdi:car-sports";
-        this._has_generation = !(this._generation_to_grid_power_id === "" && this._generation_to_battery_power_id === "" && this._generation_to_load_power_id == "");
-        this._has_battery = !(this._battery_to_grid_power_id === "" && this._generation_to_battery_power_id === "" && this._battery_to_load_power_id == "");
+        this._has_generation = !(this._generation_to_grid_power_id === "" && this._generation_to_storage_power_id === "" && this._generation_to_load_power_id == "");
+        this._has_storage = !(this._storage_to_grid_power_id === "" && this._generation_to_storage_power_id === "" && this._storage_to_load_power_id == "");
         this._has_equipment1 = !(this._equipment1_power_id === "");
         this._has_equipment2 = !(this._equipment2_power_id === "");
         // call set hass() to immediately adjust to a changed entity
@@ -8828,20 +8828,20 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._grid_to_load_power = this.extractNumberFromId(this._grid_to_load_power_id);
         this._grid_to_load_power = this.extractNumberFromId(this._grid_to_load_power_id);
         this._generation_to_grid_power = this.extractNumberFromId(this._generation_to_grid_power_id);
-        this._generation_to_battery_power = this.extractNumberFromId(this._generation_to_battery_power_id);
+        this._generation_to_storage_power = this.extractNumberFromId(this._generation_to_storage_power_id);
         this._generation_to_load_power = this.extractNumberFromId(this._generation_to_load_power_id);
-        this._battery_to_load_power = this.extractNumberFromId(this._battery_to_load_power_id);
-        this._battery_to_grid_power = this.extractNumberFromId(this._battery_to_grid_power_id);
-        this._battery_info_id = this.extractStringFromId(this._battery_info_id);
+        this._storage_to_load_power = this.extractNumberFromId(this._storage_to_load_power_id);
+        this._storage_to_grid_power = this.extractNumberFromId(this._storage_to_grid_power_id);
+        this._storage_info_id = this.extractStringFromId(this._storage_info_id);
         this._load_info_id = this.extractStringFromId(this._load_info_id);
         this._grid_info_id = this.extractStringFromId(this._grid_info_id);
         this._to_equipment1_power = this.extractNumberFromId(this._equipment1_power_id);
         this._to_equipment2_power = this.extractNumberFromId(this._equipment2_power_id);
-        this._to_load_power = Number((this._battery_to_load_power + this._grid_to_load_power + this._generation_to_load_power).toFixed(1));
-        this._from_grid_power = Number((this._grid_to_load_power + -1 * this._battery_to_grid_power + -1 * this._generation_to_grid_power).toFixed(1));
-        this._from_generation_power = Number((this._generation_to_grid_power + this._generation_to_battery_power + this._generation_to_load_power).toFixed(1));
-        this._to_battery_power = Number((-1 * this._battery_to_load_power + this._generation_to_battery_power + -1 * this._battery_to_grid_power).toFixed(1));
-        this._total_flow_power = this._grid_to_load_power + this._generation_to_grid_power + this._generation_to_battery_power + this._generation_to_load_power + this._battery_to_load_power + this._battery_to_grid_power;
+        this._to_load_power = Number((this._storage_to_load_power + this._grid_to_load_power + this._generation_to_load_power).toFixed(1));
+        this._from_grid_power = Number((this._grid_to_load_power + -1 * this._storage_to_grid_power + -1 * this._generation_to_grid_power).toFixed(1));
+        this._from_generation_power = Number((this._generation_to_grid_power + this._generation_to_storage_power + this._generation_to_load_power).toFixed(1));
+        this._to_storage_power = Number((-1 * this._storage_to_load_power + this._generation_to_storage_power + -1 * this._storage_to_grid_power).toFixed(1));
+        this._total_flow_power = this._grid_to_load_power + this._generation_to_grid_power + this._generation_to_storage_power + this._generation_to_load_power + this._storage_to_load_power + this._storage_to_grid_power;
     // this._state = hass.states[this._id];
     // if (this._state) {
     //   this._status = this._state.state;
@@ -8889,7 +8889,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
     render() {
         console.log("Render");
         let loadSliceDashValues = this.calcStrokeDashValues([
-            this._battery_to_load_power,
+            this._storage_to_load_power,
             this._grid_to_load_power,
             this._generation_to_load_power
         ]);
@@ -8963,7 +8963,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 ${this._to_load_power} kW
                 <svg>
                   ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
-                    <circle class="battery" cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[0].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[0].stroke_dashoffset}"></circle>
+                    <circle class="storage" cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[0].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[0].stroke_dashoffset}"></circle>
                     <circle class="grid"    cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[1].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[1].stroke_dashoffset}"></circle>
                     <circle class="solar"   cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[2].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[2].stroke_dashoffset}"></circle>
                   `}
@@ -8972,38 +8972,38 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
               <span class="label"> ${this.extractStringFromId(this._load_title)} </span>
             </div>
           </div>
-          ${this._has_battery || this._has_equipment2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+          ${this._has_storage || this._has_equipment2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                   <div class="row">
                     <div class="spacer"></div>
-                    ${this._has_battery ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container battery">
+                    ${this._has_storage ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container storage">
                           <div class="circle">
-                            ${this._battery_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
-                                  >${this.extractStringFromId(this._battery_info_id)}</span
+                            ${this._storage_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                                  >${this.extractStringFromId(this._storage_info_id)}</span
                                 >` : ""}
                             <ha-icon
                               class="small"
-                              icon="${this._battery_icon}"
+                              icon="${this._storage_icon}"
                             ></ha-icon>
-                            ${this._to_battery_power >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
-                                  <span class="battery-in">
-                                    ${this._to_battery_power > 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<ha-svg-icon
+                            ${this._to_storage_power >= 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+                                  <span class="storage-in">
+                                    ${this._to_storage_power > 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<ha-svg-icon
                                           class="small"
                                           .path=${0, $04557c061247a0a6$export$9b2580347f0d218f}
                                         ></ha-svg-icon>` : ""}
-                                    ${this._to_battery_power} kW
+                                    ${this._to_storage_power} kW
                                   </span>
                                 ` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
-                                  <span class="battery-out">
+                                  <span class="storage-out">
                                     <ha-svg-icon
                                       class="small"
                                       .path=${0, $04557c061247a0a6$export$9ac2ce0684fedc2d}
                                     ></ha-svg-icon>
-                                    ${this._to_battery_power * -1} kW
+                                    ${this._to_storage_power * -1} kW
                                   </span>
                                 `}
                           </div>
                           <span class="label"
-                            >${this.extractStringFromId(this._battery_title)}</span
+                            >${this.extractStringFromId(this._storage_title)}</span
                           >
                         </div>` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="spacer"></div>`}
                     ${this._has_equipment2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
@@ -9027,7 +9027,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 ` : ""}
         </div>
         <div
-          class="lines ${this._has_battery || this._has_equipment2 ? "high" : ""}"
+          class="lines ${this._has_storage || this._has_equipment2 ? "high" : ""}"
         >
           <svg
             viewBox="0 0 100 100"
@@ -9060,35 +9060,35 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                   ></path>
                   ${this.renderPowerAnnimation(this._generation_to_load_power, "solar", "#generation-to-load")}
                 ` : ""}
-            ${this._has_generation && this._has_battery ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+            ${this._has_generation && this._has_storage ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                     <path
-                      id="solar-to-battery"
-                      class="battery-solar"
+                      id="solar-to-storage"
+                      class="storage-solar"
                       d="M50,0 V100"
                       vector-effect="non-scaling-stroke"
                     ></path>
-                    ${this.renderPowerAnnimation(this._generation_to_battery_power, "battery-solar", "#solar-to-battery")}
+                    ${this.renderPowerAnnimation(this._generation_to_storage_power, "storage-solar", "#solar-to-storage")}
                   ` : ""}
-            ${this._has_battery ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+            ${this._has_storage ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                     <path
-                      id="battery-to-load"
-                      class="battery-load"
+                      id="storage-to-load"
+                      class="storage-load"
                       d="M55,100 v-15 c0,-35 10,-30 30,-30 h20"
                       vector-effect="non-scaling-stroke"
                     ></path>
-                    ${this.renderPowerAnnimation(this._battery_to_load_power, "battery-load", "#battery-to-load")}
+                    ${this.renderPowerAnnimation(this._storage_to_load_power, "storage-load", "#storage-to-load")}
                     <path
-                      id="battery-to-grid"
-                      class="battery-from-grid"
+                      id="storage-to-grid"
+                      class="storage-from-grid"
                       d="M45,100 v-15 c0,-35 -10,-30 -30,-30 h-20"
                       vector-effect="non-scaling-stroke"
                     ></path>
-                    ${this.renderPowerAnnimation(this._battery_to_grid_power, "battery-from-grid", "#battery-to-grid")}
+                    ${this.renderPowerAnnimation(this._storage_to_grid_power, "storage-from-grid", "#storage-to-grid")}
                   ` : ""}
           </svg>
         </div>
         <div
-          class="lines right ${this._has_battery || this._has_equipment2 ? "high" : ""}"
+          class="lines right ${this._has_storage || this._has_equipment2 ? "high" : ""}"
           >
           ${this._has_equipment1 || this._has_equipment2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -9115,11 +9115,11 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         return {
             grid_to_load_id: "1",
             generation_to_grid_id: "1",
-            generation_to_battery_id: "1",
+            generation_to_storage_id: "1",
             generation_to_load_id: "1",
-            battery_to_load_id: "1",
-            battery_to_grid_id: "1",
-            battery_info_id: "1",
+            storage_to_load_id: "1",
+            storage_to_grid_id: "1",
+            storage_info_id: "1",
             load_info_id: "1",
             grid_info_id: "1",
             // generation_icon: "1",
@@ -9130,7 +9130,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             card_title: "Instant Power!",
             grid_title: "Grid",
             generation_title: "Solar",
-            battery_title: "Battery",
+            storage_title: "Storage",
             load_title: "House",
             equipment1_title: "Appliance 1",
             equipment2_title: "Appliance 2"
@@ -9145,16 +9145,16 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_grid_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_battery_power_id", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_storage_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_load_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_to_load_power_id", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_to_load_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_to_grid_power_id", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_to_grid_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment1_power_id", void 0);
@@ -9169,7 +9169,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_info_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_info_id", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_info_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_info_id", void 0);
@@ -9193,7 +9193,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_title", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment1_title", void 0);
@@ -9208,16 +9208,16 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_grid_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_battery_power", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_storage_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_load_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_to_load_power", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_to_load_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_to_grid_power", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_to_grid_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_total_flow_power", void 0);
@@ -9238,7 +9238,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_equipment2_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_battery_power", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_storage_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_icon", void 0);
@@ -9247,7 +9247,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_icon", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_battery_icon", void 0);
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_icon", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_icon", void 0);
@@ -9288,30 +9288,30 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       <div class="row"><h2>Power Entites</h2>Can be an entity id or a positive numeric value. All expected to in kW.</div>
       <div class="row"><label class="label cell" for="grid_to_load_id">Grid → House</label><input @change="${this.handleChangedEvent}" id="grid_to_load_id" value="${this._config.grid_to_load_id}"></input></div>
       <div class="row"><label class="label cell" for="generation_to_grid_id">Generation → Grid</label><input @change="${this.handleChangedEvent}" id="generation_to_grid_id" value="${this._config.generation_to_grid_id}"></input></div>
-      <div class="row"><label class="label cell" for="generation_to_battery_id">Generation → Battery</label><input @change="${this.handleChangedEvent}" id="generation_to_battery_id" value="${this._config.generation_to_battery_id}"></input></div>
+      <div class="row"><label class="label cell" for="generation_to_storage_id">Generation → Storage</label><input @change="${this.handleChangedEvent}" id="generation_to_storage_id" value="${this._config.generation_to_storage_id}"></input></div>
       <div class="row"><label class="label cell" for="generation_to_load_id">Generation → House</label><input @change="${this.handleChangedEvent}" id="generation_to_load_id" value="${this._config.generation_to_load_id}"></input></div>
-      <div class="row"><label class="label cell" for="battery_to_load_id">Battery → Battery</label><input @change="${this.handleChangedEvent}" id="battery_to_load_id" value="${this._config.battery_to_load_id}"></input></div>
-      <div class="row"><label class="label cell" for="battery_to_grid_id">Battery → Grid</label><input @change="${this.handleChangedEvent}" id="battery_to_grid_id" value="${this._config.battery_to_grid_id}"></input></div>
+      <div class="row"><label class="label cell" for="storage_to_load_id">Storage → Storage</label><input @change="${this.handleChangedEvent}" id="storage_to_load_id" value="${this._config.storage_to_load_id}"></input></div>
+      <div class="row"><label class="label cell" for="storage_to_grid_id">Storage → Grid</label><input @change="${this.handleChangedEvent}" id="storage_to_grid_id" value="${this._config.storage_to_grid_id}"></input></div>
       <div class="row"><label class="label cell" for="equipment1_power_id">Home → Appliance 1</label><input @change="${this.handleChangedEvent}" id="equipment1_power_id" value="${this._config.equipment1_power_id}"></input></div>
       <div class="row"><label class="label cell" for="equipment2_power_id">Home → Appliance 2</label><input @change="${this.handleChangedEvent}" id="equipment2_power_id" value="${this._config.equipment2_power_id}"></input></div>
       <div class="row"><h2>Extra Info</h2>Appears above the Icon in the Circle. Can be an entity id or a string. </div>
       <div class="row"><label class="label cell" for="grid_info_id">Grid:</label><input @change="${this.handleChangedEvent}" id="grid_info_id" value="${this._config.grid_info_id}"></input></div>
       <div class="row"><label class="label cell" for="load_info_id">House:</label><input @change="${this.handleChangedEvent}" id="load_info_id" value="${this._config.load_info_id}"></input></div>
       <div class="row"><label class="label cell" for="generation_info_id">Generation:</label><input @change="${this.handleChangedEvent}" id="generation_info_id" value="${this._config.generation_info_id}"></input></div>
-      <div class="row"><label class="label cell" for="battery_info_id">Battery:</label><input @change="${this.handleChangedEvent}" id="battery_info_id" value="${this._config.battery_info_id}"></input></div>
+      <div class="row"><label class="label cell" for="storage_info_id">Storage:</label><input @change="${this.handleChangedEvent}" id="storage_info_id" value="${this._config.storage_info_id}"></input></div>
       <div class="row"><label class="label cell" for="equipment1_info_id">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="equipment1_info_id" value="${this._config.equipment1_info_id}"></input></div>
       <div class="row"><label class="label cell" for="equipment2_info_id">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="equipment2_info_id" value="${this._config.equipment2_info_id}"></input></div>
       <div class="row"><h2>Titles</h2>Titles of the  elements. Can be an entity id or a positive numeric value. </div>
       <div class="row"><label class="label cell" for="grid_title">Grid:</label><input @change="${this.handleChangedEvent}" id="grid_title" value="${this._config.grid_title}"></input></div>
       <div class="row"><label class="label cell" for="load_title">Home:</label><input @change="${this.handleChangedEvent}" id="load_title" value="${this._config.load_title}"></input></div>
-      <div class="row"><label class="label cell" for="battery_title">Battery:</label><input @change="${this.handleChangedEvent}" id="battery_title" value="${this._config.battery_title}"></input></div>
+      <div class="row"><label class="label cell" for="storage_title">Storage:</label><input @change="${this.handleChangedEvent}" id="storage_title" value="${this._config.storage_title}"></input></div>
       <div class="row"><label class="label cell" for="generation_title">Generation:</label><input @change="${this.handleChangedEvent}" id="generation_title" value="${this._config.generation_title}"></input></div>
       <div class="row"><label class="label cell" for="equipment1_title">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="equipment1_title" value="${this._config.equipment1_title}"></input></div>
       <div class="row"><label class="label cell" for="equipment2_title">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="equipment2_title" value="${this._config.equipment2_title}"></input></div>
       <div class="row"><h2>Icons</h2></div>
       <div class="row"><label class="label cell" for="grid_icon">grid_icon:</label><input @change="${this.handleChangedEvent}" id="grid_icon" value="${this._config.grid_icon}"></input></div>
       <div class="row"><label class="label cell" for="generation_icon">generation_icon:</label><input @change="${this.handleChangedEvent}" id="generation_icon" value="${this._config.generation_icon}"></input></div>
-      <div class="row"><label class="label cell" for="battery_icon">battery_icon:</label><input @change="${this.handleChangedEvent}" id="battery_icon" value="${this._config.battery_icon}"></input></div>
+      <div class="row"><label class="label cell" for="storage_icon">storage_icon:</label><input @change="${this.handleChangedEvent}" id="storage_icon" value="${this._config.storage_icon}"></input></div>
       <div class="row"><label class="label cell" for="load_icon">load_icon:</label><input @change="${this.handleChangedEvent}" id="load_icon" value="${this._config.load_icon}"></input></div>
       <div class="row"><label class="label cell" for="equipment1_icon">equipment1_icon:</label><input @change="${this.handleChangedEvent}" id="equipment1_icon" value="${this._config.equipment1_icon}"></input></div>
       <div class="row"><label class="label cell" for="equipment2_icon">equipment2_icon:</label><input @change="${this.handleChangedEvent}" id="equipment2_icon" value="${this._config.equipment2_icon}"></input></div>

@@ -84,7 +84,7 @@ export const styles = css`
     top: -20px;
     margin-bottom: -20px;
   }
-  .circle-container.battery {
+  .circle-container.storage {
     height: 110px;
     justify-content: flex-end;
   }
@@ -190,48 +190,48 @@ export const styles = css`
     stroke-width: 4;
     fill: var(--energy-solar-color);
   }
-  .battery .circle {
+  .storage .circle {
     border-color: var(--energy-battery-in-color);
   }
-  circle.battery,
-  path.battery {
+  circle.storage,
+  path.storage {
     stroke: var(--energy-battery-out-color);
   }
-  path.battery-load,
-  circle.battery-load {
+  path.storage-load,
+  circle.storage-load {
     stroke: var(--energy-battery-out-color);
   }
-  circle.battery-load {
+  circle.storage-load {
     stroke-width: 4;
     fill: var(--energy-battery-out-color);
   }
-  path.battery-solar,
-  circle.battery-solar {
+  path.storage-solar,
+  circle.storage-solar {
     stroke: var(--energy-battery-in-color);
   }
-  circle.battery-solar {
+  circle.storage-solar {
     stroke-width: 4;
     fill: var(--energy-battery-in-color);
   }
-  .battery-in {
+  .storage-in {
     color: var(--energy-battery-in-color);
   }
-  .battery-out {
+  .storage-out {
     color: var(--energy-battery-out-color);
   }
-  path.battery-from-grid {
+  path.storage-from-grid {
     stroke: var(--energy-grid-consumption-color);
   }
-  path.battery-to-grid {
+  path.storage-to-grid {
     stroke: var(--energy-grid-return-color);
   }
   path.return,
   circle.return,
-  circle.battery-to-grid {
+  circle.storage-to-grid {
     stroke: var(--energy-grid-return-color);
   }
   circle.return,
-  circle.battery-to-grid {
+  circle.storage-to-grid {
     stroke-width: 4;
     fill: var(--energy-grid-return-color);
   }
@@ -245,12 +245,12 @@ export const styles = css`
     color: var(--energy-grid-consumption-color);
   }
   circle.grid,
-  circle.battery-from-grid,
+  circle.storage-from-grid,
   path.grid {
     stroke: var(--energy-grid-consumption-color);
   }
   circle.grid,
-  circle.battery-from-grid {
+  circle.storage-from-grid {
     stroke-width: 4;
     fill: var(--energy-grid-consumption-color);
   }
