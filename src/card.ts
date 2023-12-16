@@ -337,7 +337,7 @@ export class TestlaPowerDistribution extends LitElement {
                           </span>
                           <div class="circle">
                             ${this._generation_info_id
-                              ? html`<span
+                              ? html`<span class="info"
                                   >${this.extractStringFromId(
                                     this._generation_info_id
                                   )}</span
@@ -346,8 +346,8 @@ export class TestlaPowerDistribution extends LitElement {
                             <ha-icon
                               class="small"
                               icon="${this._generation_icon}"
-                            ></ha-icon>
-                            ${this._from_generation_power} kW
+                            ></ha-icon
+                            >${this._from_generation_power} kW
                           </div>
                         `
                       : ""}
@@ -360,7 +360,7 @@ export class TestlaPowerDistribution extends LitElement {
                         <div class="circle">
                           ${
                             this._load_top_info_id
-                              ? html`<span
+                              ? html`<span class="info"
                                   >${this.extractStringFromId(
                                     this._load_top_info_id
                                   )}</span
@@ -369,8 +369,7 @@ export class TestlaPowerDistribution extends LitElement {
                           }
                           <ha-icon class="small" icon="${
                             this._load_top_icon
-                          }"></ha-icon>
-                          ${this._to_load_top_power} kW
+                          }"></ha-icon>${this._to_load_top_power} kW
                         </div>
                       </div>
                 </div>`
@@ -383,7 +382,7 @@ export class TestlaPowerDistribution extends LitElement {
               <div class="circle">
                 ${
                   this._grid_info_id
-                    ? html`<span
+                    ? html`<span class="info"
                         >${this.extractStringFromId(this._grid_info_id)}</span
                       >`
                     : ""
@@ -398,8 +397,8 @@ export class TestlaPowerDistribution extends LitElement {
                                 class="small"
                                 .path=${mdiArrowRight}
                               ></ha-svg-icon>`
-                            : ""}
-                          ${this._from_grid_power} kW
+                            : ""}${this._from_grid_power}
+                          kW
                         </span>
                       `
                     : html`
@@ -407,8 +406,8 @@ export class TestlaPowerDistribution extends LitElement {
                           <ha-svg-icon
                             class="small"
                             .path=${mdiArrowLeft}
-                          ></ha-svg-icon>
-                          ${this._from_grid_power * -1} kW
+                          ></ha-svg-icon
+                          >${this._from_grid_power * -1} kW
                         </span>
                       `
                 }
@@ -421,7 +420,7 @@ export class TestlaPowerDistribution extends LitElement {
               <div class="circle">
                 ${
                   this._load_info_id
-                    ? html`<span
+                    ? html`<span class="info"
                         >${this.extractStringFromId(this._load_info_id)}</span
                       >`
                     : ""
@@ -450,7 +449,7 @@ export class TestlaPowerDistribution extends LitElement {
                       ? html` <div class="circle-container storage">
                           <div class="circle">
                             ${this._storage_info_id
-                              ? html`<span
+                              ? html`<span class="info"
                                   >${this.extractStringFromId(
                                     this._storage_info_id
                                   )}</span
@@ -494,7 +493,7 @@ export class TestlaPowerDistribution extends LitElement {
                           <div class="circle-container load-bottom">
                             <div class="circle">
                               ${this._load_bottom_info_id
-                                ? html`<span
+                                ? html`<span class="info"
                                     >${this.extractStringFromId(
                                       this._load_bottom_info_id
                                     )}</span

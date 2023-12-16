@@ -119,6 +119,15 @@ export const styles = css`
   ha-icon.small {
     --mdc-icon-size: 24px;
   }
+  ha-svg-icon.small {
+    --mdc-icon-size: 12px;
+  }
+  ha-svg-icon {
+    padding-bottom: 2px;
+  }
+  .circle span.info {
+    padding-bottom: 2px;
+  }
   .label {
     color: var(--secondary-text-color);
     font-size: 12px;

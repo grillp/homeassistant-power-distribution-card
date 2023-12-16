@@ -1196,6 +1196,15 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
   ha-icon.small {
     --mdc-icon-size: 24px;
   }
+  ha-svg-icon.small {
+    --mdc-icon-size: 12px;
+  }
+  ha-svg-icon {
+    padding-bottom: 2px;
+  }
+  .circle span.info {
+    padding-bottom: 2px;
+  }
   .label {
     color: var(--secondary-text-color);
     font-size: 12px;
@@ -8904,25 +8913,24 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                             ${this.extractStringFromId(this._generation_title)}
                           </span>
                           <div class="circle">
-                            ${this._generation_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                            ${this._generation_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
                                   >${this.extractStringFromId(this._generation_info_id)}</span
                                 >` : ""}
                             <ha-icon
                               class="small"
                               icon="${this._generation_icon}"
-                            ></ha-icon>
-                            ${this._from_generation_power} kW
+                            ></ha-icon
+                            >${this._from_generation_power} kW
                           </div>
                         ` : ""}
                   </div>
                   ${this._has_load_top ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container load_top">
                         <span class="label"> ${this.extractStringFromId(this._load_top_title)} </span>
                         <div class="circle">
-                          ${this._load_top_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                          ${this._load_top_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
                                   >${this.extractStringFromId(this._load_top_info_id)}</span
                                 >` : ""}
-                          <ha-icon class="small" icon="${this._load_top_icon}"></ha-icon>
-                          ${this._to_load_top_power} kW
+                          <ha-icon class="small" icon="${this._load_top_icon}"></ha-icon>${this._to_load_top_power} kW
                         </div>
                       </div>
                 </div>` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="spacer"></div>`}
@@ -8930,7 +8938,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
           <div class="row">
             <div class="circle-container grid">
               <div class="circle">
-                ${this._grid_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                ${this._grid_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
                         >${this.extractStringFromId(this._grid_info_id)}</span
                       >` : ""}
                 <ha-icon class="small" icon="${this._grid_icon}"></ha-icon>
@@ -8939,16 +8947,16 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                           ${this._from_grid_power > 0 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<ha-svg-icon
                                 class="small"
                                 .path=${0, $04557c061247a0a6$export$f66c996b267e1dc0}
-                              ></ha-svg-icon>` : ""}
-                          ${this._from_grid_power} kW
+                              ></ha-svg-icon>` : ""}${this._from_grid_power}
+                          kW
                         </span>
                       ` : (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                         <span class="return">
                           <ha-svg-icon
                             class="small"
                             .path=${0, $04557c061247a0a6$export$9e1028c34656e2fe}
-                          ></ha-svg-icon>
-                          ${this._from_grid_power * -1} kW
+                          ></ha-svg-icon
+                          >${this._from_grid_power * -1} kW
                         </span>
                       `}
               </div>
@@ -8956,7 +8964,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             </div>
             <div class="circle-container load">
               <div class="circle">
-                ${this._load_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                ${this._load_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
                         >${this.extractStringFromId(this._load_info_id)}</span
                       >` : ""}
                 <ha-icon class="small" icon="${this._load_icon}"></ha-icon>
@@ -8977,7 +8985,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                     <div class="spacer"></div>
                     ${this._has_storage ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container storage">
                           <div class="circle">
-                            ${this._storage_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                            ${this._storage_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
                                   >${this.extractStringFromId(this._storage_info_id)}</span
                                 >` : ""}
                             <ha-icon
@@ -9009,7 +9017,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                     ${this._has_load_bottom ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
                           <div class="circle-container load-bottom">
                             <div class="circle">
-                              ${this._load_bottom_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                              ${this._load_bottom_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
                                     >${this.extractStringFromId(this._load_bottom_info_id)}</span
                                   >` : ""}
                               <ha-icon
@@ -9276,7 +9284,7 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
     }
   `;
     })();
-    iconPicker(name) {
+    iconPickerRow(name) {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <div class="row">
         <label class="label cell" for="{${name}}">${name}</label>
@@ -9289,7 +9297,7 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       </div>
     `;
     }
-    entryField(name, label) {
+    inputRow(name, label) {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <div class="row">
         </div>
@@ -9308,44 +9316,46 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         <h2>Card Title</h2>
         Entity or string
       </div>
-      ${this.entryField("card_title", "Title")}
+      ${this.inputRow("card_title", "Title")}
       <div class="row">
         <h2>Power Entites</h2>
         Can be an entity id or a positive numeric value. All expected to in kW.
       </div>
-      ${this.entryField("grid_to_load_id", "Grid → Load")}
-      ${this.entryField("generation_to_grid_id", "Generation → Grid")}
-      ${this.entryField("generation_to_storage_id", "Generation → Storage")}
-      ${this.entryField("generation_to_load_id", "Generation → Load")}
-      ${this.entryField("storage_to_load_id", "Storage → Load")}
-      ${this.entryField("storage_to_grid_id", "Storage → Grid")}
-      ${this.entryField("load_top_power_id", "Load → Top Load")}
-      ${this.entryField("load_bottom_power_id", "Load → Bottom Load")}
+      ${this.inputRow("grid_to_load_id", "Grid → Load")}
+      ${this.inputRow("generation_to_grid_id", "Generation → Grid")}
+      ${this.inputRow("generation_to_storage_id", "Generation → Storage")}
+      ${this.inputRow("generation_to_load_id", "Generation → Load")}
+      ${this.inputRow("storage_to_load_id", "Storage → Load")}
+      ${this.inputRow("storage_to_grid_id", "Storage → Grid")}
+      ${this.inputRow("load_top_power_id", "Load → Top Load")}
+      ${this.inputRow("load_bottom_power_id", "Load → Bottom Load")}
       <div class="row">
         <h2>Titles</h2>
         Can be an entity id or a positive numeric value.
       </div>
-      ${this.entryField("grid_title", "Grid")}
-      ${this.entryField("load_title", "Load")}
-      ${this.entryField("generation_title", "Generation")}
-      ${this.entryField("storage_title", "Storage")}
-      ${this.entryField("load_top_title", "Load Top")}
-      ${this.entryField("load_bottom_title", "Load Bottom")}
+      ${this.inputRow("grid_title", "Grid")}
+      ${this.inputRow("load_title", "Load")}
+      ${this.inputRow("generation_title", "Generation")}
+      ${this.inputRow("storage_title", "Storage")}
+      ${this.inputRow("load_top_title", "Load Top")}
+      ${this.inputRow("load_bottom_title", "Load Bottom")}
       <div class="row">
         <h2>Extra Info</h2>
         Appears above the Icon in the Circle. Can be an entity id or a string.
       </div>
-      ${this.entryField("grid_info_id", "Grid")}
-      ${this.entryField("load_info_id", "Load")}
-      ${this.entryField("generation_info_id", "Generation")}
-      ${this.entryField("storage_info_id", "Storage")}
-      ${this.entryField("load_top_info_id", "Load Top")}
-      ${this.entryField("load_bottom_info_id", "Load Bottom")}
+      ${this.inputRow("grid_info_id", "Grid")}
+      ${this.inputRow("load_info_id", "Load")}
+      ${this.inputRow("generation_info_id", "Generation")}
+      ${this.inputRow("storage_info_id", "Storage")}
+      ${this.inputRow("load_top_info_id", "Load Top")}
+      ${this.inputRow("load_bottom_info_id", "Load Bottom")}
 
       <div class="row"><h2>Icons</h2></div>
-      ${this.iconPicker("grid_icon")} ${this.iconPicker("generation_icon")}
-      ${this.iconPicker("storage_icon")} ${this.iconPicker("load_icon")}
-      ${this.iconPicker("load_top_icon")} ${this.iconPicker("load_bottom_icon")}
+      ${this.iconPickerRow("grid_icon")}
+      ${this.iconPickerRow("generation_icon")}
+      ${this.iconPickerRow("storage_icon")} ${this.iconPickerRow("load_icon")}
+      ${this.iconPickerRow("load_top_icon")}
+      ${this.iconPickerRow("load_bottom_icon")}
     </form>`;
     }
     _nameChanged(ev) {
