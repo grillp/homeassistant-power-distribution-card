@@ -200,11 +200,11 @@ export const styles = css`
   path.battery {
     stroke: var(--energy-battery-out-color);
   }
-  path.battery-house,
-  circle.battery-house {
+  path.battery-load,
+  circle.battery-load {
     stroke: var(--energy-battery-out-color);
   }
-  circle.battery-house {
+  circle.battery-load {
     stroke-width: 4;
     fill: var(--energy-battery-out-color);
   }

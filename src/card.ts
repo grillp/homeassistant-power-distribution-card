@@ -76,6 +76,7 @@ export class TestlaPowerDistribution extends LitElement {
   @state() private _equipment2_info_id: string | null;
 
   // Extra Info Entities
+  @state() private _card_title: string | null;
   @state() private _grid_title: string | null;
   @state() private _load_title: string | null;
   @state() private _generation_title: string | null;
@@ -131,6 +132,7 @@ export class TestlaPowerDistribution extends LitElement {
     this._equipment2_info_id = config.equipment2_info_id;
     this._equipment2_power_id = config.equipment2_power_id;
 
+    this._card_title = config.card_title;
     this._grid_title = config.grid_title;
     this._generation_title = config.generation_title;
     this._battery_title = config.battery_title;
@@ -321,7 +323,7 @@ export class TestlaPowerDistribution extends LitElement {
     ]);
 
     return html`
-      <ha-card .header=${"My Tesla Distro"}>
+      <ha-card .header=${this._card_title}>
         <div class="card-content">
           ${
             this._has_generation || this._has_equipment1
@@ -410,7 +412,7 @@ export class TestlaPowerDistribution extends LitElement {
                 this._grid_title
               )} </span>
             </div>
-            <div class="circle-container home">
+            <div class="circle-container load">
               <div class="circle">
                 ${
                   this._load_info_id
@@ -666,6 +668,7 @@ export class TestlaPowerDistribution extends LitElement {
       equipment2_state_id: "1",
       equipment2_power_id: "1",
 
+      card_title: "Instant Power!",
       grid_title: "Grid",
       generation_title: "Solar",
       battery_title: "Battery",

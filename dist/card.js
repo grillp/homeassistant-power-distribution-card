@@ -1155,7 +1155,7 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     margin: 0 4px;
     height: 130px;
   }
-  .circle-container.appliance1 {
+  .circle-container.equipment1 {
     margin-left: 4px;
     height: 130px;
   }
@@ -1168,7 +1168,7 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     height: 110px;
     justify-content: flex-end;
   }
-  .circle-container.appliance2 {
+  .circle-container.equipment2 {
     margin-left: 4px;
     height: 110px;
     justify-content: flex-end;
@@ -1277,11 +1277,11 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
   path.battery {
     stroke: var(--energy-battery-out-color);
   }
-  path.battery-house,
-  circle.battery-house {
+  path.battery-load,
+  circle.battery-load {
     stroke: var(--energy-battery-out-color);
   }
-  circle.battery-house {
+  circle.battery-load {
     stroke-width: 4;
     fill: var(--energy-battery-out-color);
   }
@@ -1334,11 +1334,11 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
     stroke-width: 4;
     fill: var(--energy-grid-consumption-color);
   }
-  .home .circle {
+  .load .circle {
     border-width: 0;
     border-color: var(--primary-color);
   }
-  .home .circle.border {
+  .load .circle.border {
     border-width: 2px;
   }
   .circle svg circle {
@@ -8793,6 +8793,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._equipment1_power_id = config.equipment1_power_id;
         this._equipment2_info_id = config.equipment2_info_id;
         this._equipment2_power_id = config.equipment2_power_id;
+        this._card_title = config.card_title;
         this._grid_title = config.grid_title;
         this._generation_title = config.generation_title;
         this._battery_title = config.battery_title;
@@ -8891,7 +8892,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             this._generation_to_load_power
         ]);
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
-      <ha-card .header=${"My Tesla Distro"}>
+      <ha-card .header=${this._card_title}>
         <div class="card-content">
           ${this._has_generation || this._has_equipment1 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="row">
                   <div class="spacer"></div>
@@ -9115,6 +9116,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             equipment1_power_id: "1",
             equipment2_state_id: "1",
             equipment2_power_id: "1",
+            card_title: "Instant Power!",
             grid_title: "Grid",
             generation_title: "Solar",
             battery_title: "Battery",
@@ -9166,6 +9168,9 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_equipment2_info_id", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_card_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_title", void 0);
@@ -9251,34 +9256,35 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
     })();
     render() {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
-            <form class="table">
-                <div class="row"><h2>Power Entites</h2>Can be an entity id or a positive numeric value. All expected to in kW.</div>
-                <div class="row"><label class="label cell" for="grid_to_load_id">Grid → House</label><input @change="${this.handleChangedEvent}" id="grid_to_load_id" value="${this._config.grid_to_load_id}"></input></div>
-                <div class="row"><label class="label cell" for="generation_to_grid_id">Generation → Grid</label><input @change="${this.handleChangedEvent}" id="generation_to_grid_id" value="${this._config.generation_to_grid_id}"></input></div>
-                <div class="row"><label class="label cell" for="generation_to_battery_id">Generation → Battery</label><input @change="${this.handleChangedEvent}" id="generation_to_battery_id" value="${this._config.generation_to_battery_id}"></input></div>
-                <div class="row"><label class="label cell" for="generation_to_load_id">Generation → House</label><input @change="${this.handleChangedEvent}" id="generation_to_load_id" value="${this._config.generation_to_load_id}"></input></div>
-                <div class="row"><label class="label cell" for="battery_to_load_id">Battery → Battery</label><input @change="${this.handleChangedEvent}" id="battery_to_load_id" value="${this._config.battery_to_load_id}"></input></div>
-                <div class="row"><label class="label cell" for="battery_to_grid_id">Battery → Grid</label><input @change="${this.handleChangedEvent}" id="battery_to_grid_id" value="${this._config.battery_to_grid_id}"></input></div>
-                <div class="row"><label class="label cell" for="equipment1_power_id">Home → Appliance 1</label><input @change="${this.handleChangedEvent}" id="equipment1_power_id" value="${this._config.equipment1_power_id}"></input></div>
-                <div class="row"><label class="label cell" for="equipment2_power_id">Home → Appliance 2</label><input @change="${this.handleChangedEvent}" id="equipment2_power_id" value="${this._config.equipment2_power_id}"></input></div>
-                <div class="row"><h2>Extra Info</h2>Appears above the Icon in the Circle. Can be an entity id or a string. </div>
-                <div class="row"><label class="label cell" for="grid_info_id">Grid:</label><input @change="${this.handleChangedEvent}" id="grid_info_id" value="${this._config.grid_info_id}"></input></div>
-                <div class="row"><label class="label cell" for="load_info_id">House:</label><input @change="${this.handleChangedEvent}" id="load_info_id" value="${this._config.load_info_id}"></input></div>
-                <div class="row"><label class="label cell" for="generation_info_id">Generation:</label><input @change="${this.handleChangedEvent}" id="generation_info_id" value="${this._config.generation_info_id}"></input></div>
-                <div class="row"><label class="label cell" for="battery_info_id">Battery:</label><input @change="${this.handleChangedEvent}" id="battery_info_id" value="${this._config.battery_info_id}"></input></div>
-                <div class="row"><label class="label cell" for="equipment1_info_id">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="equipment1_info_id" value="${this._config.equipment1_info_id}"></input></div>
-                <div class="row"><label class="label cell" for="equipment2_info_id">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="equipment2_info_id" value="${this._config.equipment2_info_id}"></input></div>
-                <div class="row"><h2>Titles</h2>Titles of the  elements. Can be an entity id or a positive numeric value. </div>
-                <div class="row"><label class="label cell" for="grid_title">Grid:</label><input @change="${this.handleChangedEvent}" id="grid_title" value="${this._config.grid_title}"></input></div>
-                <div class="row"><label class="label cell" for="load_title">Home:</label><input @change="${this.handleChangedEvent}" id="load_title" value="${this._config.load_title}"></input></div>
-                <div class="row"><label class="label cell" for="battery_title">Battery:</label><input @change="${this.handleChangedEvent}" id="battery_title" value="${this._config.battery_title}"></input></div>
-                <div class="row"><label class="label cell" for="generation_title">Generation:</label><input @change="${this.handleChangedEvent}" id="generation_title" value="${this._config.generation_title}"></input></div>
-                <div class="row"><label class="label cell" for="equipment1_title">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="equipment1_title" value="${this._config.equipment1_title}"></input></div>
-                <div class="row"><label class="label cell" for="equipment2_title">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="equipment2_title" value="${this._config.equipment2_title}"></input></div>
-                <div class="row"><h2>Icons</h2></div>
-                <div class="row"><label class="label cell" for="generation_icon">generation_icon:</label><input @change="${this.handleChangedEvent}" id="generation_icon" value="${this._config.generation_icon}"></input></div>
-                </form>
-        `;
+    <form class="table">
+      <div class="row"><h2>Card Title</h2>Entity or string</div>
+      <div class="row"><label class="label cell" for="card_title">Title</label><input @change="${this.handleChangedEvent}" id="card_title" value="${this._config.card_title}"></input></div>
+      <div class="row"><h2>Power Entites</h2>Can be an entity id or a positive numeric value. All expected to in kW.</div>
+      <div class="row"><label class="label cell" for="grid_to_load_id">Grid → House</label><input @change="${this.handleChangedEvent}" id="grid_to_load_id" value="${this._config.grid_to_load_id}"></input></div>
+      <div class="row"><label class="label cell" for="generation_to_grid_id">Generation → Grid</label><input @change="${this.handleChangedEvent}" id="generation_to_grid_id" value="${this._config.generation_to_grid_id}"></input></div>
+      <div class="row"><label class="label cell" for="generation_to_battery_id">Generation → Battery</label><input @change="${this.handleChangedEvent}" id="generation_to_battery_id" value="${this._config.generation_to_battery_id}"></input></div>
+      <div class="row"><label class="label cell" for="generation_to_load_id">Generation → House</label><input @change="${this.handleChangedEvent}" id="generation_to_load_id" value="${this._config.generation_to_load_id}"></input></div>
+      <div class="row"><label class="label cell" for="battery_to_load_id">Battery → Battery</label><input @change="${this.handleChangedEvent}" id="battery_to_load_id" value="${this._config.battery_to_load_id}"></input></div>
+      <div class="row"><label class="label cell" for="battery_to_grid_id">Battery → Grid</label><input @change="${this.handleChangedEvent}" id="battery_to_grid_id" value="${this._config.battery_to_grid_id}"></input></div>
+      <div class="row"><label class="label cell" for="equipment1_power_id">Home → Appliance 1</label><input @change="${this.handleChangedEvent}" id="equipment1_power_id" value="${this._config.equipment1_power_id}"></input></div>
+      <div class="row"><label class="label cell" for="equipment2_power_id">Home → Appliance 2</label><input @change="${this.handleChangedEvent}" id="equipment2_power_id" value="${this._config.equipment2_power_id}"></input></div>
+      <div class="row"><h2>Extra Info</h2>Appears above the Icon in the Circle. Can be an entity id or a string. </div>
+      <div class="row"><label class="label cell" for="grid_info_id">Grid:</label><input @change="${this.handleChangedEvent}" id="grid_info_id" value="${this._config.grid_info_id}"></input></div>
+      <div class="row"><label class="label cell" for="load_info_id">House:</label><input @change="${this.handleChangedEvent}" id="load_info_id" value="${this._config.load_info_id}"></input></div>
+      <div class="row"><label class="label cell" for="generation_info_id">Generation:</label><input @change="${this.handleChangedEvent}" id="generation_info_id" value="${this._config.generation_info_id}"></input></div>
+      <div class="row"><label class="label cell" for="battery_info_id">Battery:</label><input @change="${this.handleChangedEvent}" id="battery_info_id" value="${this._config.battery_info_id}"></input></div>
+      <div class="row"><label class="label cell" for="equipment1_info_id">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="equipment1_info_id" value="${this._config.equipment1_info_id}"></input></div>
+      <div class="row"><label class="label cell" for="equipment2_info_id">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="equipment2_info_id" value="${this._config.equipment2_info_id}"></input></div>
+      <div class="row"><h2>Titles</h2>Titles of the  elements. Can be an entity id or a positive numeric value. </div>
+      <div class="row"><label class="label cell" for="grid_title">Grid:</label><input @change="${this.handleChangedEvent}" id="grid_title" value="${this._config.grid_title}"></input></div>
+      <div class="row"><label class="label cell" for="load_title">Home:</label><input @change="${this.handleChangedEvent}" id="load_title" value="${this._config.load_title}"></input></div>
+      <div class="row"><label class="label cell" for="battery_title">Battery:</label><input @change="${this.handleChangedEvent}" id="battery_title" value="${this._config.battery_title}"></input></div>
+      <div class="row"><label class="label cell" for="generation_title">Generation:</label><input @change="${this.handleChangedEvent}" id="generation_title" value="${this._config.generation_title}"></input></div>
+      <div class="row"><label class="label cell" for="equipment1_title">Appliance 1:</label><input @change="${this.handleChangedEvent}" id="equipment1_title" value="${this._config.equipment1_title}"></input></div>
+      <div class="row"><label class="label cell" for="equipment2_title">Appliance 2:</label><input @change="${this.handleChangedEvent}" id="equipment2_title" value="${this._config.equipment2_title}"></input></div>
+      <div class="row"><h2>Icons</h2></div>
+      <div class="row"><label class="label cell" for="generation_icon">generation_icon:</label><input @change="${this.handleChangedEvent}" id="generation_icon" value="${this._config.generation_icon}"></input></div>
+    </form>`;
     }
     handleChangedEvent(changedEvent) {
         const target = changedEvent.target;
