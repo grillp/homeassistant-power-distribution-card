@@ -13,10 +13,10 @@ export const styles = css`
   }
   .lines {
     position: absolute;
-    bottom: 0;
+    bottom: -30px;
     left: 0;
     width: 100%;
-    height: 146px;
+    height: 180px;
     display: flex;
     justify-content: center;
     padding: 0 16px 16px;

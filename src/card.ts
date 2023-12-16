@@ -299,50 +299,50 @@ export class TestlaPowerDistribution extends LitElement {
     return html`
       <ha-card .header=${"My Tesla Distro"}>
         <div class="card-content">
-          <div class="row">
-            <div class="spacer"></div>
-            <div class="circle-container solar">
-              ${
-                this._has_generation
-                  ? html`
-                      <span class="label"> Solar </span>
-                      <div class="circle">
-                        ${this._generation_info_id
-                          ? html`<span
-                              >${this.extractStringFromId(
-                                this._generation_info_id
-                              )}</span
-                            >`
-                          : ""}
-                        <ha-svg-icon .path=${mdiSolarPower}></ha-svg-icon>
-                        ${this._from_generation_power} kW
-                      </div>
-                    `
-                  : ""
-              }
+          ${
+            this._has_generation || this._has_appliance1
+              ? html` <div class="row">
+                  <div class="spacer"></div>
+                  <div class="circle-container solar">
+                    ${this._has_generation
+                      ? html`
+                          <span class="label"> Solar </span>
+                          <div class="circle">
+                            ${this._generation_info_id
+                              ? html`<span
+                                  >${this.extractStringFromId(
+                                    this._generation_info_id
+                                  )}</span
+                                >`
+                              : ""}
+                            <ha-svg-icon .path=${mdiSolarPower}></ha-svg-icon>
+                            ${this._from_generation_power} kW
                           </div>
-            ${
-              this._has_appliance1
-                ? html` <div class="circle-container appliance-1">
-                    <span class="label"> Appliance 1 </span>
-                    <div class="circle">
-                      ${
-                        this._appliance1_info_id
-                          ? html`<span
-                              >${this.extractStringFromId(
-                                this._appliance1_info_id
-                              )}</span
-                            >`
-                          : ""
-                      }
-                      <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                      ${this._to_appliance1_power} kW
-                    </div>
+                        `
+                      : ""}
                   </div>
-            </div>`
-                : html`<div class="spacer"></div>`
-            }
-          </div>
+                  ${this._has_appliance1
+                    ? html` <div class="circle-container appliance-1">
+                        <span class="label"> Appliance 1 </span>
+                        <div class="circle">
+                          ${
+                            this._appliance1_info_id
+                              ? html`<span
+                                  >${this.extractStringFromId(
+                                    this._appliance1_info_id
+                                  )}</span
+                                >`
+                              : ""
+                          }
+                          <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
+                          ${this._to_appliance1_power} kW
+                        </div>
+                      </div>
+                </div>`
+                    : html`<div class="spacer"></div>`}
+                </div>`
+              : ""
+          }
           <div class="row">
             <div class="circle-container grid">
               <div class="circle">
@@ -402,71 +402,73 @@ export class TestlaPowerDistribution extends LitElement {
               <span class="label"> Home </span>
             </div>
           </div>
-          <div class="row">
-            <div class="spacer"></div>
-            <div class="circle-container battery">
-              <div class="circle">
-                ${
-                  this._battery_info_id
-                    ? html`<span
-                        >${this.extractStringFromId(
-                          this._battery_info_id
-                        )}</span
-                      >`
-                    : ""
-                }
-                <ha-svg-icon .path=${mdiBatteryHigh}></ha-svg-icon>
-                ${
-                  this._to_battery_power >= 0
-                    ? html`
-                        <span class="battery-in">
-                          ${this._to_battery_power > 0
-                            ? html`<ha-svg-icon
-                                class="small"
-                                .path=${mdiArrowDown}
-                              ></ha-svg-icon>`
-                            : ""}
-                          ${this._to_battery_power} kW
-                        </span>
-                      `
-                    : html`
-                        <span class="battery-out">
-                          <ha-svg-icon
-                            class="small"
-                            .path=${mdiArrowUp}
-                          ></ha-svg-icon>
-                          ${this._to_battery_power * -1} kW
-                        </span>
-                      `
-                }
-
-              </div>
-              <span class="label">Battery</span>
-            </div>
-            ${
-              this._has_appliance2
-                ? html`
-                    <div class="circle-container appliance-2">
-                      <div class="circle">
-                        ${this._appliance2_info_id
-                          ? html`<span
-                              >${this.extractStringFromId(
-                                this._appliance2_info_id
-                              )}</span
-                            >`
-                          : ""}
-                        <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
-                        ${this._to_appliance2_power} kW
-                      </div>
-                      <span class="label"> Appliance 2 </span>
-                    </div>
-                  `
-                : html`<div class="spacer"></div>`
-            }
+          ${
+            this._has_battery || this._has_appliance2
+              ? html`
+                  <div class="row">
+                    <div class="spacer"></div>
+                    ${this._has_battery
+                      ? html` <div class="circle-container battery">
+                          <div class="circle">
+                            ${this._battery_info_id
+                              ? html`<span
+                                  >${this.extractStringFromId(
+                                    this._battery_info_id
+                                  )}</span
+                                >`
+                              : ""}
+                            <ha-svg-icon .path=${mdiBatteryHigh}></ha-svg-icon>
+                            ${this._to_battery_power >= 0
+                              ? html`
+                                  <span class="battery-in">
+                                    ${this._to_battery_power > 0
+                                      ? html`<ha-svg-icon
+                                          class="small"
+                                          .path=${mdiArrowDown}
+                                        ></ha-svg-icon>`
+                                      : ""}
+                                    ${this._to_battery_power} kW
+                                  </span>
+                                `
+                              : html`
+                                  <span class="battery-out">
+                                    <ha-svg-icon
+                                      class="small"
+                                      .path=${mdiArrowUp}
+                                    ></ha-svg-icon>
+                                    ${this._to_battery_power * -1} kW
+                                  </span>
+                                `}
+                          </div>
+                          <span class="label">Battery</span>
+                        </div>`
+                      : html`<div class="spacer"></div>`}
+                    ${this._has_appliance2
+                      ? html`
+                          <div class="circle-container appliance-2">
+                            <div class="circle">
+                              ${this._appliance2_info_id
+                                ? html`<span
+                                    >${this.extractStringFromId(
+                                      this._appliance2_info_id
+                                    )}</span
+                                  >`
+                                : ""}
+                              <ha-svg-icon .path=${mdiCarSports}></ha-svg-icon>
+                              ${this._to_appliance2_power} kW
+                            </div>
+                            <span class="label"> Appliance 2 </span>
+                          </div>
+                        `
+                      : html`<div class="spacer"></div>`}
+                  </div>
+                `
+              : ""
+          }
           </div>
-
-          </div>
-          <div class="lines high">
+          <div class="lines ${
+            this._has_battery || this._has_appliance2 ? "high" : ""
+          }">
             <svg
               viewBox="0 0 100 100"
               xmlns="http://www.w3.org/2000/svg"
