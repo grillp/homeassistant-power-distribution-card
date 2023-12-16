@@ -8791,6 +8791,8 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._appliance1_power_id = config.appliance1_power_id;
         this._appliance2_info_id = config.appliance2_info_id;
         this._appliance2_power_id = config.appliance2_power_id;
+        this._has_generation = !(this._generation_to_grid_power_id === "" && this._generation_to_battery_power_id === "" && this._generation_to_house_power_id == "");
+        this._has_battery = !(this._battery_to_grid_power_id === "" && this._generation_to_battery_power_id === "" && this._battery_to_house_power_id == "");
         this._has_appliance1 = !(this._appliance1_power_id === "");
         this._has_appliance2 = !(this._appliance2_power_id === "");
         // call set hass() to immediately adjust to a changed entity
@@ -8859,23 +8861,6 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         return return_values;
     }
     renderPowerAnnimation(power, style, href) {
-        // if (power > 0 && this._total_flow_power > 0) {
-        //   console.log(`${style}:total ${this._total_flow_power}`);
-        //   console.log(`${style}:power ${power}`);
-        //   console.log(
-        //     `${style}:ratio ${
-        //       power / (this._total_flow_power == power ? 6 : this._total_flow_power)
-        //     }`
-        //   );
-        //   console.log(
-        //     `${style}:time ${
-        //       6 -
-        //       (power /
-        //         (this._total_flow_power == power ? 6 : this._total_flow_power)) *
-        //         6
-        //     }s`
-        //   );
-        // }
         return power > 0 && this._total_flow_power > 0 ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<circle
         r="1"
         class="${style}"
@@ -8903,15 +8888,17 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
           <div class="row">
             <div class="spacer"></div>
             <div class="circle-container solar">
-              <span class="label"> Solar </span>
-              <div class="circle">
-                ${this._generation_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
-                        >${this.extractStringFromId(this._generation_info_id)}</span
-                      >` : ""}
-                <ha-svg-icon .path=${0, $04557c061247a0a6$export$709e1cf7b54ff1ad}></ha-svg-icon>
-                ${this._from_generation_power} kW
-              </div>
-            </div>
+              ${this._has_generation ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+                      <span class="label"> Solar </span>
+                      <div class="circle">
+                        ${this._generation_info_id ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<span
+                              >${this.extractStringFromId(this._generation_info_id)}</span
+                            >` : ""}
+                        <ha-svg-icon .path=${0, $04557c061247a0a6$export$709e1cf7b54ff1ad}></ha-svg-icon>
+                        ${this._from_generation_power} kW
+                      </div>
+                    ` : ""}
+                          </div>
             ${this._has_appliance1 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container appliance-1">
                     <span class="label"> Appliance 1 </span>
                     <div class="circle">
@@ -9021,36 +9008,6 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
             >
               ${(0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
                 <path
-                  id="generation-to-grid"
-                  class="return"
-                  d="M45,0 v15 c0,35 -10,30 -30,30 h-20"
-                  vector-effect="non-scaling-stroke"
-                ></path>
-                <path
-                  id="generation-to-house"
-                  class="solar"
-                  d="M55,0 v15 c0,35 10,30 30,30 h20"
-                  vector-effect="non-scaling-stroke"
-                ></path>
-                <path
-                  id="battery-to-house"
-                  class="battery-house"
-                  d="M55,100 v-15 c0,-35 10,-30 30,-30 h20"
-                  vector-effect="non-scaling-stroke"
-                ></path>
-                <path
-                  id="battery-to-grid"
-                  class="battery-from-grid"
-                  d="M45,100 v-15 c0,-35 -10,-30 -30,-30 h-20"
-                  vector-effect="non-scaling-stroke"
-                ></path>
-                <path
-                  id="solar-to-battery"
-                  class="battery-solar"
-                  d="M50,0 V100"
-                  vector-effect="non-scaling-stroke"
-                ></path>
-                <path
                   class="grid"
                   id="grid-to-house"
                   d="M0,50 H100"
@@ -9058,12 +9015,48 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
                 >
                 </path>
                 ${this.renderPowerAnnimation(this._grid_to_house_power, "grid", "#grid-to-house")}
-                ${this.renderPowerAnnimation(this._generation_to_house_power, "solar", "#generation-to-house")}
-                ${this.renderPowerAnnimation(this._battery_to_house_power, "battery-house", "#battery-to-house")}
-                ${this.renderPowerAnnimation(this._battery_to_grid_power, "battery-from-grid", "#battery-to-grid")}
-                ${this.renderPowerAnnimation(this._generation_to_battery_power, "battery-solar", "#solar-to-battery")}
-                ${this.renderPowerAnnimation(this._generation_to_grid_power, "return", "#generation-to-grid")}
-              `}
+                `}
+                ${this._has_generation ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+                    <path
+                      id="generation-to-grid"
+                      class="return"
+                      d="M45,0 v15 c0,35 -10,30 -30,30 h-20"
+                      vector-effect="non-scaling-stroke"
+                    ></path>
+                    ${this.renderPowerAnnimation(this._generation_to_grid_power, "return", "#generation-to-grid")}
+                    <path
+                      id="generation-to-house"
+                      class="solar"
+                      d="M55,0 v15 c0,35 10,30 30,30 h20"
+                      vector-effect="non-scaling-stroke"
+                    ></path>
+                    ${this.renderPowerAnnimation(this._generation_to_house_power, "solar", "#generation-to-house")}
+                  ` : ""}
+                ${this._has_generation && this._has_battery ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+                    <path
+                      id="solar-to-battery"
+                      class="battery-solar"
+                      d="M50,0 V100"
+                      vector-effect="non-scaling-stroke"
+                    ></path>
+                    ${this.renderPowerAnnimation(this._generation_to_battery_power, "battery-solar", "#solar-to-battery")}
+                  ` : ""}
+                ${this._has_battery ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`
+                    <path
+                      id="battery-to-house"
+                      class="battery-house"
+                      d="M55,100 v-15 c0,-35 10,-30 30,-30 h20"
+                      vector-effect="non-scaling-stroke"
+                    ></path>
+                    ${this.renderPowerAnnimation(this._battery_to_house_power, "battery-house", "#battery-to-house")}
+                    <path
+                      id="battery-to-grid"
+                      class="battery-from-grid"
+                      d="M45,100 v-15 c0,-35 -10,-30 -30,-30 h-20"
+                      vector-effect="non-scaling-stroke"
+                    ></path>
+                    ${this.renderPowerAnnimation(this._battery_to_grid_power, "battery-from-grid", "#battery-to-grid")}
+                  ` : ""}
             </svg>
           </div>
           ${this._has_appliance1 || this._has_appliance2 ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<div class="lines right">
