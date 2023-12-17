@@ -1,5 +1,5 @@
-import { TestlaPowerDistribution } from "./card";
-import { TestlaPowerDistributionEditor } from "./editor";
+import { PowerDistribution } from "./card";
+import { PowerDistributionEditor } from "./editor";
 
 declare global {
   interface Window {
@@ -7,16 +7,13 @@ declare global {
   }
 }
 
-customElements.define("tesla-power-distribution", TestlaPowerDistribution);
-customElements.define(
-  "tesla-power-distribution-editor",
-  TestlaPowerDistributionEditor
-);
+customElements.define("power-distribution", PowerDistribution);
+customElements.define("power-distribution-editor", PowerDistributionEditor);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "tesla-power-distribution",
-  name: "Tesla Power Distribution",
+  type: "power-distribution",
+  name: "Power Distribution Card",
   description:
-    "Similar to the HA Power Distribution Card, but show current power and flow rather than energy",
+    "Like the HA Power Distribution Card, but show power and flow rather than energy",
 });

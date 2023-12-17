@@ -1,7 +1,7 @@
 import { css, html, LitElement, nothing, TemplateResult } from "lit";
 import { state } from "lit/decorators/state";
 import { property } from "lit/decorators/property";
-import { TeslaHasVisibility, set_visibility } from "./helpers";
+import { HasVisibility, set_visibility } from "./helpers";
 import {
   HomeAssistant,
   LovelaceCardEditor,
@@ -12,9 +12,9 @@ const includeDomains = ["sensor"];
 const includeClasses = ["power"];
 const includeUnits = ["kW"];
 
-export class TestlaPowerDistributionEditor
+export class PowerDistributionEditor
   extends LitElement
-  implements LovelaceCardEditor, TeslaHasVisibility
+  implements LovelaceCardEditor, HasVisibility
 {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @state() _config: LovelaceCardConfig;

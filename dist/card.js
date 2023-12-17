@@ -8789,7 +8789,7 @@ var $04557c061247a0a6$export$a14c803a1714faa3 = "M18.5,19.13C20,17.77 20,15.18 2
 
 
 const $a399cc6bbb0eb26a$var$CIRCLE_CIRCUMFERENCE = 238.76104;
-class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
+class $a399cc6bbb0eb26a$export$91e33cf09c77c6c4 extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
     _is_empty(value) {
         return value === undefined || value == "";
     }
@@ -9132,11 +9132,11 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
     }
     // card configuration
     static getConfigElement() {
-        return document.createElement("tesla-power-distribution-editor");
+        return document.createElement("power-distribution-editor");
     }
     static getStubConfig() {
         return {
-            card_title: "Insta Pow-a!",
+            card_title: "Power Distribution",
             grid_title: "Grid",
             generation_title: "Generation",
             storage_title: "Storage",
@@ -9148,124 +9148,124 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 }
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_to_load_power_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_grid_to_load_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_grid_power_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_generation_to_grid_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_storage_power_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_generation_to_storage_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_load_power_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_generation_to_load_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_to_load_power_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_storage_to_load_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_to_grid_power_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_storage_to_grid_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_top_power_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_top_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_bottom_power_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_bottom_power_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_info_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_grid_info_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_info_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_generation_info_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_info_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_storage_info_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_info_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_info_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_top_info_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_top_info_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_bottom_info_id", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_bottom_info_id", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_card_title", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_card_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_title", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_grid_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_title", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_title", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_generation_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_title", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_storage_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_top_title", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_top_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_bottom_title", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_bottom_title", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_to_load_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_grid_to_load_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_grid_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_generation_to_grid_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_storage_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_generation_to_storage_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_to_load_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_generation_to_load_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_to_load_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_storage_to_load_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_to_grid_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_storage_to_grid_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_total_flow_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_total_flow_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_load_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_to_load_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_from_grid_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_from_grid_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_from_generation_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_from_generation_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_load_top_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_to_load_top_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_load_bottom_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_to_load_bottom_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_to_storage_power", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_to_storage_power", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_generation_icon", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_generation_icon", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_grid_icon", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_grid_icon", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_storage_icon", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_storage_icon", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_icon", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_icon", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_top_icon", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_top_icon", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$f94a39919fd74438.prototype, "_load_bottom_icon", void 0);
+], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_bottom_icon", void 0);
 
 
 
@@ -9284,7 +9284,7 @@ const $d067581fc0d59830$var$includeClasses = [
 const $d067581fc0d59830$var$includeUnits = [
     "kW"
 ];
-class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
+class $d067581fc0d59830$export$fdd9212c0ea52737 extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
     firstUpdated() {
         // Elements can only be added to the local customElement registry after
         // createRenderRoot has run(which ScopedRegistryRoot handles).
@@ -9499,34 +9499,34 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
     (0, $9cd908ed2625c047$export$d541bacb2bda4494)({
         attribute: false
     })
-], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "hass", void 0);
+], $d067581fc0d59830$export$fdd9212c0ea52737.prototype, "hass", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_config", void 0);
+], $d067581fc0d59830$export$fdd9212c0ea52737.prototype, "_config", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_has_generation", void 0);
+], $d067581fc0d59830$export$fdd9212c0ea52737.prototype, "_has_generation", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_has_storage", void 0);
+], $d067581fc0d59830$export$fdd9212c0ea52737.prototype, "_has_storage", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_has_load_top", void 0);
+], $d067581fc0d59830$export$fdd9212c0ea52737.prototype, "_has_load_top", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_has_load_bottom", void 0);
+], $d067581fc0d59830$export$fdd9212c0ea52737.prototype, "_has_load_bottom", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_curTab", void 0);
+], $d067581fc0d59830$export$fdd9212c0ea52737.prototype, "_curTab", void 0);
 
 
-customElements.define("tesla-power-distribution", (0, $a399cc6bbb0eb26a$export$f94a39919fd74438));
-customElements.define("tesla-power-distribution-editor", (0, $d067581fc0d59830$export$6820950cdde5f40e));
+customElements.define("power-distribution", (0, $a399cc6bbb0eb26a$export$91e33cf09c77c6c4));
+customElements.define("power-distribution-editor", (0, $d067581fc0d59830$export$fdd9212c0ea52737));
 window.customCards = window.customCards || [];
 window.customCards.push({
-    type: "tesla-power-distribution",
-    name: "Tesla Power Distribution",
-    description: "Similar to the HA Power Distribution Card, but show current power and flow rather than energy"
+    type: "power-distribution",
+    name: "Power Distribution Card",
+    description: "Like the HA Power Distribution Card, but show power and flow rather than energy"
 });
 
 

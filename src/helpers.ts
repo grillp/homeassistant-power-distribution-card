@@ -2,14 +2,14 @@ export function is_empty(value: string | undefined): boolean {
   return value === undefined || value == "";
 }
 
-export interface TeslaHasVisibility {
+export interface HasVisibility {
   _has_generation: boolean;
   _has_storage: boolean;
   _has_load_top: boolean;
   _has_load_bottom: boolean;
 }
 
-export function set_visibility(vis: TeslaHasVisibility, config: any) {
+export function set_visibility(vis: HasVisibility, config: any) {
   vis._has_generation = !(
     is_empty(config.generation_to_grid_power_id) &&
     is_empty(config.generation_to_storage_power_id) &&

@@ -1,7 +1,7 @@
 import { html, LitElement, TemplateResult, svg, nothing } from "lit";
 import { styles } from "./card.styles";
 import { state } from "lit/decorators/state";
-import { TeslaHasVisibility, set_visibility } from "./helpers";
+import { HasVisibility, set_visibility } from "./helpers";
 
 // import { formatNumber } from "../../../../common/number/format_number";
 
@@ -48,10 +48,7 @@ interface DashValues {
 
 const CIRCLE_CIRCUMFERENCE = 238.76104;
 
-export class TestlaPowerDistribution
-  extends LitElement
-  implements TeslaHasVisibility
-{
+export class PowerDistribution extends LitElement implements HasVisibility {
   // Primary Power Entities
   @state() private _grid_to_load_power_id: string | null;
   @state() private _generation_to_grid_power_id: string | null;
@@ -668,12 +665,12 @@ export class TestlaPowerDistribution
 
   // card configuration
   static getConfigElement() {
-    return document.createElement("tesla-power-distribution-editor");
+    return document.createElement("power-distribution-editor");
   }
 
   static getStubConfig() {
     return {
-      card_title: "Insta Pow-a!",
+      card_title: "Power Distribution",
       grid_title: "Grid",
       generation_title: "Generation",
       storage_title: "Storage",
