@@ -68,24 +68,32 @@ export class TestlaPowerDistributionEditor
     }
   `;
 
-  iconPicker(name: string, label: string): TemplateResult {
+  iconPicker(
+    name: string,
+    label: string,
+    required: boolean = false
+  ): TemplateResult {
     return html`
       <ha-icon-picker
         id="${name}"
         .hass=${this.hass}
         .value=${this._config[name] ?? ""}
-        .label=${label}
+        .label="${label} (${required ? "Required" : "Optional"})"
         @value-changed=${this._change}
       ></ha-icon-picker>
     `;
   }
 
-  entityPicker(name: string, label: string): TemplateResult {
+  entityPicker(
+    name: string,
+    label: string,
+    required: boolean = false
+  ): TemplateResult {
     return html`
       <ha-entity-picker
         id="${name}"
         .hass=${this.hass}
-        .label=${label}
+        .label="${label} (${required ? "Required" : "Optional"})"
         .includeDomains=${includeDomains}
         .value=${this._config[name] ?? ""}
         @value-changed=${this._change}
@@ -95,15 +103,18 @@ export class TestlaPowerDistributionEditor
     `;
   }
 
-  input(name: string, label: string): TemplateResult {
+  textField(
+    name: string,
+    label: string,
+    required: boolean = false
+  ): TemplateResult {
     return html`
       <ha-textfield
         id=${name}
         type="string"
-        inputmode="numeric"
         .value=${this._config[name] ?? ""}
-        .label=${label}
-        name="days"
+        .label="${label} (${required ? "Required" : "Optional"})"
+        name=${name}
         @change=${this._change}
         no-spinner
         .required="false"
@@ -113,28 +124,23 @@ export class TestlaPowerDistributionEditor
     `;
   }
 
-  inputRow(name: string, label: string): TemplateResult {
-    return html`
-      <div class="row">
-        <label class="label cell" for="{${name}}">${label}</label>
-        <input
-          @change=${this._change}
-          id=${name}
-          value="${this._config[name]}">
-        </input>
-      </div>
-    `;
-  }
-
   render() {
     return html`
       <div class="card-config">
+        <h2>Card Title</h2>
+        ${this.textField(
+          "card_title",
+          `${this._config.grid_title || "Grid"} → ${
+            this._config.load_title || "Load"
+          }`
+        )}
         <h2>Power Entities</h2>
         ${this.entityPicker(
           "grid_to_load_power_id",
           `${this._config.grid_title || "Grid"} → ${
             this._config.load_title || "Load"
-          }`
+          }`,
+          true
         )}
         ${this.entityPicker(
           "generation_to_grid_power_id",
@@ -180,41 +186,50 @@ export class TestlaPowerDistributionEditor
         )}
         <h2>Element Titles</h2>
         Can be an entity id or a positive numeric value.
-        ${this.input("grid_title", "Grid")} ${this.input("load_title", "Load")}
+        ${this.textField("grid_title", "Grid")}
+        ${this.textField("load_title", "Load")}
         ${this._has_generation
-          ? this.input("generation_title", "Generation")
+          ? this.textField("generation_title", "Generation")
           : nothing}
-        ${this._has_storage ? this.input("storage_title", "Storage") : nothing}
+        ${this._has_storage
+          ? this.textField("storage_title", "Storage")
+          : nothing}
         ${this._has_load_top
-          ? this.input("load_top_title", "Load Top")
+          ? this.textField("load_top_title", "Load Top")
           : nothing}
         ${this._has_load_bottom
-          ? this.input("load_bottom_title", "Load Bottom")
+          ? this.textField("load_bottom_title", "Load Bottom")
           : nothing}
         <h2>Element Extra Info</h2>
         Appears above the Icon in the Circle. Can be an entity id or a string.
-        ${this.input("grid_info_id", `${this._config.grid_title || "Grid"}`)}
-        ${this.input("load_info_id", `${this._config.load_title || "Load"}`)}
+        ${this.entityPicker(
+          "grid_info_id",
+          `${this._config.grid_title || "Grid"}`
+        )}
+        ${this.entityPicker(
+          "load_info_id",
+          `${this._config.load_title || "Load"}`
+        )}
         ${this._has_generation
-          ? this.input(
+          ? this.entityPicker(
               "generation_info_id",
               `${this._config.generation_title || "Generation"}`
             )
           : nothing}
         ${this._has_storage
-          ? this.input(
+          ? this.entityPicker(
               "storage_info_id",
               `${this._config.storage_title || "Storage"}`
             )
           : nothing}
         ${this._has_load_top
-          ? this.input(
+          ? this.entityPicker(
               "load_top_info_id",
               `${this._config.load_top_title || "Top Load"}`
             )
           : nothing}
         ${this._has_load_bottom
-          ? this.input(
+          ? this.entityPicker(
               "load_bottom_info_id",
               `${this._config.load_bottom_title || "Bottom Load"}`
             )

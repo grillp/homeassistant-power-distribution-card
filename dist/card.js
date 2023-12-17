@@ -9324,23 +9324,23 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
     }
   `;
     })();
-    iconPicker(name, label) {
+    iconPicker(name, label, required = false) {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <ha-icon-picker
         id="${name}"
         .hass=${this.hass}
         .value=${this._config[name] ?? ""}
-        .label=${label}
+        .label="${label} (${required ? "Required" : "Optional"})"
         @value-changed=${this._change}
       ></ha-icon-picker>
     `;
     }
-    entityPicker(name, label) {
+    entityPicker(name, label, required = false) {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <ha-entity-picker
         id="${name}"
         .hass=${this.hass}
-        .label=${label}
+        .label="${label} (${required ? "Required" : "Optional"})"
         .includeDomains=${$d067581fc0d59830$var$includeDomains}
         .value=${this._config[name] ?? ""}
         @value-changed=${this._change}
@@ -9349,15 +9349,14 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       </ha-entity-picker>
     `;
     }
-    input(name, label) {
+    textField(name, label, required = false) {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <ha-textfield
         id=${name}
         type="string"
-        inputmode="numeric"
         .value=${this._config[name] ?? ""}
-        .label=${label}
-        name="days"
+        .label="${label} (${required ? "Required" : "Optional"})"
+        name=${name}
         @change=${this._change}
         no-spinner
         .required="false"
@@ -9366,23 +9365,13 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       </ha-textfield>
     `;
     }
-    inputRow(name, label) {
-        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
-      <div class="row">
-        <label class="label cell" for="{${name}}">${label}</label>
-        <input
-          @change=${this._change}
-          id=${name}
-          value="${this._config[name]}">
-        </input>
-      </div>
-    `;
-    }
     render() {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <div class="card-config">
         <h2>Power Entities</h2>
-        ${this.entityPicker("grid_to_load_power_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
+        ${this.textField("card_title", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
+        <h2>Power Entities</h2>
+        ${this.entityPicker("grid_to_load_power_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`, true)}
         ${this.entityPicker("generation_to_grid_power_id", `${this._config.generation_title || "Generation"} → ${this._config.grid_title || "Grid"}`)}
         ${this.entityPicker("generation_to_storage_power_id", `${this._config.generation_title || "Generation"} → ${this._config.storage_title || "Storage"}`)}
         ${this.entityPicker("generation_to_load_power_id", `${this._config.generation_title || "Generation"} → ${this._config.load_title || "Load"}`)}
@@ -9392,19 +9381,20 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         ${this.entityPicker("load_bottom_power_id", `${this._config.load_title || "Load"} → ${this._config.load_bottom_title || "Bottom Load"}`)}
         <h2>Element Titles</h2>
         Can be an entity id or a positive numeric value.
-        ${this.input("grid_title", "Grid")} ${this.input("load_title", "Load")}
-        ${this._has_generation ? this.input("generation_title", "Generation") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-        ${this._has_storage ? this.input("storage_title", "Storage") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-        ${this._has_load_top ? this.input("load_top_title", "Load Top") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-        ${this._has_load_bottom ? this.input("load_bottom_title", "Load Bottom") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this.textField("grid_title", "Grid")}
+        ${this.textField("load_title", "Load")}
+        ${this._has_generation ? this.textField("generation_title", "Generation") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_storage ? this.textField("storage_title", "Storage") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_load_top ? this.textField("load_top_title", "Load Top") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_load_bottom ? this.textField("load_bottom_title", "Load Bottom") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
         <h2>Element Extra Info</h2>
         Appears above the Icon in the Circle. Can be an entity id or a string.
-        ${this.input("grid_info_id", `${this._config.grid_title || "Grid"}`)}
-        ${this.input("load_info_id", `${this._config.load_title || "Load"}`)}
-        ${this._has_generation ? this.input("generation_info_id", `${this._config.generation_title || "Generation"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-        ${this._has_storage ? this.input("storage_info_id", `${this._config.storage_title || "Storage"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-        ${this._has_load_top ? this.input("load_top_info_id", `${this._config.load_top_title || "Top Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-        ${this._has_load_bottom ? this.input("load_bottom_info_id", `${this._config.load_bottom_title || "Bottom Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this.entityPicker("grid_info_id", `${this._config.grid_title || "Grid"}`)}
+        ${this.entityPicker("load_info_id", `${this._config.load_title || "Load"}`)}
+        ${this._has_generation ? this.entityPicker("generation_info_id", `${this._config.generation_title || "Generation"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_storage ? this.entityPicker("storage_info_id", `${this._config.storage_title || "Storage"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_load_top ? this.entityPicker("load_top_info_id", `${this._config.load_top_title || "Top Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_load_bottom ? this.entityPicker("load_bottom_info_id", `${this._config.load_bottom_title || "Bottom Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
 
         <h2>Element Icons</h2>
         ${this.iconPicker("grid_icon", `${this._config.grid_title || "Grid"}`)}
