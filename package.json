@@ -1,4 +1,5 @@
 {
+  "name": "power-distribution",
   "source": "src/index.ts",
   "module": "dist/card.js",
   "targets": {

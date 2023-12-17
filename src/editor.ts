@@ -50,7 +50,6 @@ export class PowerDistributionEditor
       // Since ha-elements are not using scopedRegistry we can get a reference to
       // the newly loaded element from the global customElement registry...
       const haEntityPicker = window.customElements.get("ha-entity-picker");
-      console.log(haEntityPicker);
     }
   }
 
@@ -327,7 +326,6 @@ export class PowerDistributionEditor
   }
 
   _handleTabSelected(ev: CustomEvent): void {
-    console.log(ev);
     if (!ev.detail.value) {
       return;
     }
@@ -340,7 +338,6 @@ export class PowerDistributionEditor
 
   _nameChanged(ev: Event) {
     const target = ev.target as HTMLInputElement;
-    console.log(this.hass);
   }
 
   _change(ev: Event) {

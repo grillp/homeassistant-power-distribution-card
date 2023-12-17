@@ -2,11 +2,11 @@ import { html, LitElement, TemplateResult, svg, nothing } from "lit";
 import { styles } from "./card.styles";
 import { state } from "lit/decorators/state";
 import { HasVisibility, set_visibility } from "./helpers";
-
-// import { formatNumber } from "../../../../common/number/format_number";
-
-import { HassEntity } from "home-assistant-js-websocket";
-import { HomeAssistant, LovelaceCardConfig } from "custom-card-helpers";
+import {
+  HomeAssistant,
+  LovelaceCardConfig,
+  formatNumber,
+} from "custom-card-helpers";
 import { mdiArrowDown, mdiArrowLeft, mdiArrowRight, mdiArrowUp } from "@mdi/js";
 
 interface Config extends LovelaceCardConfig {
@@ -101,7 +101,7 @@ export class PowerDistribution extends LitElement implements HasVisibility {
   @state() private _load_bottom_icon: string;
 
   // private property
-  private _hass;
+  private _hass: any;
   public _has_generation: boolean;
   public _has_storage: boolean;
   public _has_load_top: boolean;
@@ -111,11 +111,7 @@ export class PowerDistribution extends LitElement implements HasVisibility {
     return value === undefined || value == "";
   }
 
-  // lifecycle interface
   setConfig(config: Config) {
-    // this._header = config.header === "" ? nothing : config.header;
-    // this._id = config.entity;
-    console.log("setConfig");
     this._grid_to_load_power_id = config.grid_to_load_power_id;
     this._generation_to_grid_power_id = config.generation_to_grid_power_id;
     this._generation_to_storage_power_id =
@@ -192,7 +188,6 @@ export class PowerDistribution extends LitElement implements HasVisibility {
   }
 
   set hass(hass: HomeAssistant) {
-    console.log("Hass");
     this._hass = hass;
 
     this._grid_to_load_power = this.extractNumberFromId(
@@ -260,13 +255,6 @@ export class PowerDistribution extends LitElement implements HasVisibility {
       this._generation_to_load_power +
       this._storage_to_load_power +
       this._storage_to_grid_power;
-
-    // this._state = hass.states[this._id];
-    // if (this._state) {
-    //   this._status = this._state.state;
-    //   let fn = this._state.attributes.friendly_name;
-    //   this._name = fn ? fn : this._id;
-    // }
   }
 
   // declarative part
@@ -297,7 +285,7 @@ export class PowerDistribution extends LitElement implements HasVisibility {
     power: number,
     style: string,
     href: string
-  ): any {
+  ): string | TemplateResult {
     return power > 0 && this._total_flow_power > 0
       ? svg`<circle
         r="1"
@@ -320,9 +308,7 @@ export class PowerDistribution extends LitElement implements HasVisibility {
       : "";
   }
 
-  render() {
-    console.log("Render");
-
+  render(): TemplateResult {
     let loadSliceDashValues: DashValues[] = this.calcStrokeDashValues([
       this._storage_to_load_power,
       this._grid_to_load_power,
@@ -354,7 +340,11 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                               class="small"
                               icon="${this._generation_icon}"
                             ></ha-icon
-                            >${this._from_generation_power} kW
+                            >${formatNumber(
+                              this._from_generation_power,
+                              this._hass.locale
+                            )}
+                            kW
                           </div>
                         `
                       : ""}
@@ -376,7 +366,11 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                           }
                           <ha-icon class="small" icon="${
                             this._load_top_icon
-                          }"></ha-icon>${this._to_load_top_power} kW
+                          }"></ha-icon>
+                          ${formatNumber(
+                            this._to_load_top_power,
+                            this._hass.locale
+                          )} kW
                         </div>
                       </div>
                 </div>`
@@ -404,7 +398,11 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                                 class="small"
                                 .path=${mdiArrowRight}
                               ></ha-svg-icon>`
-                            : ""}${this._from_grid_power}
+                            : ""}
+                          ${formatNumber(
+                            this._from_grid_power,
+                            this._hass.locale
+                          )}
                           kW
                         </span>
                       `
@@ -433,7 +431,7 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                     : ""
                 }
                 <ha-icon class="small" icon="${this._load_icon}"></ha-icon>
-                ${this._to_load_power} kW
+                ${formatNumber(this._to_load_power, this._hass.locale)} kW
                 <svg>
                   ${svg`
                     <circle class="storage" cx="40" cy="40" r="38" stroke-dasharray="${loadSliceDashValues[0].stroke_dasharray}" stroke-dashoffset="${loadSliceDashValues[0].stroke_dashoffset}"></circle>
@@ -475,7 +473,11 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                                           .path=${mdiArrowDown}
                                         ></ha-svg-icon>`
                                       : ""}
-                                    ${this._to_storage_power} kW
+                                    ${formatNumber(
+                                      this._to_storage_power,
+                                      this._hass.locale
+                                    )}
+                                    kW
                                   </span>
                                 `
                               : html`
@@ -484,7 +486,11 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                                       class="small"
                                       .path=${mdiArrowUp}
                                     ></ha-svg-icon>
-                                    ${this._to_storage_power * -1} kW
+                                    ${formatNumber(
+                                      this._to_storage_power * -1,
+                                      this._hass.locale
+                                    )}
+                                    kW
                                   </span>
                                 `}
                           </div>
@@ -510,7 +516,11 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                                 class="small"
                                 icon="${this._load_bottom_icon}"
                               ></ha-icon>
-                              ${this._to_load_bottom_power} kW
+                              ${formatNumber(
+                                this._to_load_bottom_power,
+                                this._hass.locale
+                              )}
+                              kW
                             </div>
                             <span class="label">
                               ${this.extractStringFromId(
