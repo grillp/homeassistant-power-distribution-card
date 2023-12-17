@@ -1361,10 +1361,6 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
   .card-actions a {
     text-decoration: none;
   }
-  ha-textfield {
-    display: block;
-    margin-bottom: 16px;
-  }
 `;
 
 
@@ -9294,6 +9290,7 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       display: table-cell;
       padding: 0.5em;
     }
+    ha-icon-picker,
     ha-textfield {
       display: block;
       margin-bottom: 16px;
@@ -9305,7 +9302,8 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       <ha-icon-picker
         id="${name}"
         .hass=${this.hass}
-        .value=${this._config[name]}
+        .value=${this._config[name] ?? ""}
+        .label=${label}
         @value-changed=${this._change}
       ></ha-icon-picker>
     `;
@@ -9321,10 +9319,10 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
     input(name, label) {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <ha-textfield
-        id="day"
+        id=${name}
         type="string"
         inputmode="numeric"
-        .value=${this._config[name]}
+        .value=${this._config[name] ?? ""}
         .label=${label}
         name="days"
         @change=${this._change}
@@ -9341,7 +9339,7 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         <label class="label cell" for="{${name}}">${label}</label>
         <input
           @change=${this._change}
-          id="${name}"
+          id=${name}
           value="${this._config[name]}">
         </input>
       </div>

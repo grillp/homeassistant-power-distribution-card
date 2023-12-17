@@ -48,6 +48,7 @@ export class TestlaPowerDistributionEditor
       display: table-cell;
       padding: 0.5em;
     }
+    ha-icon-picker,
     ha-textfield {
       display: block;
       margin-bottom: 16px;
@@ -59,7 +60,8 @@ export class TestlaPowerDistributionEditor
       <ha-icon-picker
         id="${name}"
         .hass=${this.hass}
-        .value=${this._config[name]}
+        .value=${this._config[name] ?? ""}
+        .label=${label}
         @value-changed=${this._change}
       ></ha-icon-picker>
     `;
@@ -77,10 +79,10 @@ export class TestlaPowerDistributionEditor
   input(name: string, label: string): TemplateResult {
     return html`
       <ha-textfield
-        id="day"
+        id=${name}
         type="string"
         inputmode="numeric"
-        .value=${this._config[name]}
+        .value=${this._config[name] ?? ""}
         .label=${label}
         name="days"
         @change=${this._change}
@@ -98,7 +100,7 @@ export class TestlaPowerDistributionEditor
         <label class="label cell" for="{${name}}">${label}</label>
         <input
           @change=${this._change}
-          id="${name}"
+          id=${name}
           value="${this._config[name]}">
         </input>
       </div>

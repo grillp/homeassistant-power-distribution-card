@@ -284,8 +284,4 @@ export const styles = css`
   .card-actions a {
     text-decoration: none;
   }
-  ha-textfield {
-    display: block;
-    margin-bottom: 16px;
-  }
 `;
