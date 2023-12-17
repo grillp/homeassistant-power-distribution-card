@@ -8779,17 +8779,20 @@ var $04557c061247a0a6$export$a14c803a1714faa3 = "M18.5,19.13C20,17.77 20,15.18 2
 
 const $a399cc6bbb0eb26a$var$CIRCLE_CIRCUMFERENCE = 238.76104;
 class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
+    _is_empty(value) {
+        return value === undefined || value == "";
+    }
     // lifecycle interface
     setConfig(config) {
         // this._header = config.header === "" ? nothing : config.header;
         // this._id = config.entity;
         console.log("setConfig");
-        this._grid_to_load_power_id = config.grid_to_load_id;
-        this._generation_to_grid_power_id = config.generation_to_grid_id;
-        this._generation_to_storage_power_id = config.generation_to_storage_id;
-        this._generation_to_load_power_id = config.generation_to_load_id;
-        this._storage_to_load_power_id = config.storage_to_load_id;
-        this._storage_to_grid_power_id = config.storage_to_grid_id;
+        this._grid_to_load_power_id = config.grid_to_load_power_id;
+        this._generation_to_grid_power_id = config.generation_to_grid_power_id;
+        this._generation_to_storage_power_id = config.generation_to_storage_power_id;
+        this._generation_to_load_power_id = config.generation_to_load_power_id;
+        this._storage_to_load_power_id = config.storage_to_load_power_id;
+        this._storage_to_grid_power_id = config.storage_to_grid_power_id;
         this._storage_info_id = config.storage_info_id;
         this._load_info_id = config.load_info_id;
         this._grid_info_id = config.grid_info_id;
@@ -8811,10 +8814,10 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._grid_icon = config.grid_icon || "mdi:transmission-tower";
         this._load_top_icon = config.load_top_icon || "mdi:car-sports";
         this._load_bottom_icon = config.load_bottom_icon || "mdi:car-sports";
-        this._has_generation = !(this._generation_to_grid_power_id === "" && this._generation_to_storage_power_id === "" && this._generation_to_load_power_id == "");
-        this._has_storage = !(this._storage_to_grid_power_id === "" && this._generation_to_storage_power_id === "" && this._storage_to_load_power_id == "");
-        this._has_load_top = !(this._load_top_power_id === "");
-        this._has_load_bottom = !(this._load_bottom_power_id === "");
+        this._has_generation = !(this._is_empty(config.generation_to_grid_power_id) && this._is_empty(config.generation_to_storage_power_id) && this._is_empty(config.generation_to_load_power_id));
+        this._has_storage = !(this._is_empty(config.storage_to_grid_power_id) && this._is_empty(config.generation_to_storage_power_id) && this._is_empty(config.storage_to_load_power_id));
+        this._has_load_top = !this._is_empty(config.load_top_power_id);
+        this._has_load_bottom = !this._is_empty(config.load_bottom_power_id);
         // call set hass() to immediately adjust to a changed entity
         // while editing the entity in the card editor
         if (this._hass) this.hass = this._hass;
@@ -9122,13 +9125,6 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
     static getStubConfig() {
         return {
             card_title: "Insta Pow-a!",
-            grid_to_load_id: "1",
-            generation_to_grid_id: "1",
-            generation_to_storage_id: "1",
-            generation_to_load_id: "1",
-            storage_to_load_id: "1",
-            storage_to_grid_id: "1",
-            storage_info_id: "1",
             grid_title: "Grid",
             generation_title: "Generation",
             storage_title: "Storage",
@@ -9269,6 +9265,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
     setConfig(config) {
         this._config = config;
+        this._set_visibility(config);
     }
     static #_ = (()=>{
         this.styles = (0, $def2de46b9306e8a$export$dbf350e5966cf602)`
@@ -9321,12 +9318,12 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         <h2>Power Entites</h2>
         Can be an entity id or a positive numeric value. All expected to in kW.
       </div>
-      ${this.inputRow("grid_to_load_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
-      ${this.inputRow("generation_to_grid_id", `${this._config.generation_title || "Generation"} → ${this._config.grid_title || "Grid"}`)}
-      ${this.inputRow("generation_to_storage_id", `${this._config.generation_title || "Generation"} → ${this._config.storage_title || "Storage"}`)}
-      ${this.inputRow("generation_to_load_id", `${this._config.generation_title || "Generation"} → ${this._config.load_title || "Load"}`)}
-      ${this.inputRow("storage_to_load_id", `${this._config.storage_title || "Storage"} → ${this._config.load_title || "Load"}`)}
-      ${this.inputRow("storage_to_grid_id", `${this._config.storage_title || "Storage"} → ${this._config.grid_title || "Grid"}`)}
+      ${this.inputRow("grid_to_load_power_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
+      ${this.inputRow("generation_to_grid_power_id", `${this._config.generation_title || "Generation"} → ${this._config.grid_title || "Grid"}`)}
+      ${this.inputRow("generation_to_storage_power_id", `${this._config.generation_title || "Generation"} → ${this._config.storage_title || "Storage"}`)}
+      ${this.inputRow("generation_to_load_power_id", `${this._config.generation_title || "Generation"} → ${this._config.load_title || "Load"}`)}
+      ${this.inputRow("storage_to_load_power_id", `${this._config.storage_title || "Storage"} → ${this._config.load_title || "Load"}`)}
+      ${this.inputRow("storage_to_grid_power_id", `${this._config.storage_title || "Storage"} → ${this._config.grid_title || "Grid"}`)}
       ${this.inputRow("load_top_power_id", `${this._config.load_title || "Load"} → ${this._config.load_top_title || "Top Load"}`)}
       ${this.inputRow("load_bottom_power_id", `${this._config.load_title || "Load"} → ${this._config.load_bottom_title || "Bottom Load"}`)}
       <div class="row">
@@ -9335,29 +9332,44 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       </div>
       ${this.inputRow("grid_title", "Grid")}
       ${this.inputRow("load_title", "Load")}
-      ${this.inputRow("generation_title", "Generation")}
-      ${this.inputRow("storage_title", "Storage")}
-      ${this.inputRow("load_top_title", "Load Top")}
-      ${this.inputRow("load_bottom_title", "Load Bottom")}
+      ${this._has_generation ? this.inputRow("generation_title", "Generation") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+      ${this._has_storage ? this.inputRow("storage_title", "Storage") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+      ${this._has_load_top ? this.inputRow("load_top_title", "Load Top") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+      ${this._has_load_bottom ? this.inputRow("load_bottom_title", "Load Bottom") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
       <div class="row">
         <h2>Extra Info</h2>
         Appears above the Icon in the Circle. Can be an entity id or a string.
       </div>
       ${this.inputRow("grid_info_id", `${this._config.grid_title || "Grid"}`)}
       ${this.inputRow("load_info_id", `${this._config.load_title || "Load"}`)}
-      ${this.inputRow("generation_info_id", `${this._config.generation_title || "Generation"}`)}
-      ${this.inputRow("storage_info_id", `${this._config.storage_title || "Storage"}`)}
-      ${this.inputRow("load_top_info_id", `${this._config.load_top_title || "Top Load"}`)}
-      ${this.inputRow("load_bottom_info_id", `${this._config.load_bottom_title || "Bottom Load"}`)}
+      ${this._has_generation ? this.inputRow("generation_info_id", `${this._config.generation_title || "Generation"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+      ${this._has_storage ? this.inputRow("storage_info_id", `${this._config.storage_title || "Storage"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+      ${this._has_load_top ? this.inputRow("load_top_info_id", `${this._config.load_top_title || "Top Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+      ${this._has_load_bottom ? this.inputRow("load_bottom_info_id", `${this._config.load_bottom_title || "Bottom Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
 
       <div class="row"><h2>Icons</h2></div>
       ${this.iconPickerRow("grid_icon", `${this._config.grid_title || "Grid"}`)}
       ${this.iconPickerRow("load_icon", `${this._config.load_title || "Load"}`)}
-      ${this.iconPickerRow("generation_icon", `${this._config.generation_title || "Generation"}`)}
-      ${this.iconPickerRow("storage_icon", `${this._config.storage_title || "Storage"}`)}
-      ${this.iconPickerRow("load_top_icon", `${this._config.load_top_title || "Top Load"}`)}
-      ${this.iconPickerRow("load_bottom_icon", `${this._config.load_bottom_title || "Bottom Load"}`)}
+      ${this._has_generation ? this.iconPickerRow("generation_icon", `${this._config.generation_title || "Generation"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+      ${this._has_storage ? this.iconPickerRow("storage_icon", `${this._config.storage_title || "Storage"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+      ${this._has_load_top ? this.iconPickerRow("load_top_icon", `${this._config.load_top_title || "Top Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+      ${this._has_load_bottom ? this.iconPickerRow("load_bottom_icon", `${this._config.load_bottom_title || "Bottom Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
     </form>`;
+    }
+    _is_empty(value) {
+        return value === undefined || value == "";
+    }
+    _set_visibility(config) {
+        console.log("Set Visibility");
+        console.log(config);
+        this._has_generation = !(this._is_empty(config.generation_to_grid_power_id) && this._is_empty(config.generation_to_storage_power_id) && this._is_empty(config.generation_to_load_power_id));
+        this._has_storage = !(this._is_empty(config.storage_to_grid_power_id) && this._is_empty(config.generation_to_storage_power_id) && this._is_empty(config.storage_to_load_power_id));
+        this._has_load_top = !this._is_empty(config.load_top_power_id);
+        this._has_load_bottom = !this._is_empty(config.load_bottom_power_id);
+        console.log(this._has_generation);
+        console.log(this._has_storage);
+        console.log(this._has_load_top);
+        console.log(this._has_load_bottom);
     }
     _nameChanged(ev) {
         const target = ev.target;
@@ -9367,8 +9379,12 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         const target = ev.target;
         ev.stopPropagation();
         // this._config is readonly, copy needed
+        var newValue = target.value;
+        if (newValue === this._config[target.id]) return;
         const newConfig = Object.assign({}, this._config);
-        newConfig[target.id] = target.value;
+        if (newValue === "" || newValue == undefined) delete newConfig[target.id];
+        else newConfig[target.id] = target.value;
+        this._set_visibility(newConfig);
         const messageEvent = new CustomEvent("config-changed", {
             detail: {
                 config: newConfig
@@ -9387,6 +9403,18 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_config", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_has_generation", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_has_storage", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_has_load_top", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_has_load_bottom", void 0);
 
 
 customElements.define("tesla-power-distribution", (0, $a399cc6bbb0eb26a$export$f94a39919fd74438));

@@ -9,14 +9,14 @@ import { HomeAssistant, LovelaceCardConfig } from "custom-card-helpers";
 import { mdiArrowDown, mdiArrowLeft, mdiArrowRight, mdiArrowUp } from "@mdi/js";
 
 interface Config extends LovelaceCardConfig {
-  grid_to_load_id: string;
-  generation_to_grid_id: string;
-  generation_to_storage_id: string;
-  generation_to_load_id: string;
-  storage_to_load_id: string;
-  storage_to_grid_id: string;
-  load_top_power_id: string;
-  load_bottom_power_id: string;
+  grid_to_load_power_id: string;
+  generation_to_grid_power_id: string;
+  generation_to_storage_power_id: string;
+  generation_to_load_power_id: string;
+  storage_to_load_power_id: string;
+  storage_to_grid_power_id: string;
+  load_top_power_power_id: string;
+  load_bottom_power_power_id: string;
 
   grid_info_id: string;
   storage_info_id: string;
@@ -106,17 +106,22 @@ export class TestlaPowerDistribution extends LitElement {
   private _has_load_top: boolean;
   private _has_load_bottom: boolean;
 
+  _is_empty(value: string | undefined): boolean {
+    return value === undefined || value == "";
+  }
+
   // lifecycle interface
   setConfig(config: Config) {
     // this._header = config.header === "" ? nothing : config.header;
     // this._id = config.entity;
     console.log("setConfig");
-    this._grid_to_load_power_id = config.grid_to_load_id;
-    this._generation_to_grid_power_id = config.generation_to_grid_id;
-    this._generation_to_storage_power_id = config.generation_to_storage_id;
-    this._generation_to_load_power_id = config.generation_to_load_id;
-    this._storage_to_load_power_id = config.storage_to_load_id;
-    this._storage_to_grid_power_id = config.storage_to_grid_id;
+    this._grid_to_load_power_id = config.grid_to_load_power_id;
+    this._generation_to_grid_power_id = config.generation_to_grid_power_id;
+    this._generation_to_storage_power_id =
+      config.generation_to_storage_power_id;
+    this._generation_to_load_power_id = config.generation_to_load_power_id;
+    this._storage_to_load_power_id = config.storage_to_load_power_id;
+    this._storage_to_grid_power_id = config.storage_to_grid_power_id;
 
     this._storage_info_id = config.storage_info_id;
     this._load_info_id = config.load_info_id;
@@ -143,17 +148,17 @@ export class TestlaPowerDistribution extends LitElement {
     this._load_bottom_icon = config.load_bottom_icon || "mdi:car-sports";
 
     this._has_generation = !(
-      this._generation_to_grid_power_id === "" &&
-      this._generation_to_storage_power_id === "" &&
-      this._generation_to_load_power_id == ""
+      this._is_empty(config.generation_to_grid_power_id) &&
+      this._is_empty(config.generation_to_storage_power_id) &&
+      this._is_empty(config.generation_to_load_power_id)
     );
     this._has_storage = !(
-      this._storage_to_grid_power_id === "" &&
-      this._generation_to_storage_power_id === "" &&
-      this._storage_to_load_power_id == ""
+      this._is_empty(config.storage_to_grid_power_id) &&
+      this._is_empty(config.generation_to_storage_power_id) &&
+      this._is_empty(config.storage_to_load_power_id)
     );
-    this._has_load_top = !(this._load_top_power_id === "");
-    this._has_load_bottom = !(this._load_bottom_power_id === "");
+    this._has_load_top = !this._is_empty(config.load_top_power_id);
+    this._has_load_bottom = !this._is_empty(config.load_bottom_power_id);
 
     // call set hass() to immediately adjust to a changed entity
     // while editing the entity in the card editor
@@ -664,15 +669,6 @@ export class TestlaPowerDistribution extends LitElement {
   static getStubConfig() {
     return {
       card_title: "Insta Pow-a!",
-
-      grid_to_load_id: "1",
-      generation_to_grid_id: "1",
-      generation_to_storage_id: "1",
-      generation_to_load_id: "1",
-      storage_to_load_id: "1",
-      storage_to_grid_id: "1",
-      storage_info_id: "1",
-
       grid_title: "Grid",
       generation_title: "Generation",
       storage_title: "Storage",
