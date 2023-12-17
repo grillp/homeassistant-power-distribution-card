@@ -9280,10 +9280,11 @@ const $d067581fc0d59830$var$includeDomains = [
 ];
 class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
     firstUpdated() {
-    // Elements can only be added to the local customElement registry after
-    // createRenderRoot has run(which ScopedRegistryRoot handles).
-    // It's definitely run before first render, so firstUpdated can be a good
-    // place to start loading elements.
+        // Elements can only be added to the local customElement registry after
+        // createRenderRoot has run(which ScopedRegistryRoot handles).
+        // It's definitely run before first render, so firstUpdated can be a good
+        // place to start loading elements.
+        this._curTab = "tab-entities";
     }
     setConfig(config) {
         this._config = config;
@@ -9366,9 +9367,75 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
     `;
     }
     render() {
+        let content;
+        switch(this._curTab){
+            case "tab-entities":
+                content = (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+          <h2>Card Title</h2>
+          ${this.textField("card_title", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
+          <h2>Flow Entities (kW)</h2>
+          ${this.entityPicker("grid_to_load_power_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`, true)}
+          ${this.entityPicker("generation_to_grid_power_id", `${this._config.generation_title || "Generation"} → ${this._config.grid_title || "Grid"}`)}
+          ${this.entityPicker("generation_to_storage_power_id", `${this._config.generation_title || "Generation"} → ${this._config.storage_title || "Storage"}`)}
+          ${this.entityPicker("generation_to_load_power_id", `${this._config.generation_title || "Generation"} → ${this._config.load_title || "Load"}`)}
+          ${this.entityPicker("storage_to_load_power_id", `${this._config.storage_title || "Storage"} → ${this._config.load_title || "Load"}`)}
+          ${this.entityPicker("storage_to_grid_power_id", `${this._config.storage_title || "Storage"} → ${this._config.grid_title || "Grid"}`)}
+          ${this.entityPicker("load_top_power_id", `${this._config.load_title || "Load"} → ${this._config.load_top_title || "Top Load"}`)}
+          ${this.entityPicker("load_bottom_power_id", `${this._config.load_title || "Load"} → ${this._config.load_bottom_title || "Bottom Load"}`)}
+        `;
+                break;
+            case "tab-titles":
+                content = (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<h2>Element Titles</h2>
+          ${this.textField("grid_title", "Grid")}
+          ${this.textField("load_title", "Load")}
+          ${this._has_generation ? this.textField("generation_title", "Generation") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+          ${this._has_storage ? this.textField("storage_title", "Storage") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+          ${this._has_load_top ? this.textField("load_top_title", "Load Top") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+          ${this._has_load_bottom ? this.textField("load_bottom_title", "Load Bottom") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}`;
+                break;
+            case "tab-extras":
+                content = (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <h2>Element Extras</h2>
+          ${this.entityPicker("grid_info_id", `${this._config.grid_title || "Grid"}`)}
+          ${this.entityPicker("load_info_id", `${this._config.load_title || "Load"}`)}
+          ${this._has_generation ? this.entityPicker("generation_info_id", `${this._config.generation_title || "Generation"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+          ${this._has_storage ? this.entityPicker("storage_info_id", `${this._config.storage_title || "Storage"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+          ${this._has_load_top ? this.entityPicker("load_top_info_id", `${this._config.load_top_title || "Top Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+          ${this._has_load_bottom ? this.entityPicker("load_bottom_info_id", `${this._config.load_bottom_title || "Bottom Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}`;
+                break;
+            case "tab-icons":
+                content = (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`<h2>Element Icons</h2>
+          ${this.iconPicker("grid_icon", `${this._config.grid_title || "Grid"}`)}
+          ${this.iconPicker("load_icon", `${this._config.load_title || "Load"}`)}
+          ${this._has_generation ? this.iconPicker("generation_icon", `${this._config.generation_title || "Generation"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+          ${this._has_storage ? this.iconPicker("storage_icon", `${this._config.storage_title || "Storage"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+          ${this._has_load_top ? this.iconPicker("load_top_icon", `${this._config.load_top_title || "Top Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+          ${this._has_load_bottom ? this.iconPicker("load_bottom_icon", `${this._config.load_bottom_title || "Bottom Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}`;
+                break;
+        }
+        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="card-config">
+      <paper-tabs
+        scrollable
+        hide-scroll-buttons
+        .selected=${this._curTabIndex}
+        @selected-item-changed=${this._handleTabSelected}
+      >
+        <paper-tab id="tab-entities" dialogInitialFocus> Entities </paper-tab>
+        <paper-tab id="tab-titles"> Titles </paper-tab>
+        <paper-tab id="tab-extras"> Names </paper-tab>
+        <paper-tab id="tab-icons"> Icons </paper-tab>
+      </paper-tabs>
+      ${content}
+    </div>`;
+    }
+    _handleTabSelected(ev) {
+        console.log(ev);
+        if (!ev.detail.value) return;
+        this._curTab = ev.detail.value.id;
+    }
+    xrender() {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <div class="card-config">
-        <h2>Power Entities</h2>
+        <h2>Card Title</h2>
         ${this.textField("card_title", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
         <h2>Power Entities</h2>
         ${this.entityPicker("grid_to_load_power_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`, true)}
@@ -9432,6 +9499,10 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         });
         this.dispatchEvent(messageEvent);
     }
+    constructor(...args){
+        super(...args);
+        this._curTabIndex = 0;
+    }
 }
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $9cd908ed2625c047$export$d541bacb2bda4494)({
@@ -9453,6 +9524,9 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
 ], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_has_load_bottom", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $d067581fc0d59830$export$6820950cdde5f40e.prototype, "_curTab", void 0);
 
 
 customElements.define("tesla-power-distribution", (0, $a399cc6bbb0eb26a$export$f94a39919fd74438));
