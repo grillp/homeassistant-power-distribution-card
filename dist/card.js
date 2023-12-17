@@ -9278,6 +9278,12 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 const $d067581fc0d59830$var$includeDomains = [
     "sensor"
 ];
+const $d067581fc0d59830$var$includeClasses = [
+    "power"
+];
+const $d067581fc0d59830$var$includeUnits = [
+    "kW"
+];
 class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
     firstUpdated() {
         // Elements can only be added to the local customElement registry after
@@ -9347,13 +9353,28 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       ></ha-icon-picker>
     `;
     }
-    entityPicker(name, label, required = false) {
+    entityPicker(name, label) {
+        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+      <ha-entity-picker
+        id="${name}"
+        .hass=${this.hass}
+        .label="${label} (Optional)"
+        .value=${this._config[name] ?? ""}
+        @value-changed=${this._change}
+        allow-custom-entity
+      >
+      </ha-entity-picker>
+    `;
+    }
+    entityPickerForPower(name, label, required = false) {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <ha-entity-picker
         id="${name}"
         .hass=${this.hass}
         .label="${label} (${required ? "Required" : "Optional"})"
         .includeDomains=${$d067581fc0d59830$var$includeDomains}
+        .includeDeviceClasses=${$d067581fc0d59830$var$includeClasses}
+        .includeUnitsOfMeasure=${$d067581fc0d59830$var$includeUnits}
         .value=${this._config[name] ?? ""}
         @value-changed=${this._change}
         allow-custom-entity
@@ -9385,13 +9406,13 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
           <h2>Card Title</h2>
           ${this.textField("card_title", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
           <h2>Flow Entities (kW)</h2>
-          ${this.entityPicker("grid_to_load_power_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`, true)}
-          ${this.entityPicker("generation_to_grid_power_id", `${this._config.generation_title || "Generation"} → ${this._config.grid_title || "Grid"}`)}
-          ${this.entityPicker("generation_to_storage_power_id", `${this._config.generation_title || "Generation"} → ${this._config.storage_title || "Storage"}`)}
-          ${this.entityPicker("generation_to_load_power_id", `${this._config.generation_title || "Generation"} → ${this._config.load_title || "Load"}`)}
-          ${this.entityPicker("storage_to_load_power_id", `${this._config.storage_title || "Storage"} → ${this._config.load_title || "Load"}`)}
-          ${this.entityPicker("storage_to_grid_power_id", `${this._config.storage_title || "Storage"} → ${this._config.grid_title || "Grid"}`)}
-          ${this.entityPicker("load_top_power_id", `${this._config.load_title || "Load"} → ${this._config.load_top_title || "Top Load"}`)}
+          ${this.entityPickerForPower("grid_to_load_power_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`, true)}
+          ${this.entityPickerForPower("generation_to_grid_power_id", `${this._config.generation_title || "Generation"} → ${this._config.grid_title || "Grid"}`)}
+          ${this.entityPickerForPower("generation_to_storage_power_id", `${this._config.generation_title || "Generation"} → ${this._config.storage_title || "Storage"}`)}
+          ${this.entityPickerForPower("generation_to_load_power_id", `${this._config.generation_title || "Generation"} → ${this._config.load_title || "Load"}`)}
+          ${this.entityPickerForPower("storage_to_load_power_id", `${this._config.storage_title || "Storage"} → ${this._config.load_title || "Load"}`)}
+          ${this.entityPickerForPower("storage_to_grid_power_id", `${this._config.storage_title || "Storage"} → ${this._config.grid_title || "Grid"}`)}
+          ${this.entityPickerForPower("load_top_power_id", `${this._config.load_title || "Load"} → ${this._config.load_top_title || "Top Load"}`)}
           ${this.entityPicker("load_bottom_power_id", `${this._config.load_title || "Load"} → ${this._config.load_bottom_title || "Bottom Load"}`)}
         `;
                 break;
@@ -9432,7 +9453,7 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       >
         <paper-tab id="tab-entities" dialogInitialFocus> Entities </paper-tab>
         <paper-tab id="tab-titles"> Titles </paper-tab>
-        <paper-tab id="tab-extras"> Names </paper-tab>
+        <paper-tab id="tab-extras"> Extra Info </paper-tab>
         <paper-tab id="tab-icons"> Icons </paper-tab>
       </paper-tabs>
       ${content}

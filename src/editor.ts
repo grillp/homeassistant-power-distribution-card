@@ -9,6 +9,8 @@ import {
 } from "custom-card-helpers";
 
 const includeDomains = ["sensor"];
+const includeClasses = ["power"];
+const includeUnits = ["kW"];
 
 export class TestlaPowerDistributionEditor
   extends LitElement
@@ -98,7 +100,21 @@ export class TestlaPowerDistributionEditor
     `;
   }
 
-  entityPicker(
+  entityPicker(name: string, label: string): TemplateResult {
+    return html`
+      <ha-entity-picker
+        id="${name}"
+        .hass=${this.hass}
+        .label="${label} (Optional)"
+        .value=${this._config[name] ?? ""}
+        @value-changed=${this._change}
+        allow-custom-entity
+      >
+      </ha-entity-picker>
+    `;
+  }
+
+  entityPickerForPower(
     name: string,
     label: string,
     required: boolean = false
@@ -109,6 +125,8 @@ export class TestlaPowerDistributionEditor
         .hass=${this.hass}
         .label="${label} (${required ? "Required" : "Optional"})"
         .includeDomains=${includeDomains}
+        .includeDeviceClasses=${includeClasses}
+        .includeUnitsOfMeasure=${includeUnits}
         .value=${this._config[name] ?? ""}
         @value-changed=${this._change}
         allow-custom-entity
@@ -151,44 +169,44 @@ export class TestlaPowerDistributionEditor
             }`
           )}
           <h2>Flow Entities (kW)</h2>
-          ${this.entityPicker(
+          ${this.entityPickerForPower(
             "grid_to_load_power_id",
             `${this._config.grid_title || "Grid"} → ${
               this._config.load_title || "Load"
             }`,
             true
           )}
-          ${this.entityPicker(
+          ${this.entityPickerForPower(
             "generation_to_grid_power_id",
             `${this._config.generation_title || "Generation"} → ${
               this._config.grid_title || "Grid"
             }`
           )}
-          ${this.entityPicker(
+          ${this.entityPickerForPower(
             "generation_to_storage_power_id",
             `${this._config.generation_title || "Generation"} → ${
               this._config.storage_title || "Storage"
             }`
           )}
-          ${this.entityPicker(
+          ${this.entityPickerForPower(
             "generation_to_load_power_id",
             `${this._config.generation_title || "Generation"} → ${
               this._config.load_title || "Load"
             }`
           )}
-          ${this.entityPicker(
+          ${this.entityPickerForPower(
             "storage_to_load_power_id",
             `${this._config.storage_title || "Storage"} → ${
               this._config.load_title || "Load"
             }`
           )}
-          ${this.entityPicker(
+          ${this.entityPickerForPower(
             "storage_to_grid_power_id",
             `${this._config.storage_title || "Storage"} → ${
               this._config.grid_title || "Grid"
             }`
           )}
-          ${this.entityPicker(
+          ${this.entityPickerForPower(
             "load_top_power_id",
             `${this._config.load_title || "Load"} → ${
               this._config.load_top_title || "Top Load"
@@ -301,7 +319,7 @@ export class TestlaPowerDistributionEditor
       >
         <paper-tab id="tab-entities" dialogInitialFocus> Entities </paper-tab>
         <paper-tab id="tab-titles"> Titles </paper-tab>
-        <paper-tab id="tab-extras"> Names </paper-tab>
+        <paper-tab id="tab-extras"> Extra Info </paper-tab>
         <paper-tab id="tab-icons"> Icons </paper-tab>
       </paper-tabs>
       ${content}
