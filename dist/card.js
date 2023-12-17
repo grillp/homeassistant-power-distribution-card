@@ -9284,10 +9284,10 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
     }
   `;
     })();
-    iconPickerRow(name) {
+    iconPickerRow(name, label) {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <div class="row">
-        <label class="label cell" for="{${name}}">${name}</label>
+        <label class="label cell" for="{${name}}">${label}</label>
         <ha-icon-picker
           id="${name}"
           .hass=${this.hass}
@@ -9321,14 +9321,14 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         <h2>Power Entites</h2>
         Can be an entity id or a positive numeric value. All expected to in kW.
       </div>
-      ${this.inputRow("grid_to_load_id", "Grid → Load")}
-      ${this.inputRow("generation_to_grid_id", "Generation → Grid")}
-      ${this.inputRow("generation_to_storage_id", "Generation → Storage")}
-      ${this.inputRow("generation_to_load_id", "Generation → Load")}
-      ${this.inputRow("storage_to_load_id", "Storage → Load")}
-      ${this.inputRow("storage_to_grid_id", "Storage → Grid")}
-      ${this.inputRow("load_top_power_id", "Load → Top Load")}
-      ${this.inputRow("load_bottom_power_id", "Load → Bottom Load")}
+      ${this.inputRow("grid_to_load_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
+      ${this.inputRow("generation_to_grid_id", `${this._config.generation_title || "Generation"} → ${this._config.grid_title || "Grid"}`)}
+      ${this.inputRow("generation_to_storage_id", `${this._config.generation_title || "Generation"} → ${this._config.storage_title || "Storage"}`)}
+      ${this.inputRow("generation_to_load_id", `${this._config.generation_title || "Generation"} → ${this._config.load_title || "Load"}`)}
+      ${this.inputRow("storage_to_load_id", `${this._config.storage_title || "Storage"} → ${this._config.load_title || "Load"}`)}
+      ${this.inputRow("storage_to_grid_id", `${this._config.storage_title || "Storage"} → ${this._config.grid_title || "Grid"}`)}
+      ${this.inputRow("load_top_power_id", `${this._config.load_title || "Load"} → ${this._config.load_top_title || "Top Load"}`)}
+      ${this.inputRow("load_bottom_power_id", `${this._config.load_title || "Load"} → ${this._config.load_bottom_title || "Bottom Load"}`)}
       <div class="row">
         <h2>Titles</h2>
         Can be an entity id or a positive numeric value.
@@ -9343,19 +9343,20 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         <h2>Extra Info</h2>
         Appears above the Icon in the Circle. Can be an entity id or a string.
       </div>
-      ${this.inputRow("grid_info_id", "Grid")}
-      ${this.inputRow("load_info_id", "Load")}
-      ${this.inputRow("generation_info_id", "Generation")}
-      ${this.inputRow("storage_info_id", "Storage")}
-      ${this.inputRow("load_top_info_id", "Load Top")}
-      ${this.inputRow("load_bottom_info_id", "Load Bottom")}
+      ${this.inputRow("grid_info_id", `${this._config.grid_title || "Grid"}`)}
+      ${this.inputRow("load_info_id", `${this._config.load_title || "Load"}`)}
+      ${this.inputRow("generation_info_id", `${this._config.generation_title || "Generation"}`)}
+      ${this.inputRow("storage_info_id", `${this._config.storage_title || "Storage"}`)}
+      ${this.inputRow("load_top_info_id", `${this._config.load_top_title || "Top Load"}`)}
+      ${this.inputRow("load_bottom_info_id", `${this._config.load_bottom_title || "Bottom Load"}`)}
 
       <div class="row"><h2>Icons</h2></div>
-      ${this.iconPickerRow("grid_icon")}
-      ${this.iconPickerRow("generation_icon")}
-      ${this.iconPickerRow("storage_icon")} ${this.iconPickerRow("load_icon")}
-      ${this.iconPickerRow("load_top_icon")}
-      ${this.iconPickerRow("load_bottom_icon")}
+      ${this.iconPickerRow("grid_icon", `${this._config.grid_title || "Grid"}`)}
+      ${this.iconPickerRow("load_icon", `${this._config.load_title || "Load"}`)}
+      ${this.iconPickerRow("generation_icon", `${this._config.generation_title || "Generation"}`)}
+      ${this.iconPickerRow("storage_icon", `${this._config.storage_title || "Storage"}`)}
+      ${this.iconPickerRow("load_top_icon", `${this._config.load_top_title || "Top Load"}`)}
+      ${this.iconPickerRow("load_bottom_icon", `${this._config.load_bottom_title || "Bottom Load"}`)}
     </form>`;
     }
     _nameChanged(ev) {
