@@ -9323,6 +9323,17 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       display: block;
       margin-bottom: 16px;
     }
+
+    .card-config paper-tabs {
+      text-transform: uppercase;
+      padding: 0px 20px;
+      color: var(--primary-text-color);
+      --paper-tabs-selection-bar-color: var(--primary-color);
+      border-bottom: 1px solid
+        var(--mdc-dialog-scroll-divider-color, rgba(0, 0, 0, 0.12));
+      padding-left: 0px;
+      padding-right: 0px;
+    }
   `;
     })();
     iconPicker(name, label, required = false) {
