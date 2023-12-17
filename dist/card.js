@@ -1361,6 +1361,10 @@ const $120c5a859c012378$export$9dd6ff9ea0189349 = (0, $def2de46b9306e8a$export$d
   .card-actions a {
     text-decoration: none;
   }
+  ha-textfield {
+    display: block;
+    margin-bottom: 16px;
+  }
 `;
 
 
@@ -9263,9 +9267,20 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 
 
 class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
-    setConfig(config) {
+    async setConfig(config) {
         this._config = config;
         this._set_visibility(config);
+        console.log("before");
+        console.log(customElements.get("ha-textfield"));
+        if (!customElements.get("ha-textfield")) {
+            const cardHelpers = await window.loadCardHelpers();
+            const entitiesCard = await cardHelpers.createCardElement({
+                type: "entities",
+                entities: []
+            }); // A valid config avoids errors
+        }
+        console.log("after");
+        console.log(customElements.get("ha-textfield"));
     }
     static #_ = (()=>{
         this.styles = (0, $def2de46b9306e8a$export$dbf350e5966cf602)`
@@ -9279,25 +9294,50 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       display: table-cell;
       padding: 0.5em;
     }
+    ha-textfield {
+      display: block;
+      margin-bottom: 16px;
+    }
   `;
     })();
+    iconPicker(name, label) {
+        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+      <ha-icon-picker
+        id="${name}"
+        .hass=${this.hass}
+        .value=${this._config[name]}
+        @value-changed=${this._change}
+      ></ha-icon-picker>
+    `;
+    }
     iconPickerRow(name, label) {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <div class="row">
         <label class="label cell" for="{${name}}">${label}</label>
-        <ha-icon-picker
-          id="${name}"
-          .hass=${this.hass}
-          .value=${this._config[name]}
-          @value-changed=${this._change}
-        ></ha-icon-picker>
+        ${this.iconPicker(name, label)}
       </div>
+    `;
+    }
+    input(name, label) {
+        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+      <ha-textfield
+        id="day"
+        type="string"
+        inputmode="numeric"
+        .value=${this._config[name]}
+        .label=${label}
+        name="days"
+        @change=${this._change}
+        no-spinner
+        .required="false"
+        min="0"
+      >
+      </ha-textfield>
     `;
     }
     inputRow(name, label) {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <div class="row">
-        </div>
         <label class="label cell" for="{${name}}">${label}</label>
         <input
           @change=${this._change}
@@ -9308,12 +9348,50 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
     `;
     }
     render() {
+        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+      <div class="card-config">
+        <h2>Power Entities</h2>
+        ${this.input("grid_to_load_power_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
+        ${this.input("generation_to_grid_power_id", `${this._config.generation_title || "Generation"} → ${this._config.grid_title || "Grid"}`)}
+        ${this.input("generation_to_storage_power_id", `${this._config.generation_title || "Generation"} → ${this._config.storage_title || "Storage"}`)}
+        ${this.input("generation_to_load_power_id", `${this._config.generation_title || "Generation"} → ${this._config.load_title || "Load"}`)}
+        ${this.input("storage_to_load_power_id", `${this._config.storage_title || "Storage"} → ${this._config.load_title || "Load"}`)}
+        ${this.input("storage_to_grid_power_id", `${this._config.storage_title || "Storage"} → ${this._config.grid_title || "Grid"}`)}
+        ${this.input("load_top_power_id", `${this._config.load_title || "Load"} → ${this._config.load_top_title || "Top Load"}`)}
+        ${this.input("load_bottom_power_id", `${this._config.load_title || "Load"} → ${this._config.load_bottom_title || "Bottom Load"}`)}
+        <h2>Element Titles</h2>
+        Can be an entity id or a positive numeric value.
+        ${this.input("grid_title", "Grid")} ${this.input("load_title", "Load")}
+        ${this._has_generation ? this.input("generation_title", "Generation") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_storage ? this.input("storage_title", "Storage") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_load_top ? this.input("load_top_title", "Load Top") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_load_bottom ? this.input("load_bottom_title", "Load Bottom") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        <h2>Element Extra Info</h2>
+        Appears above the Icon in the Circle. Can be an entity id or a string.
+        ${this.input("grid_info_id", `${this._config.grid_title || "Grid"}`)}
+        ${this.input("load_info_id", `${this._config.load_title || "Load"}`)}
+        ${this._has_generation ? this.input("generation_info_id", `${this._config.generation_title || "Generation"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_storage ? this.input("storage_info_id", `${this._config.storage_title || "Storage"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_load_top ? this.input("load_top_info_id", `${this._config.load_top_title || "Top Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_load_bottom ? this.input("load_bottom_info_id", `${this._config.load_bottom_title || "Bottom Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+
+        <h2>Element Icons</h2>
+        ${this.iconPicker("grid_icon", `${this._config.grid_title || "Grid"}`)}
+        ${this.iconPicker("load_icon", `${this._config.load_title || "Load"}`)}
+        ${this._has_generation ? this.iconPicker("generation_icon", `${this._config.generation_title || "Generation"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_storage ? this.iconPicker("storage_icon", `${this._config.storage_title || "Storage"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_load_top ? this.iconPicker("load_top_icon", `${this._config.load_top_title || "Top Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+        ${this._has_load_bottom ? this.iconPicker("load_bottom_icon", `${this._config.load_bottom_title || "Bottom Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
+      </div>
+    `;
+    }
+    _render() {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <form class="table">
       <div class="row">
         <h2>Card Title</h2>
         Entity or string
       </div>
-      ${this.inputRow("card_title", "Title")}
+      ${this.input("card_title", "Title")}
       <div class="row">
         <h2>Power Entites</h2>
         Can be an entity id or a positive numeric value. All expected to in kW.

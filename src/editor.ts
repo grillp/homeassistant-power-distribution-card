@@ -1,11 +1,18 @@
 import { css, html, LitElement, nothing, TemplateResult } from "lit";
 import { state } from "lit/decorators/state";
 import { property } from "lit/decorators/property";
-import { HomeAssistant } from "custom-card-helpers";
+import {
+  HomeAssistant,
+  LovelaceCardEditor,
+  LovelaceCardConfig,
+} from "custom-card-helpers";
 
-export class TestlaPowerDistributionEditor extends LitElement {
+export class TestlaPowerDistributionEditor
+  extends LitElement
+  implements LovelaceCardEditor
+{
   @property({ attribute: false }) public hass!: HomeAssistant;
-  @state() _config;
+  @state() _config: LovelaceCardConfig;
 
   private _hass;
   @state() _has_generation: boolean;
@@ -13,9 +20,21 @@ export class TestlaPowerDistributionEditor extends LitElement {
   @state() _has_load_top: boolean;
   @state() _has_load_bottom: boolean;
 
-  setConfig(config) {
+  async setConfig(config: LovelaceCardConfig) {
     this._config = config;
     this._set_visibility(config);
+
+    console.log("before");
+    console.log(customElements.get("ha-textfield"));
+    if (!customElements.get("ha-textfield")) {
+      const cardHelpers = await (window as any).loadCardHelpers();
+      const entitiesCard = await cardHelpers.createCardElement({
+        type: "entities",
+        entities: [],
+      }); // A valid config avoids errors
+    }
+    console.log("after");
+    console.log(customElements.get("ha-textfield"));
   }
 
   static styles = css`
@@ -29,26 +48,53 @@ export class TestlaPowerDistributionEditor extends LitElement {
       display: table-cell;
       padding: 0.5em;
     }
+    ha-textfield {
+      display: block;
+      margin-bottom: 16px;
+    }
   `;
+
+  iconPicker(name: string, label: string): TemplateResult {
+    return html`
+      <ha-icon-picker
+        id="${name}"
+        .hass=${this.hass}
+        .value=${this._config[name]}
+        @value-changed=${this._change}
+      ></ha-icon-picker>
+    `;
+  }
 
   iconPickerRow(name: string, label: string): TemplateResult {
     return html`
       <div class="row">
         <label class="label cell" for="{${name}}">${label}</label>
-        <ha-icon-picker
-          id="${name}"
-          .hass=${this.hass}
-          .value=${this._config[name]}
-          @value-changed=${this._change}
-        ></ha-icon-picker>
+        ${this.iconPicker(name, label)}
       </div>
+    `;
+  }
+
+  input(name: string, label: string): TemplateResult {
+    return html`
+      <ha-textfield
+        id="day"
+        type="string"
+        inputmode="numeric"
+        .value=${this._config[name]}
+        .label=${label}
+        name="days"
+        @change=${this._change}
+        no-spinner
+        .required="false"
+        min="0"
+      >
+      </ha-textfield>
     `;
   }
 
   inputRow(name: string, label: string): TemplateResult {
     return html`
       <div class="row">
-        </div>
         <label class="label cell" for="{${name}}">${label}</label>
         <input
           @change=${this._change}
@@ -60,12 +106,137 @@ export class TestlaPowerDistributionEditor extends LitElement {
   }
 
   render() {
+    return html`
+      <div class="card-config">
+        <h2>Power Entities</h2>
+        ${this.input(
+          "grid_to_load_power_id",
+          `${this._config.grid_title || "Grid"} → ${
+            this._config.load_title || "Load"
+          }`
+        )}
+        ${this.input(
+          "generation_to_grid_power_id",
+          `${this._config.generation_title || "Generation"} → ${
+            this._config.grid_title || "Grid"
+          }`
+        )}
+        ${this.input(
+          "generation_to_storage_power_id",
+          `${this._config.generation_title || "Generation"} → ${
+            this._config.storage_title || "Storage"
+          }`
+        )}
+        ${this.input(
+          "generation_to_load_power_id",
+          `${this._config.generation_title || "Generation"} → ${
+            this._config.load_title || "Load"
+          }`
+        )}
+        ${this.input(
+          "storage_to_load_power_id",
+          `${this._config.storage_title || "Storage"} → ${
+            this._config.load_title || "Load"
+          }`
+        )}
+        ${this.input(
+          "storage_to_grid_power_id",
+          `${this._config.storage_title || "Storage"} → ${
+            this._config.grid_title || "Grid"
+          }`
+        )}
+        ${this.input(
+          "load_top_power_id",
+          `${this._config.load_title || "Load"} → ${
+            this._config.load_top_title || "Top Load"
+          }`
+        )}
+        ${this.input(
+          "load_bottom_power_id",
+          `${this._config.load_title || "Load"} → ${
+            this._config.load_bottom_title || "Bottom Load"
+          }`
+        )}
+        <h2>Element Titles</h2>
+        Can be an entity id or a positive numeric value.
+        ${this.input("grid_title", "Grid")} ${this.input("load_title", "Load")}
+        ${this._has_generation
+          ? this.input("generation_title", "Generation")
+          : nothing}
+        ${this._has_storage ? this.input("storage_title", "Storage") : nothing}
+        ${this._has_load_top
+          ? this.input("load_top_title", "Load Top")
+          : nothing}
+        ${this._has_load_bottom
+          ? this.input("load_bottom_title", "Load Bottom")
+          : nothing}
+        <h2>Element Extra Info</h2>
+        Appears above the Icon in the Circle. Can be an entity id or a string.
+        ${this.input("grid_info_id", `${this._config.grid_title || "Grid"}`)}
+        ${this.input("load_info_id", `${this._config.load_title || "Load"}`)}
+        ${this._has_generation
+          ? this.input(
+              "generation_info_id",
+              `${this._config.generation_title || "Generation"}`
+            )
+          : nothing}
+        ${this._has_storage
+          ? this.input(
+              "storage_info_id",
+              `${this._config.storage_title || "Storage"}`
+            )
+          : nothing}
+        ${this._has_load_top
+          ? this.input(
+              "load_top_info_id",
+              `${this._config.load_top_title || "Top Load"}`
+            )
+          : nothing}
+        ${this._has_load_bottom
+          ? this.input(
+              "load_bottom_info_id",
+              `${this._config.load_bottom_title || "Bottom Load"}`
+            )
+          : nothing}
+
+        <h2>Element Icons</h2>
+        ${this.iconPicker("grid_icon", `${this._config.grid_title || "Grid"}`)}
+        ${this.iconPicker("load_icon", `${this._config.load_title || "Load"}`)}
+        ${this._has_generation
+          ? this.iconPicker(
+              "generation_icon",
+              `${this._config.generation_title || "Generation"}`
+            )
+          : nothing}
+        ${this._has_storage
+          ? this.iconPicker(
+              "storage_icon",
+              `${this._config.storage_title || "Storage"}`
+            )
+          : nothing}
+        ${this._has_load_top
+          ? this.iconPicker(
+              "load_top_icon",
+              `${this._config.load_top_title || "Top Load"}`
+            )
+          : nothing}
+        ${this._has_load_bottom
+          ? this.iconPicker(
+              "load_bottom_icon",
+              `${this._config.load_bottom_title || "Bottom Load"}`
+            )
+          : nothing}
+      </div>
+    `;
+  }
+
+  _render() {
     return html` <form class="table">
       <div class="row">
         <h2>Card Title</h2>
         Entity or string
       </div>
-      ${this.inputRow("card_title", "Title")}
+      ${this.input("card_title", "Title")}
       <div class="row">
         <h2>Power Entites</h2>
         Can be an entity id or a positive numeric value. All expected to in kW.
