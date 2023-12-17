@@ -1407,6 +1407,17 @@ function $9cd908ed2625c047$export$d541bacb2bda4494(n) {
 
 
 
+function $feccc7a5980a21d5$export$cc2e736493e359e2(value) {
+    return value === undefined || value == "";
+}
+function $feccc7a5980a21d5$export$ddaf0a93cc777a0d(vis, config) {
+    vis._has_generation = !($feccc7a5980a21d5$export$cc2e736493e359e2(config.generation_to_grid_power_id) && $feccc7a5980a21d5$export$cc2e736493e359e2(config.generation_to_storage_power_id) && $feccc7a5980a21d5$export$cc2e736493e359e2(config.generation_to_load_power_id));
+    vis._has_storage = !($feccc7a5980a21d5$export$cc2e736493e359e2(config.storage_to_grid_power_id) && $feccc7a5980a21d5$export$cc2e736493e359e2(config.generation_to_storage_power_id) && $feccc7a5980a21d5$export$cc2e736493e359e2(config.storage_to_load_power_id));
+    vis._has_load_top = !$feccc7a5980a21d5$export$cc2e736493e359e2(config.load_top_power_id);
+    vis._has_load_bottom = !$feccc7a5980a21d5$export$cc2e736493e359e2(config.load_bottom_power_id);
+}
+
+
 // Material Design Icons v7.3.67
 var $04557c061247a0a6$export$2be18a417e9eca7 = "M4 2A2 2 0 0 0 2 4V12H4V8H6V12H8V4A2 2 0 0 0 6 2H4M4 4H6V6H4M22 15.5V14A2 2 0 0 0 20 12H16V22H20A2 2 0 0 0 22 20V18.5A1.54 1.54 0 0 0 20.5 17A1.54 1.54 0 0 0 22 15.5M20 20H18V18H20V20M20 16H18V14H20M5.79 21.61L4.21 20.39L18.21 2.39L19.79 3.61Z";
 var $04557c061247a0a6$export$9afccc00e0306897 = "M5 5H7V11H5V5M10 5H8V11H10V5M5 19H7V13H5V19M10 13H8V19H10V17H15V15H10V13M2 21H4V3H2V21M20 3V7H13V5H11V11H13V9H20V15H18V13H16V19H18V17H20V21H22V3H20Z";
@@ -8814,6 +8825,7 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
         this._grid_icon = config.grid_icon || "mdi:transmission-tower";
         this._load_top_icon = config.load_top_icon || "mdi:car-sports";
         this._load_bottom_icon = config.load_bottom_icon || "mdi:car-sports";
+        (0, $feccc7a5980a21d5$export$ddaf0a93cc777a0d)(this, config);
         this._has_generation = !(this._is_empty(config.generation_to_grid_power_id) && this._is_empty(config.generation_to_storage_power_id) && this._is_empty(config.generation_to_load_power_id));
         this._has_storage = !(this._is_empty(config.storage_to_grid_power_id) && this._is_empty(config.generation_to_storage_power_id) && this._is_empty(config.storage_to_load_power_id));
         this._has_load_top = !this._is_empty(config.load_top_power_id);
@@ -9262,21 +9274,35 @@ class $a399cc6bbb0eb26a$export$f94a39919fd74438 extends (0, $ab210b2da7b39b9d$ex
 
 
 
+
+const $d067581fc0d59830$var$includeDomains = [
+    "sensor"
+];
 class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
-    async setConfig(config) {
+    firstUpdated() {
+    // Elements can only be added to the local customElement registry after
+    // createRenderRoot has run(which ScopedRegistryRoot handles).
+    // It's definitely run before first render, so firstUpdated can be a good
+    // place to start loading elements.
+    }
+    setConfig(config) {
         this._config = config;
-        this._set_visibility(config);
-        console.log("before");
-        console.log(customElements.get("ha-textfield"));
-        if (!customElements.get("ha-textfield")) {
-            const cardHelpers = await window.loadCardHelpers();
-            const entitiesCard = await cardHelpers.createCardElement({
+        (0, $feccc7a5980a21d5$export$ddaf0a93cc777a0d)(this, config);
+        this.loadEntityPicker();
+    }
+    async loadEntityPicker() {
+        if (!window.customElements.get("ha-entity-picker")) {
+            const ch = await window.loadCardHelpers();
+            const c = await ch.createCardElement({
                 type: "entities",
                 entities: []
-            }); // A valid config avoids errors
+            });
+            await c.constructor.getConfigElement();
+            // Since ha-elements are not using scopedRegistry we can get a reference to
+            // the newly loaded element from the global customElement registry...
+            const haEntityPicker = window.customElements.get("ha-entity-picker");
+            console.log(haEntityPicker);
         }
-        console.log("after");
-        console.log(customElements.get("ha-textfield"));
     }
     static #_ = (()=>{
         this.styles = (0, $def2de46b9306e8a$export$dbf350e5966cf602)`
@@ -9291,6 +9317,7 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       padding: 0.5em;
     }
     ha-icon-picker,
+    ha-entity-picker,
     ha-textfield {
       display: block;
       margin-bottom: 16px;
@@ -9308,12 +9335,18 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       ></ha-icon-picker>
     `;
     }
-    iconPickerRow(name, label) {
+    entityPicker(name, label) {
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
-      <div class="row">
-        <label class="label cell" for="{${name}}">${label}</label>
-        ${this.iconPicker(name, label)}
-      </div>
+      <ha-entity-picker
+        id="${name}"
+        .hass=${this.hass}
+        .label=${label}
+        .includeDomains=${$d067581fc0d59830$var$includeDomains}
+        .value=${this._config[name] ?? ""}
+        @value-changed=${this._change}
+        allow-custom-entity
+      >
+      </ha-entity-picker>
     `;
     }
     input(name, label) {
@@ -9349,14 +9382,14 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
       <div class="card-config">
         <h2>Power Entities</h2>
-        ${this.input("grid_to_load_power_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
-        ${this.input("generation_to_grid_power_id", `${this._config.generation_title || "Generation"} → ${this._config.grid_title || "Grid"}`)}
-        ${this.input("generation_to_storage_power_id", `${this._config.generation_title || "Generation"} → ${this._config.storage_title || "Storage"}`)}
-        ${this.input("generation_to_load_power_id", `${this._config.generation_title || "Generation"} → ${this._config.load_title || "Load"}`)}
-        ${this.input("storage_to_load_power_id", `${this._config.storage_title || "Storage"} → ${this._config.load_title || "Load"}`)}
-        ${this.input("storage_to_grid_power_id", `${this._config.storage_title || "Storage"} → ${this._config.grid_title || "Grid"}`)}
-        ${this.input("load_top_power_id", `${this._config.load_title || "Load"} → ${this._config.load_top_title || "Top Load"}`)}
-        ${this.input("load_bottom_power_id", `${this._config.load_title || "Load"} → ${this._config.load_bottom_title || "Bottom Load"}`)}
+        ${this.entityPicker("grid_to_load_power_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
+        ${this.entityPicker("generation_to_grid_power_id", `${this._config.generation_title || "Generation"} → ${this._config.grid_title || "Grid"}`)}
+        ${this.entityPicker("generation_to_storage_power_id", `${this._config.generation_title || "Generation"} → ${this._config.storage_title || "Storage"}`)}
+        ${this.entityPicker("generation_to_load_power_id", `${this._config.generation_title || "Generation"} → ${this._config.load_title || "Load"}`)}
+        ${this.entityPicker("storage_to_load_power_id", `${this._config.storage_title || "Storage"} → ${this._config.load_title || "Load"}`)}
+        ${this.entityPicker("storage_to_grid_power_id", `${this._config.storage_title || "Storage"} → ${this._config.grid_title || "Grid"}`)}
+        ${this.entityPicker("load_top_power_id", `${this._config.load_title || "Load"} → ${this._config.load_top_title || "Top Load"}`)}
+        ${this.entityPicker("load_bottom_power_id", `${this._config.load_title || "Load"} → ${this._config.load_bottom_title || "Bottom Load"}`)}
         <h2>Element Titles</h2>
         Can be an entity id or a positive numeric value.
         ${this.input("grid_title", "Grid")} ${this.input("load_title", "Load")}
@@ -9383,69 +9416,8 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
       </div>
     `;
     }
-    _render() {
-        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <form class="table">
-      <div class="row">
-        <h2>Card Title</h2>
-        Entity or string
-      </div>
-      ${this.input("card_title", "Title")}
-      <div class="row">
-        <h2>Power Entites</h2>
-        Can be an entity id or a positive numeric value. All expected to in kW.
-      </div>
-      ${this.inputRow("grid_to_load_power_id", `${this._config.grid_title || "Grid"} → ${this._config.load_title || "Load"}`)}
-      ${this.inputRow("generation_to_grid_power_id", `${this._config.generation_title || "Generation"} → ${this._config.grid_title || "Grid"}`)}
-      ${this.inputRow("generation_to_storage_power_id", `${this._config.generation_title || "Generation"} → ${this._config.storage_title || "Storage"}`)}
-      ${this.inputRow("generation_to_load_power_id", `${this._config.generation_title || "Generation"} → ${this._config.load_title || "Load"}`)}
-      ${this.inputRow("storage_to_load_power_id", `${this._config.storage_title || "Storage"} → ${this._config.load_title || "Load"}`)}
-      ${this.inputRow("storage_to_grid_power_id", `${this._config.storage_title || "Storage"} → ${this._config.grid_title || "Grid"}`)}
-      ${this.inputRow("load_top_power_id", `${this._config.load_title || "Load"} → ${this._config.load_top_title || "Top Load"}`)}
-      ${this.inputRow("load_bottom_power_id", `${this._config.load_title || "Load"} → ${this._config.load_bottom_title || "Bottom Load"}`)}
-      <div class="row">
-        <h2>Titles</h2>
-        Can be an entity id or a positive numeric value.
-      </div>
-      ${this.inputRow("grid_title", "Grid")}
-      ${this.inputRow("load_title", "Load")}
-      ${this._has_generation ? this.inputRow("generation_title", "Generation") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-      ${this._has_storage ? this.inputRow("storage_title", "Storage") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-      ${this._has_load_top ? this.inputRow("load_top_title", "Load Top") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-      ${this._has_load_bottom ? this.inputRow("load_bottom_title", "Load Bottom") : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-      <div class="row">
-        <h2>Extra Info</h2>
-        Appears above the Icon in the Circle. Can be an entity id or a string.
-      </div>
-      ${this.inputRow("grid_info_id", `${this._config.grid_title || "Grid"}`)}
-      ${this.inputRow("load_info_id", `${this._config.load_title || "Load"}`)}
-      ${this._has_generation ? this.inputRow("generation_info_id", `${this._config.generation_title || "Generation"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-      ${this._has_storage ? this.inputRow("storage_info_id", `${this._config.storage_title || "Storage"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-      ${this._has_load_top ? this.inputRow("load_top_info_id", `${this._config.load_top_title || "Top Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-      ${this._has_load_bottom ? this.inputRow("load_bottom_info_id", `${this._config.load_bottom_title || "Bottom Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-
-      <div class="row"><h2>Icons</h2></div>
-      ${this.iconPickerRow("grid_icon", `${this._config.grid_title || "Grid"}`)}
-      ${this.iconPickerRow("load_icon", `${this._config.load_title || "Load"}`)}
-      ${this._has_generation ? this.iconPickerRow("generation_icon", `${this._config.generation_title || "Generation"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-      ${this._has_storage ? this.iconPickerRow("storage_icon", `${this._config.storage_title || "Storage"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-      ${this._has_load_top ? this.iconPickerRow("load_top_icon", `${this._config.load_top_title || "Top Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-      ${this._has_load_bottom ? this.iconPickerRow("load_bottom_icon", `${this._config.load_bottom_title || "Bottom Load"}`) : (0, $f58f44579a4747ac$export$45b790e32b2810ee)}
-    </form>`;
-    }
     _is_empty(value) {
         return value === undefined || value == "";
-    }
-    _set_visibility(config) {
-        console.log("Set Visibility");
-        console.log(config);
-        this._has_generation = !(this._is_empty(config.generation_to_grid_power_id) && this._is_empty(config.generation_to_storage_power_id) && this._is_empty(config.generation_to_load_power_id));
-        this._has_storage = !(this._is_empty(config.storage_to_grid_power_id) && this._is_empty(config.generation_to_storage_power_id) && this._is_empty(config.storage_to_load_power_id));
-        this._has_load_top = !this._is_empty(config.load_top_power_id);
-        this._has_load_bottom = !this._is_empty(config.load_bottom_power_id);
-        console.log(this._has_generation);
-        console.log(this._has_storage);
-        console.log(this._has_load_top);
-        console.log(this._has_load_bottom);
     }
     _nameChanged(ev) {
         const target = ev.target;
@@ -9460,7 +9432,7 @@ class $d067581fc0d59830$export$6820950cdde5f40e extends (0, $ab210b2da7b39b9d$ex
         const newConfig = Object.assign({}, this._config);
         if (newValue === "" || newValue == undefined) delete newConfig[target.id];
         else newConfig[target.id] = target.value;
-        this._set_visibility(newConfig);
+        (0, $feccc7a5980a21d5$export$ddaf0a93cc777a0d)(this, newConfig);
         const messageEvent = new CustomEvent("config-changed", {
             detail: {
                 config: newConfig

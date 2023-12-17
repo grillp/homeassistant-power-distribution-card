@@ -1,15 +1,18 @@
 import { css, html, LitElement, nothing, TemplateResult } from "lit";
 import { state } from "lit/decorators/state";
 import { property } from "lit/decorators/property";
+import { TeslaHasVisibility, set_visibility } from "./helpers";
 import {
   HomeAssistant,
   LovelaceCardEditor,
   LovelaceCardConfig,
 } from "custom-card-helpers";
 
+const includeDomains = ["sensor"];
+
 export class TestlaPowerDistributionEditor
   extends LitElement
-  implements LovelaceCardEditor
+  implements LovelaceCardEditor, TeslaHasVisibility
 {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @state() _config: LovelaceCardConfig;
@@ -20,21 +23,30 @@ export class TestlaPowerDistributionEditor
   @state() _has_load_top: boolean;
   @state() _has_load_bottom: boolean;
 
-  async setConfig(config: LovelaceCardConfig) {
-    this._config = config;
-    this._set_visibility(config);
+  firstUpdated() {
+    // Elements can only be added to the local customElement registry after
+    // createRenderRoot has run(which ScopedRegistryRoot handles).
+    // It's definitely run before first render, so firstUpdated can be a good
+    // place to start loading elements.
+  }
 
-    console.log("before");
-    console.log(customElements.get("ha-textfield"));
-    if (!customElements.get("ha-textfield")) {
-      const cardHelpers = await (window as any).loadCardHelpers();
-      const entitiesCard = await cardHelpers.createCardElement({
-        type: "entities",
-        entities: [],
-      }); // A valid config avoids errors
+  setConfig(config: LovelaceCardConfig) {
+    this._config = config;
+    set_visibility(this, config);
+    this.loadEntityPicker();
+  }
+
+  async loadEntityPicker() {
+    if (!window.customElements.get("ha-entity-picker")) {
+      const ch = await (window as any).loadCardHelpers();
+      const c = await ch.createCardElement({ type: "entities", entities: [] });
+      await c.constructor.getConfigElement();
+
+      // Since ha-elements are not using scopedRegistry we can get a reference to
+      // the newly loaded element from the global customElement registry...
+      const haEntityPicker = window.customElements.get("ha-entity-picker");
+      console.log(haEntityPicker);
     }
-    console.log("after");
-    console.log(customElements.get("ha-textfield"));
   }
 
   static styles = css`
@@ -49,6 +61,7 @@ export class TestlaPowerDistributionEditor
       padding: 0.5em;
     }
     ha-icon-picker,
+    ha-entity-picker,
     ha-textfield {
       display: block;
       margin-bottom: 16px;
@@ -67,12 +80,18 @@ export class TestlaPowerDistributionEditor
     `;
   }
 
-  iconPickerRow(name: string, label: string): TemplateResult {
+  entityPicker(name: string, label: string): TemplateResult {
     return html`
-      <div class="row">
-        <label class="label cell" for="{${name}}">${label}</label>
-        ${this.iconPicker(name, label)}
-      </div>
+      <ha-entity-picker
+        id="${name}"
+        .hass=${this.hass}
+        .label=${label}
+        .includeDomains=${includeDomains}
+        .value=${this._config[name] ?? ""}
+        @value-changed=${this._change}
+        allow-custom-entity
+      >
+      </ha-entity-picker>
     `;
   }
 
@@ -111,49 +130,49 @@ export class TestlaPowerDistributionEditor
     return html`
       <div class="card-config">
         <h2>Power Entities</h2>
-        ${this.input(
+        ${this.entityPicker(
           "grid_to_load_power_id",
           `${this._config.grid_title || "Grid"} → ${
             this._config.load_title || "Load"
           }`
         )}
-        ${this.input(
+        ${this.entityPicker(
           "generation_to_grid_power_id",
           `${this._config.generation_title || "Generation"} → ${
             this._config.grid_title || "Grid"
           }`
         )}
-        ${this.input(
+        ${this.entityPicker(
           "generation_to_storage_power_id",
           `${this._config.generation_title || "Generation"} → ${
             this._config.storage_title || "Storage"
           }`
         )}
-        ${this.input(
+        ${this.entityPicker(
           "generation_to_load_power_id",
           `${this._config.generation_title || "Generation"} → ${
             this._config.load_title || "Load"
           }`
         )}
-        ${this.input(
+        ${this.entityPicker(
           "storage_to_load_power_id",
           `${this._config.storage_title || "Storage"} → ${
             this._config.load_title || "Load"
           }`
         )}
-        ${this.input(
+        ${this.entityPicker(
           "storage_to_grid_power_id",
           `${this._config.storage_title || "Storage"} → ${
             this._config.grid_title || "Grid"
           }`
         )}
-        ${this.input(
+        ${this.entityPicker(
           "load_top_power_id",
           `${this._config.load_title || "Load"} → ${
             this._config.load_top_title || "Top Load"
           }`
         )}
-        ${this.input(
+        ${this.entityPicker(
           "load_bottom_power_id",
           `${this._config.load_title || "Load"} → ${
             this._config.load_bottom_title || "Bottom Load"
@@ -231,167 +250,8 @@ export class TestlaPowerDistributionEditor
       </div>
     `;
   }
-
-  _render() {
-    return html` <form class="table">
-      <div class="row">
-        <h2>Card Title</h2>
-        Entity or string
-      </div>
-      ${this.input("card_title", "Title")}
-      <div class="row">
-        <h2>Power Entites</h2>
-        Can be an entity id or a positive numeric value. All expected to in kW.
-      </div>
-      ${this.inputRow(
-        "grid_to_load_power_id",
-        `${this._config.grid_title || "Grid"} → ${
-          this._config.load_title || "Load"
-        }`
-      )}
-      ${this.inputRow(
-        "generation_to_grid_power_id",
-        `${this._config.generation_title || "Generation"} → ${
-          this._config.grid_title || "Grid"
-        }`
-      )}
-      ${this.inputRow(
-        "generation_to_storage_power_id",
-        `${this._config.generation_title || "Generation"} → ${
-          this._config.storage_title || "Storage"
-        }`
-      )}
-      ${this.inputRow(
-        "generation_to_load_power_id",
-        `${this._config.generation_title || "Generation"} → ${
-          this._config.load_title || "Load"
-        }`
-      )}
-      ${this.inputRow(
-        "storage_to_load_power_id",
-        `${this._config.storage_title || "Storage"} → ${
-          this._config.load_title || "Load"
-        }`
-      )}
-      ${this.inputRow(
-        "storage_to_grid_power_id",
-        `${this._config.storage_title || "Storage"} → ${
-          this._config.grid_title || "Grid"
-        }`
-      )}
-      ${this.inputRow(
-        "load_top_power_id",
-        `${this._config.load_title || "Load"} → ${
-          this._config.load_top_title || "Top Load"
-        }`
-      )}
-      ${this.inputRow(
-        "load_bottom_power_id",
-        `${this._config.load_title || "Load"} → ${
-          this._config.load_bottom_title || "Bottom Load"
-        }`
-      )}
-      <div class="row">
-        <h2>Titles</h2>
-        Can be an entity id or a positive numeric value.
-      </div>
-      ${this.inputRow("grid_title", "Grid")}
-      ${this.inputRow("load_title", "Load")}
-      ${this._has_generation
-        ? this.inputRow("generation_title", "Generation")
-        : nothing}
-      ${this._has_storage ? this.inputRow("storage_title", "Storage") : nothing}
-      ${this._has_load_top
-        ? this.inputRow("load_top_title", "Load Top")
-        : nothing}
-      ${this._has_load_bottom
-        ? this.inputRow("load_bottom_title", "Load Bottom")
-        : nothing}
-      <div class="row">
-        <h2>Extra Info</h2>
-        Appears above the Icon in the Circle. Can be an entity id or a string.
-      </div>
-      ${this.inputRow("grid_info_id", `${this._config.grid_title || "Grid"}`)}
-      ${this.inputRow("load_info_id", `${this._config.load_title || "Load"}`)}
-      ${this._has_generation
-        ? this.inputRow(
-            "generation_info_id",
-            `${this._config.generation_title || "Generation"}`
-          )
-        : nothing}
-      ${this._has_storage
-        ? this.inputRow(
-            "storage_info_id",
-            `${this._config.storage_title || "Storage"}`
-          )
-        : nothing}
-      ${this._has_load_top
-        ? this.inputRow(
-            "load_top_info_id",
-            `${this._config.load_top_title || "Top Load"}`
-          )
-        : nothing}
-      ${this._has_load_bottom
-        ? this.inputRow(
-            "load_bottom_info_id",
-            `${this._config.load_bottom_title || "Bottom Load"}`
-          )
-        : nothing}
-
-      <div class="row"><h2>Icons</h2></div>
-      ${this.iconPickerRow("grid_icon", `${this._config.grid_title || "Grid"}`)}
-      ${this.iconPickerRow("load_icon", `${this._config.load_title || "Load"}`)}
-      ${this._has_generation
-        ? this.iconPickerRow(
-            "generation_icon",
-            `${this._config.generation_title || "Generation"}`
-          )
-        : nothing}
-      ${this._has_storage
-        ? this.iconPickerRow(
-            "storage_icon",
-            `${this._config.storage_title || "Storage"}`
-          )
-        : nothing}
-      ${this._has_load_top
-        ? this.iconPickerRow(
-            "load_top_icon",
-            `${this._config.load_top_title || "Top Load"}`
-          )
-        : nothing}
-      ${this._has_load_bottom
-        ? this.iconPickerRow(
-            "load_bottom_icon",
-            `${this._config.load_bottom_title || "Bottom Load"}`
-          )
-        : nothing}
-    </form>`;
-  }
-
   _is_empty(value: string | undefined): boolean {
     return value === undefined || value == "";
-  }
-
-  _set_visibility(config: any) {
-    console.log("Set Visibility");
-    console.log(config);
-    this._has_generation = !(
-      this._is_empty(config.generation_to_grid_power_id) &&
-      this._is_empty(config.generation_to_storage_power_id) &&
-      this._is_empty(config.generation_to_load_power_id)
-    );
-    this._has_storage = !(
-      this._is_empty(config.storage_to_grid_power_id) &&
-      this._is_empty(config.generation_to_storage_power_id) &&
-      this._is_empty(config.storage_to_load_power_id)
-    );
-    this._has_load_top = !this._is_empty(config.load_top_power_id);
-    this._has_load_bottom = !this._is_empty(config.load_bottom_power_id);
-
-    console.log(this._has_generation);
-    console.log(this._has_storage);
-    console.log(this._has_load_top);
-    console.log(this._has_load_bottom);
   }
 
   _nameChanged(ev: Event) {
@@ -408,7 +268,7 @@ export class TestlaPowerDistributionEditor
     const newConfig = Object.assign({}, this._config);
     if (newValue === "" || newValue == undefined) delete newConfig[target.id];
     else newConfig[target.id] = target.value;
-    this._set_visibility(newConfig);
+    set_visibility(this, newConfig);
     const messageEvent = new CustomEvent("config-changed", {
       detail: { config: newConfig },
       bubbles: true,

@@ -1,6 +1,7 @@
 import { html, LitElement, TemplateResult, svg, nothing } from "lit";
 import { styles } from "./card.styles";
 import { state } from "lit/decorators/state";
+import { TeslaHasVisibility, set_visibility } from "./helpers";
 
 // import { formatNumber } from "../../../../common/number/format_number";
 
@@ -47,7 +48,10 @@ interface DashValues {
 
 const CIRCLE_CIRCUMFERENCE = 238.76104;
 
-export class TestlaPowerDistribution extends LitElement {
+export class TestlaPowerDistribution
+  extends LitElement
+  implements TeslaHasVisibility
+{
   // Primary Power Entities
   @state() private _grid_to_load_power_id: string | null;
   @state() private _generation_to_grid_power_id: string | null;
@@ -101,10 +105,10 @@ export class TestlaPowerDistribution extends LitElement {
 
   // private property
   private _hass;
-  private _has_generation: boolean;
-  private _has_storage: boolean;
-  private _has_load_top: boolean;
-  private _has_load_bottom: boolean;
+  public _has_generation: boolean;
+  public _has_storage: boolean;
+  public _has_load_top: boolean;
+  public _has_load_bottom: boolean;
 
   _is_empty(value: string | undefined): boolean {
     return value === undefined || value == "";
@@ -146,6 +150,7 @@ export class TestlaPowerDistribution extends LitElement {
     this._grid_icon = config.grid_icon || "mdi:transmission-tower";
     this._load_top_icon = config.load_top_icon || "mdi:car-sports";
     this._load_bottom_icon = config.load_bottom_icon || "mdi:car-sports";
+    set_visibility(this, config);
 
     this._has_generation = !(
       this._is_empty(config.generation_to_grid_power_id) &&
