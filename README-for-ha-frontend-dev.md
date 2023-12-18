@@ -21,7 +21,7 @@ npm install
 copy ssh keys:
 on mac:
 ```bash
-cp ~/.ssh/id_rsa* ~/work/personal/cards
+cp ~/.ssh/id_rsa* ~/work/personal/cards/www/cards
 ```
 in container:
 ```bash
