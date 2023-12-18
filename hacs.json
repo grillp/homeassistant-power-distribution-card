@@ -1,6 +1,6 @@
 {
-    "name": "Toggle Card TypeScript",
-    "render_readme": true,
-    "filename": "card.js",
-    "content_in_root": false
-  }
+  "name": "Power Distribution Card",
+  "render_readme": false,
+  "filename": "power-distribution.js",
+  "content_in_root": false
+}

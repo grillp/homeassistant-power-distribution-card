@@ -37,6 +37,6 @@ npm run watch
 ```
 
 Bundling:
-```
-npx microbundle
+```bash
+npm run build && npm run deploy
 ```

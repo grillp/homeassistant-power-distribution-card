@@ -10,7 +10,7 @@
   "scripts": {
     "watch": "parcel watch",
     "build": "parcel build",
-    "deploy": "rollup -i dist/card.js --format iife -o dist/power-distribution.js"
+    "deploy": "rollup -i dist/card.js --format iife -o power-distribution.js"
   },
   "devDependencies": {
     "@parcel/transformer-inline-string": "^2.8.3",
