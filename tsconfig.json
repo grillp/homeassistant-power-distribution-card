@@ -15,8 +15,7 @@
     "inlineSources": true,
     "rootDir": "./",
     "declaration": true,
-    "suppressImplicitAnyIndexErrors": true,
     "resolveJsonModule": true
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "rollup.config.js"]
 }

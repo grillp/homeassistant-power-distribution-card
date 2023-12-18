@@ -6,12 +6,11 @@ Changed to '/workspaces/home-assistant/.devcontainer/devcontainer.json':
   ],
  ```
 
-Commands after updating container
-
+Commands after updating homeassistant frontend container:
 ```bash
-cd config
+cd /workspaces/home-assistant/config
 wget -O - https://get.hacs.xyz | bash -
-cd config/www/cards/tesla-power-distribution/
+cd /workspaces/home-assistant/config/www/cards/power-distribution/
 sudo apt -y update
 sudo apt -y install npm inetutils-ping
 sudo npm cache clean -f
