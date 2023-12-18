@@ -34,5 +34,9 @@ test comamnds:
 ```bash
 npm run build
 npm run watch
+```
 
+Bundling:
+```
+npx microbundle
 ```
