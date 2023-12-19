@@ -2,7 +2,7 @@
 
 This is a [home-assistant](home-assistant.io) card for people who have electricity generation and storage in their home. While the Home Assistant Energy Integration contains a great view to see how much energy (in kWh) has been distributed throughout the day, I was missing the kind of view that shows how the power (in kW) was being distributed around my house right now!
 
-![power-distribution-card-animation](https://github.com/grillp/homeassistant-power-distribution-card/blob/master/images/power-distribution.gif)
+![power-distribution-card-animation](images/power-distribution.gif)
 
 ### Attribution:
 This card was inspired by the home-assistant [Energy Distribution](https://www.home-assistant.io/dashboards/energy/#energy-distribution) card as well as the [tesla-style-solar-power-card](https://github.com/reptilex/tesla-style-solar-power-card) card plugin.
@@ -68,12 +68,15 @@ The flows are configured by assigning entities to each flow (or a number. see be
 
 ### Elements
 
-![power-distribution-element](https://github.com/grillp/homeassistant-power-distribution-card/blob/master/images/power-distribution-element.jpg)
+Each element will, at a minimum, display the sum of all power flowing into and out of the element. again, in KW and an icon for the element.
+
+![power-distribution-element](images/power-distribution-element.jpg)
 
 Each of the elements has a number of configuration options. These include:
 - Title
 - Icon
 - Extra information
+
 
 Each of these can be set for each element type in the configuration
 
@@ -151,7 +154,7 @@ grid_to_load_power_id: sensor.power_flow_grid_to_house_entity
 
 That's all you need to get this:
 
-![power-distribution-simplest](https://github.com/grillp/homeassistant-power-distribution-card/blob/master/images/power-distribution-simplest.png)
+![power-distribution-simplest](images/power-distribution-simplest.png)
 
 A full configuration file with all options used would look like this:
 
@@ -193,7 +196,7 @@ load_bottom_icon: mdi:robot-angry
 
 Which would get you something like this:
 
-![power-distribution-full](https://github.com/grillp/homeassistant-power-distribution-card/blob/master/images/power-distribution-full.png)
+![power-distribution-full](images/power-distribution-full.png)
 
 # Missing Sensors?
 
