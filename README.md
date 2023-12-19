@@ -220,7 +220,7 @@ Which would get you something like this:
 |`load_top_power_id`              | entity id <br>string | The power from Load to Load Top     <br> - Unit: kW.<br> - Must result in a positive numeric value or zero
 |`load_bottom_power_id`           | entity id <br>string | The power from Load to Load Bottom  <br> - Unit: kW.<br> - Must result in a positive numeric value or zero
 | **Element Titles**
-|`grid_title`                     | string               | Grid element T itle                  <br> - Not shown if empty
+|`grid_title`                     | string               | Grid element Title                  <br> - Not shown if empty
 |`generation_title`               | string               | Generation element Title            <br> - Not shown if empty
 |`storage_title`                  | string               | Storage element Title               <br> - Not shown if empty
 |`load_title`                     | string               | Load element Title                  <br> - Not shown if empty
