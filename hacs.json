@@ -1,6 +1,6 @@
 {
-  "name": "Power Distribution Card",
-  "render_readme": false,
+  "name": "Lovelace Power Distribution Card",
+  "render_readme": true,
   "filename": "power-distribution.js",
-  "content_in_root": false
+  "content_in_root": true
 }
