@@ -305,4 +305,4 @@ None Yet
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
-Apache License V 2.0
+MIT License (see [here](LICENSE))
