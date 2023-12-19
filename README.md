@@ -14,6 +14,7 @@ This card was inspired by the home-assistant [Energy Distribution](https://www.h
 * [Overview](#overview)
 * [HACS-Installation](#hacs-installation)
 * [Usage](#usage)
+* [Missing Sensors?](#missing-sensors)
 * [Tesla Powerwall Usage](#tesla-powerwall-usage)
 * [Contributing](#contributing)
 
@@ -72,15 +73,19 @@ Each element will, at a minimum, display the sum of all power flowing into and o
 
 ![power-distribution-element](images/power-distribution-element.jpg)
 
+#### Load Element
+The Load element also shows where the power being consumed comes from buy adjusting the colours around the Load elements circle. The proportion of each colour directly correlates the the proportion of the source of the power.
+
+#### Element Configuration
+
 Each of the elements has a number of configuration options. These include:
 - Title
 - Icon
 - Extra information
 
-
 Each of these can be set for each element type in the configuration
 
-#### Title
+##### Title
 
 This is what is shown above (or below in some cases) the element's 'circle'.
 
@@ -95,14 +100,14 @@ You can set this with the elements corresponding elements `<element>_title` conf
 >- You will also note that if you change the title of an entity, the graphical editor will also change any prompts that use that entity title to represent what you enter here. If no value is entered, once again the default names will be used in the graphical editor.
 >- e.g if you entered a value of 'Solar' for the Generation entity title, the prompt for the generation_to_battery flow will change from `Generation → Battery` to `Solar → Battery`. The prompts for Icons and Extra Info will also change to represent the new title value.
 
-#### Icon
+##### Icon
 This is the icon that is displayed for the element. Each element has a default icon, but can be changed
 
 You can set this with the elements corresponding elements `<element>_icon` configuration setting.
 
 This takes a `string` value (or use the Icon Picker in the visual editor) in the standard icon format of `mdi:<icon-identifier>`
 
-#### Extra Information
+##### Extra Information
 This is the text that appears above the icon in the element circle.
 
 You can set this with the elements corresponding elements `<element>_extra_info` configuration setting.
@@ -155,6 +160,8 @@ grid_to_load_power_id: sensor.power_flow_grid_to_house_entity
 That's all you need to get this:
 
 ![power-distribution-simplest](images/power-distribution-simplest.png)
+
+### All the bells and whistles!
 
 A full configuration file with all options used would look like this:
 
