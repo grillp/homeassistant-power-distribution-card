@@ -207,39 +207,39 @@ Which would get you something like this:
 
 ## All configuration Options
 
-|Configuration Key              | Description                          | Type                | Remarks                                                            |
-|:------------------------------|:-------------------------------------|:------------------- |:------------------------------------------------------------------ |
-|card_title                     | The card's title                     | string              |
+|Key (*=required)               | Type                 | Description
+|:------------------------------- |:-------------------- |:-------------------
+|`card_title`                     | string               | The card's title
 | **Flows**
-|grid_to_load_power_id          | The power from Grid to Load          | entity id <br>string | Unit: kW.<br> Must result in a positive numeric value or zero     |
-|generation_to_grid_power_id    | The power from Generation to Grid    | entity id <br>string | Unit: kW.<br> Must result in a positive numeric value or zero     |
-|generation_to_storage_power_id | The power from Generation to Storage | entity id <br>string | Unit: kW.<br> Must result in a positive numeric value or zero     |
-|generation_to_load_power_id    | The power from Generation to Load    | entity id <br>string | Unit: kW.<br> Must result in a positive numeric value or zero     |
-|storage_to_load_power_id       | The power from Storage to Load       | entity id <br>string | Unit: kW.<br> Must result in a positive numeric value or zero     |
-|storage_to_grid_power_id       | The power from Storage to Grid       | entity id <br>string | Unit: kW.<br> Must result in a positive numeric value or zero     |
-|load_top_power_id              | The power from Load to Load Top      | entity id <br>string | Unit: kW.<br> Must result in a positive numeric value or zero     |
-|load_bottom_power_id           | The power from Load to Load Bottom   | entity id <br>string | Unit: kW.<br> Must result in a positive numeric value or zero     |
+|`grid_to_load_power_id`**\***    | entity id <br>string | The power from Grid to Load         <br> - Unit: kW.<br> - Must result in a positive numeric value or zero
+|`generation_to_grid_power_id`    | entity id <br>string | The power from Generation to Grid   <br> - Unit: kW.<br> - Must result in a positive numeric value or zero
+|`generation_to_storage_power_id` | entity id <br>string | The power from Generation to Storage<br> - Unit: kW.<br> - Must result in a positive numeric value or zero
+|`generation_to_load_power_id`    | entity id <br>string | The power from Generation to Load   <br> - Unit: kW.<br> - Must result in a positive numeric value or zero
+|`storage_to_load_power_id`       | entity id <br>string | The power from Storage to Load      <br> - Unit: kW.<br> - Must result in a positive numeric value or zero
+|`storage_to_grid_power_id`       | entity id <br>string | The power from Storage to Grid      <br> - Unit: kW.<br> - Must result in a positive numeric value or zero
+|`load_top_power_id`              | entity id <br>string | The power from Load to Load Top     <br> - Unit: kW.<br> - Must result in a positive numeric value or zero
+|`load_bottom_power_id`           | entity id <br>string | The power from Load to Load Bottom  <br> - Unit: kW.<br> - Must result in a positive numeric value or zero
 | **Element Titles**
-|grid_title                     | Grid element title                   | string               | Not shown if empty                                                |
-|generation_title               | Generation element title             | string               | Not shown if empty                                                |
-|storage_title                  | Storage element title                | string               | Not shown if empty                                                |
-|load_title                     | Load element title                   | string               | Not shown if empty                                                |
-|load_top_title                 | Load Top element title               | string               | Not shown if empty                                                |
-|load_bottom_title              | Load Bottom element title            | string               | Not shown if empty                                                |
-|grid_info_id                   | Grid element Extra Info              | entity id <br>string | Entity state if a valid entity id, or literal string value if not |
+|`grid_title`                     | string               | Grid element T itle                  <br> - Not shown if empty
+|`generation_title`               | string               | Generation element Title            <br> - Not shown if empty
+|`storage_title`                  | string               | Storage element Title               <br> - Not shown if empty
+|`load_title`                     | string               | Load element Title                  <br> - Not shown if empty
+|`load_top_title`                 | string               | Load Top element Title              <br> - Not shown if empty
+|`load_bottom_title`              | string               | Load Bottom element Title           <br> - Not shown if empty
 | **Element Info**
-|storage_info_id                | Generation element Extra Info        | entity id <br>string | Entity state if a valid entity id, or literal string value if not |
-|load_info_id                   | Storage element Extra Info           | entity id <br>string | Entity state if a valid entity id, or literal string value if not |
-|generation_info_id             | Load element Extra Info              | entity id <br>string | Entity state if a valid entity id, or literal string value if not |
-|load_top_info_id               | Load Top element Extra Info          | entity id <br>string | Entity state if a valid entity id, or literal string value if not |
-|load_bottom_info_id            | Load Bottom element Extra Info       | entity id <br>string | Entity state if a valid entity id, or literal string value if not |
+|`grid_info_id`                   | entity id <br>string | Grid element Extra Info             <br> - Entity state if a valid entity id, or literal string value if not |
+|`storage_info_id`                | entity id <br>string | Generation element Extra Info       <br> - Entity state if a valid entity id, or literal string value if not |
+|`load_info_id`                   | entity id <br>string | Storage element Extra Info          <br> - Entity state if a valid entity id, or literal string value if not |
+|`generation_info_id`             | entity id <br>string | Load element Extra Info             <br> - Entity state if a valid entity id, or literal string value if not |
+|`load_top_info_id`               | entity id <br>string | Load Top element Extra Info         <br> - Entity state if a valid entity id, or literal string value if not |
+|`load_bottom_info_id`            | entity id <br>string | Load Bottom element Extra Info      <br> - Entity state if a valid entity id, or literal string value if not |
 | **Element Icons**
-|grid_icon                      | Grid element icon                    | string               | format: `mdi:<icon-id>`                                           |
-|generation_icon                | Generation element icon              | string               | format: `mdi:<icon-id>`                                           |
-|storage_icon                   | Storage element icon                 | string               | format: `mdi:<icon-id>`                                           |
-|load_icon                      | Load element icon                    | string               | format: `mdi:<icon-id>`                                           |
-|load_top_icon                  | Load Top element icon                | string               | format: `mdi:<icon-id>`                                           |
-|load_bottom_icon               | Load Bottom element icon             | string               | format: `mdi:<icon-id>`                                           |
+|`grid_icon`                      | string               | Grid element icon                   <br> - Format: `mdi:<icon-id>`<br>- Default: `mdi:transmission`
+|`generation_icon`                | string               | Generation element icon             <br> - Format: `mdi:<icon-id>`<br>- Default: `mdi:solar-power`
+|`storage_icon`                   | string               | Storage element icon                <br> - Format: `mdi:<icon-id>`<br>- Default: `mdi:battery-high`
+|`load_icon`                      | string               | Load element icon                   <br> - Format: `mdi:<icon-id>`<br>- Default: `mdi:home`
+|`load_top_icon`                  | string               | Load Top element icon               <br> - Format: `mdi:<icon-id>`<br>- Default: `mdi:car-sports`
+|`load_bottom_icon`               | string               | Load Bottom element icon            <br> - Format: `mdi:<icon-id>`<br>- Default: `mdi:car-sports`
 
 
 # Missing Sensors?
