@@ -16,8 +16,8 @@ interface Config extends LovelaceCardConfig {
   generation_to_load_power_id: string;
   storage_to_load_power_id: string;
   storage_to_grid_power_id: string;
-  load_top_power_power_id: string;
-  load_bottom_power_power_id: string;
+  load_top_power_id: string;
+  load_bottom_power_id: string;
 
   grid_info_id: string;
   storage_info_id: string;
@@ -50,31 +50,31 @@ const CIRCLE_CIRCUMFERENCE = 238.76104;
 
 export class PowerDistribution extends LitElement implements HasVisibility {
   // Primary Power Entities
-  @state() private _grid_to_load_power_id: string | null;
-  @state() private _generation_to_grid_power_id: string | null;
-  @state() private _generation_to_storage_power_id: string | null;
-  @state() private _generation_to_load_power_id: string | null;
-  @state() private _storage_to_load_power_id: string | null;
-  @state() private _storage_to_grid_power_id: string | null;
-  @state() private _load_top_power_id: string | null;
-  @state() private _load_bottom_power_id: string | null;
+  @state() private _grid_to_load_power_id: string | undefined;
+  @state() private _generation_to_grid_power_id: string | undefined;
+  @state() private _generation_to_storage_power_id: string | undefined;
+  @state() private _generation_to_load_power_id: string | undefined;
+  @state() private _storage_to_load_power_id: string | undefined;
+  @state() private _storage_to_grid_power_id: string | undefined;
+  @state() private _load_top_power_id: string | undefined;
+  @state() private _load_bottom_power_id: string | undefined;
 
   // Extra Info Entities
-  @state() private _grid_info_id: string | null;
-  @state() private _generation_info_id: string | null;
-  @state() private _storage_info_id: string | null;
-  @state() private _load_info_id: string | null;
-  @state() private _load_top_info_id: string | null;
-  @state() private _load_bottom_info_id: string | null;
+  @state() private _grid_info_id: string | undefined;
+  @state() private _generation_info_id: string | undefined;
+  @state() private _storage_info_id: string | undefined;
+  @state() private _load_info_id: string | undefined;
+  @state() private _load_top_info_id: string | undefined;
+  @state() private _load_bottom_info_id: string | undefined;
 
   // Extra Info Entities
-  @state() private _card_title: string | null;
-  @state() private _grid_title: string | null;
-  @state() private _load_title: string | null;
-  @state() private _generation_title: string | null;
-  @state() private _storage_title: string | null;
-  @state() private _load_top_title: string | null;
-  @state() private _load_bottom_title: string | null;
+  @state() private _card_title: string | undefined;
+  @state() private _grid_title: string | undefined;
+  @state() private _load_title: string | undefined;
+  @state() private _generation_title: string | undefined;
+  @state() private _storage_title: string | undefined;
+  @state() private _load_top_title: string | undefined;
+  @state() private _load_bottom_title: string | undefined;
 
   // Entity Values
   @state() private _grid_to_load_power: number;
@@ -93,12 +93,12 @@ export class PowerDistribution extends LitElement implements HasVisibility {
   @state() private _to_load_bottom_power: number;
   @state() private _to_storage_power: number;
 
-  @state() private _generation_icon: string;
-  @state() private _grid_icon: string;
-  @state() private _storage_icon: string;
-  @state() private _load_icon: string;
-  @state() private _load_top_icon: string;
-  @state() private _load_bottom_icon: string;
+  @state() private _generation_icon: string | undefined;
+  @state() private _grid_icon: string | undefined;
+  @state() private _storage_icon: string | undefined;
+  @state() private _load_icon: string | undefined;
+  @state() private _load_top_icon: string | undefined;
+  @state() private _load_bottom_icon: string | undefined;
 
   // private property
   private _hass: any;
@@ -165,7 +165,7 @@ export class PowerDistribution extends LitElement implements HasVisibility {
     }
   }
 
-  private extractNumberFromId(entity_id: string): number {
+  private extractNumberFromId(entity_id: string | undefined): number {
     if (entity_id) {
       if (this._hass.states[entity_id]) {
         return Number(
@@ -177,7 +177,9 @@ export class PowerDistribution extends LitElement implements HasVisibility {
     } else return 0;
   }
 
-  private extractStringFromId(entity_id: string): string {
+  private extractStringFromId(
+    entity_id: string | undefined
+  ): string | undefined {
     if (entity_id) {
       if (this._hass.states[entity_id]) {
         return this._hass.formatEntityState(this._hass.states[entity_id]);
