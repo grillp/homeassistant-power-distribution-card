@@ -60,12 +60,19 @@ export class PowerDistribution extends LitElement implements HasVisibility {
   @state() private _load_bottom_power_id: string | undefined;
 
   // Extra Info Entities
-  @state() private _grid_info_id: string | undefined;
-  @state() private _generation_info_id: string | undefined;
-  @state() private _storage_info_id: string | undefined;
-  @state() private _load_info_id: string | undefined;
-  @state() private _load_top_info_id: string | undefined;
-  @state() private _load_bottom_info_id: string | undefined;
+  private _grid_info_id: string | undefined;
+  private _generation_info_id: string | undefined;
+  private _storage_info_id: string | undefined;
+  private _load_info_id: string | undefined;
+  private _load_top_info_id: string | undefined;
+  private _load_bottom_info_id: string | undefined;
+
+  @state() private _grid_info_value: string | undefined;
+  @state() private _generation_info_value: string | undefined;
+  @state() private _storage_info_value: string | undefined;
+  @state() private _load_info_value: string | undefined;
+  @state() private _load_top_info_value: string | undefined;
+  @state() private _load_bottom_info_value: string | undefined;
 
   // Extra Info Entities
   @state() private _card_title: string | undefined;
@@ -77,21 +84,21 @@ export class PowerDistribution extends LitElement implements HasVisibility {
   @state() private _load_bottom_title: string | undefined;
 
   // Entity Values
-  @state() private _grid_to_load_power: number;
-  @state() private _generation_to_grid_power: number;
-  @state() private _generation_to_storage_power: number;
-  @state() private _generation_to_load_power: number;
-  @state() private _storage_to_load_power: number;
-  @state() private _storage_to_grid_power: number;
-  @state() private _total_flow_power: number;
+  @state() private _grid_to_load_power: number = 0;
+  @state() private _generation_to_grid_power: number = 0;
+  @state() private _generation_to_storage_power: number = 0;
+  @state() private _generation_to_load_power: number = 0;
+  @state() private _storage_to_load_power: number = 0;
+  @state() private _storage_to_grid_power: number = 0;
+  @state() private _total_flow_power: number = 0;
 
   // Totals
-  @state() private _to_load_power: number;
-  @state() private _from_grid_power: number;
-  @state() private _from_generation_power: number;
-  @state() private _to_load_top_power: number;
-  @state() private _to_load_bottom_power: number;
-  @state() private _to_storage_power: number;
+  @state() private _to_load_power: number = 0;
+  @state() private _from_grid_power: number = 0;
+  @state() private _from_generation_power: number = 0;
+  @state() private _to_load_top_power: number = 0;
+  @state() private _to_load_bottom_power: number = 0;
+  @state() private _to_storage_power: number = 0;
 
   @state() private _generation_icon: string | undefined;
   @state() private _grid_icon: string | undefined;
@@ -102,10 +109,10 @@ export class PowerDistribution extends LitElement implements HasVisibility {
 
   // private property
   private _hass: any;
-  public _has_generation: boolean;
-  public _has_storage: boolean;
-  public _has_load_top: boolean;
-  public _has_load_bottom: boolean;
+  public _has_generation: boolean = true;
+  public _has_storage: boolean = true;
+  public _has_load_top: boolean = true;
+  public _has_load_bottom: boolean = true;
 
   _is_empty(value: string | undefined): boolean {
     return value === undefined || value == "";
@@ -125,8 +132,9 @@ export class PowerDistribution extends LitElement implements HasVisibility {
     this._grid_info_id = config.grid_info_id;
     this._generation_info_id = config.generation_info_id;
     this._load_top_info_id = config.load_top_info_id;
-    this._load_top_power_id = config.load_top_power_id;
     this._load_bottom_info_id = config.load_bottom_info_id;
+
+    this._load_top_power_id = config.load_top_power_id;
     this._load_bottom_power_id = config.load_bottom_power_id;
 
     this._card_title = config.card_title;
@@ -213,9 +221,20 @@ export class PowerDistribution extends LitElement implements HasVisibility {
     this._storage_to_grid_power = this.extractNumberFromId(
       this._storage_to_grid_power_id
     );
-    this._storage_info_id = this.extractStringFromId(this._storage_info_id);
-    this._load_info_id = this.extractStringFromId(this._load_info_id);
-    this._grid_info_id = this.extractStringFromId(this._grid_info_id);
+
+    this._storage_info_value = this.extractStringFromId(this._storage_info_id);
+    this._load_info_value = this.extractStringFromId(this._load_info_id);
+    this._grid_info_value = this.extractStringFromId(this._grid_info_id);
+    this._generation_info_value = this.extractStringFromId(
+      this._generation_info_id
+    );
+    this._load_top_info_value = this.extractStringFromId(
+      this._load_top_info_id
+    );
+    this._load_bottom_info_value = this.extractStringFromId(
+      this._load_bottom_info_id
+    );
+
     this._to_load_top_power = this.extractNumberFromId(this._load_top_power_id);
     this._to_load_bottom_power = this.extractNumberFromId(
       this._load_bottom_power_id
@@ -331,10 +350,10 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                             ${this.extractStringFromId(this._generation_title)}
                           </span>
                           <div class="circle">
-                            ${this._generation_info_id
+                            ${this._generation_info_value
                               ? html`<span class="info"
                                   >${this.extractStringFromId(
-                                    this._generation_info_id
+                                    this._generation_info_value
                                   )}</span
                                 >`
                               : ""}
@@ -358,10 +377,10 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                         )} </span>
                         <div class="circle">
                           ${
-                            this._load_top_info_id
+                            this._load_top_info_value
                               ? html`<span class="info"
                                   >${this.extractStringFromId(
-                                    this._load_top_info_id
+                                    this._load_top_info_value
                                   )}</span
                                 >`
                               : ""
@@ -384,9 +403,11 @@ export class PowerDistribution extends LitElement implements HasVisibility {
             <div class="circle-container grid">
               <div class="circle">
                 ${
-                  this._grid_info_id
+                  this._grid_info_value
                     ? html`<span class="info"
-                        >${this.extractStringFromId(this._grid_info_id)}</span
+                        >${this.extractStringFromId(
+                          this._grid_info_value
+                        )}</span
                       >`
                     : ""
                 }
@@ -426,9 +447,11 @@ export class PowerDistribution extends LitElement implements HasVisibility {
             <div class="circle-container load">
               <div class="circle">
                 ${
-                  this._load_info_id
+                  this._load_info_value
                     ? html`<span class="info"
-                        >${this.extractStringFromId(this._load_info_id)}</span
+                        >${this.extractStringFromId(
+                          this._load_info_value
+                        )}</span
                       >`
                     : ""
                 }
@@ -455,10 +478,10 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                     ${this._has_storage
                       ? html` <div class="circle-container storage">
                           <div class="circle">
-                            ${this._storage_info_id
+                            ${this._storage_info_value
                               ? html`<span class="info"
                                   >${this.extractStringFromId(
-                                    this._storage_info_id
+                                    this._storage_info_value
                                   )}</span
                                 >`
                               : ""}
@@ -507,10 +530,10 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                       ? html`
                           <div class="circle-container load-bottom">
                             <div class="circle">
-                              ${this._load_bottom_info_id
+                              ${this._load_bottom_info_value
                                 ? html`<span class="info"
                                     >${this.extractStringFromId(
-                                      this._load_bottom_info_id
+                                      this._load_bottom_info_value
                                     )}</span
                                   >`
                                 : ""}

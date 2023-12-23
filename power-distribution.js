@@ -1037,8 +1037,8 @@
           this._grid_info_id = config.grid_info_id;
           this._generation_info_id = config.generation_info_id;
           this._load_top_info_id = config.load_top_info_id;
-          this._load_top_power_id = config.load_top_power_id;
           this._load_bottom_info_id = config.load_bottom_info_id;
+          this._load_top_power_id = config.load_top_power_id;
           this._load_bottom_power_id = config.load_bottom_power_id;
           this._card_title = config.card_title;
           this._grid_title = config.grid_title;
@@ -1083,9 +1083,12 @@
           this._generation_to_load_power = this.extractNumberFromId(this._generation_to_load_power_id);
           this._storage_to_load_power = this.extractNumberFromId(this._storage_to_load_power_id);
           this._storage_to_grid_power = this.extractNumberFromId(this._storage_to_grid_power_id);
-          this._storage_info_id = this.extractStringFromId(this._storage_info_id);
-          this._load_info_id = this.extractStringFromId(this._load_info_id);
-          this._grid_info_id = this.extractStringFromId(this._grid_info_id);
+          this._storage_info_value = this.extractStringFromId(this._storage_info_id);
+          this._load_info_value = this.extractStringFromId(this._load_info_id);
+          this._grid_info_value = this.extractStringFromId(this._grid_info_id);
+          this._generation_info_value = this.extractStringFromId(this._generation_info_id);
+          this._load_top_info_value = this.extractStringFromId(this._load_top_info_id);
+          this._load_bottom_info_value = this.extractStringFromId(this._load_bottom_info_id);
           this._to_load_top_power = this.extractNumberFromId(this._load_top_power_id);
           this._to_load_bottom_power = this.extractNumberFromId(this._load_bottom_power_id);
           this._to_load_power = Number((this._storage_to_load_power + this._grid_to_load_power + this._generation_to_load_power).toFixed(1));
@@ -1146,8 +1149,8 @@
                             ${this.extractStringFromId(this._generation_title)}
                           </span>
                           <div class="circle">
-                            ${this._generation_info_id ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
-                                  >${this.extractStringFromId(this._generation_info_id)}</span
+                            ${this._generation_info_value ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
+                                  >${this.extractStringFromId(this._generation_info_value)}</span
                                 >` : ""}
                             <ha-icon
                               class="small"
@@ -1161,8 +1164,8 @@
                   ${this._has_load_top ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container load_top">
                         <span class="label"> ${this.extractStringFromId(this._load_top_title)} </span>
                         <div class="circle">
-                          ${this._load_top_info_id ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
-                                  >${this.extractStringFromId(this._load_top_info_id)}</span
+                          ${this._load_top_info_value ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
+                                  >${this.extractStringFromId(this._load_top_info_value)}</span
                                 >` : ""}
                           <ha-icon class="small" icon="${this._load_top_icon}"></ha-icon>
                           ${($ee1328194d522913$export$f5dd818bff069720)(this._to_load_top_power, this._hass.locale)} kW
@@ -1173,8 +1176,8 @@
           <div class="row">
             <div class="circle-container grid">
               <div class="circle">
-                ${this._grid_info_id ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
-                        >${this.extractStringFromId(this._grid_info_id)}</span
+                ${this._grid_info_value ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
+                        >${this.extractStringFromId(this._grid_info_value)}</span
                       >` : ""}
                 <ha-icon class="small" icon="${this._grid_icon}"></ha-icon>
                 ${this._from_grid_power >= 0 ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`
@@ -1200,8 +1203,8 @@
             </div>
             <div class="circle-container load">
               <div class="circle">
-                ${this._load_info_id ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
-                        >${this.extractStringFromId(this._load_info_id)}</span
+                ${this._load_info_value ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
+                        >${this.extractStringFromId(this._load_info_value)}</span
                       >` : ""}
                 <ha-icon class="small" icon="${this._load_icon}"></ha-icon>
                 ${($ee1328194d522913$export$f5dd818bff069720)(this._to_load_power, this._hass.locale)} kW
@@ -1221,8 +1224,8 @@
                     <div class="spacer"></div>
                     ${this._has_storage ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)` <div class="circle-container storage">
                           <div class="circle">
-                            ${this._storage_info_id ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
-                                  >${this.extractStringFromId(this._storage_info_id)}</span
+                            ${this._storage_info_value ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
+                                  >${this.extractStringFromId(this._storage_info_value)}</span
                                 >` : ""}
                             <ha-icon
                               class="small"
@@ -1255,8 +1258,8 @@
                     ${this._has_load_bottom ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`
                           <div class="circle-container load-bottom">
                             <div class="circle">
-                              ${this._load_bottom_info_id ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
-                                    >${this.extractStringFromId(this._load_bottom_info_id)}</span
+                              ${this._load_bottom_info_value ? ($f58f44579a4747ac$export$c0bb0b647f701bb5)`<span class="info"
+                                    >${this.extractStringFromId(this._load_bottom_info_value)}</span
                                   >` : ""}
                               <ha-icon
                                 class="small"
@@ -1369,6 +1372,28 @@
               load_bottom_title: "Load Bottom"
           };
       }
+      constructor(...args){
+          super(...args);
+          // Entity Values
+          this._grid_to_load_power = 0;
+          this._generation_to_grid_power = 0;
+          this._generation_to_storage_power = 0;
+          this._generation_to_load_power = 0;
+          this._storage_to_load_power = 0;
+          this._storage_to_grid_power = 0;
+          this._total_flow_power = 0;
+          // Totals
+          this._to_load_power = 0;
+          this._from_grid_power = 0;
+          this._from_generation_power = 0;
+          this._to_load_top_power = 0;
+          this._to_load_bottom_power = 0;
+          this._to_storage_power = 0;
+          this._has_generation = true;
+          this._has_storage = true;
+          this._has_load_top = true;
+          this._has_load_bottom = true;
+      }
   }
   ($24c52f343453d62d$export$29e00dfd3077644b)([
       ($04c21ea1ce1f6057$export$ca000e230c0caa3e)()
@@ -1396,22 +1421,22 @@
   ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_bottom_power_id", void 0);
   ($24c52f343453d62d$export$29e00dfd3077644b)([
       ($04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_grid_info_id", void 0);
+  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_grid_info_value", void 0);
   ($24c52f343453d62d$export$29e00dfd3077644b)([
       ($04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_generation_info_id", void 0);
+  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_generation_info_value", void 0);
   ($24c52f343453d62d$export$29e00dfd3077644b)([
       ($04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_storage_info_id", void 0);
+  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_storage_info_value", void 0);
   ($24c52f343453d62d$export$29e00dfd3077644b)([
       ($04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_info_id", void 0);
+  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_info_value", void 0);
   ($24c52f343453d62d$export$29e00dfd3077644b)([
       ($04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_top_info_id", void 0);
+  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_top_info_value", void 0);
   ($24c52f343453d62d$export$29e00dfd3077644b)([
       ($04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_bottom_info_id", void 0);
+  ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_load_bottom_info_value", void 0);
   ($24c52f343453d62d$export$29e00dfd3077644b)([
       ($04c21ea1ce1f6057$export$ca000e230c0caa3e)()
   ], $a399cc6bbb0eb26a$export$91e33cf09c77c6c4.prototype, "_card_title", void 0);
