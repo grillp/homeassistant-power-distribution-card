@@ -1,6 +1,5 @@
 import { css, html, LitElement, nothing, TemplateResult } from "lit";
-import { state } from "lit/decorators/state";
-import { property } from "lit/decorators/property";
+import { state, property } from "lit/decorators.js";
 import { HasVisibility, set_visibility } from "./helpers";
 import {
   HomeAssistant,
@@ -17,13 +16,12 @@ export class PowerDistributionEditor
   implements LovelaceCardEditor, HasVisibility
 {
   @property({ attribute: false }) public hass!: HomeAssistant;
-  @state() _config: LovelaceCardConfig;
+  @state() _config: LovelaceCardConfig = { type: "power-distribution" };
 
-  private _hass;
-  @state() _has_generation: boolean;
-  @state() _has_storage: boolean;
-  @state() _has_load_top: boolean;
-  @state() _has_load_bottom: boolean;
+  @state() _has_generation: boolean = false;
+  @state() _has_storage: boolean = false;
+  @state() _has_load_top: boolean = false;
+  @state() _has_load_bottom: boolean = false;
   @state() private _curTab?: string;
   private _curTabIndex = 0;
 
@@ -148,7 +146,7 @@ export class PowerDistributionEditor
         name=${name}
         @change=${this._change}
         no-spinner
-        .required="false"
+        .required=${false}
         min="0"
       >
       </ha-textfield>
@@ -156,7 +154,7 @@ export class PowerDistributionEditor
   }
 
   render() {
-    let content: TemplateResult;
+    let content: TemplateResult = html``;
     switch (this._curTab) {
       case "tab-entities":
         content = html`

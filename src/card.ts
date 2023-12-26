@@ -1,6 +1,6 @@
 import { html, LitElement, TemplateResult, svg, nothing } from "lit";
+import { state } from "lit/decorators.js";
 import { styles } from "./card.styles";
-import { state } from "lit/decorators/state";
 import { HasVisibility, set_visibility } from "./helpers";
 import {
   HomeAssistant,
@@ -100,12 +100,12 @@ export class PowerDistribution extends LitElement implements HasVisibility {
   @state() private _to_load_bottom_power: number = 0;
   @state() private _to_storage_power: number = 0;
 
-  @state() private _generation_icon: string | undefined;
-  @state() private _grid_icon: string | undefined;
-  @state() private _storage_icon: string | undefined;
-  @state() private _load_icon: string | undefined;
-  @state() private _load_top_icon: string | undefined;
-  @state() private _load_bottom_icon: string | undefined;
+  @state() private _generation_icon: string = "";
+  @state() private _grid_icon: string = "";
+  @state() private _storage_icon: string = "";
+  @state() private _load_icon: string = "";
+  @state() private _load_top_icon: string = "";
+  @state() private _load_bottom_icon: string = "";
 
   // private property
   private _hass: any;
