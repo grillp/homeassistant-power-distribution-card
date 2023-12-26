@@ -1,0 +1,20 @@
+input_number:
+  power_1:
+    name: Power 1
+    initial: 1
+    min: -5
+    max: 5
+    step: 0.25
+  power_1:
+    name: Power 2
+    initial: 1
+    min: -5
+    max: 5
+    step: 0.25
+  power_3:
+    name: Power 2
+    initial: 1
+    min: -5
+    max: 5
+    step: 0.25
+
