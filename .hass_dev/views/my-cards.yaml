@@ -1,0 +1,16 @@
+title: Power Distribution!
+icon: mdi:test-tube
+cards:
+  - type: entities
+    entities:
+      - entity: input_number.number_1
+      - entity: sensor.power_1
+      - entity: input_number.number_2
+      - entity: sensor.power_2
+      - entity: input_number.number_3
+      - entity: sensor.power_3
+  - type: custom:power-distribution
+    title: "Power Distribution"
+    grid_to_load_power_id: sensor.power_1
+    generation_to_storage_power_id: sensor.power_2
+    generation_to_grid_power_id: sensor.power_3

@@ -1,0 +1,3 @@
+title: Showcase
+views:
+  - !include views/my-cards.yaml

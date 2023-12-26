@@ -1,9 +1,0 @@
-title: Power Distribution
-icon: mdi:transmission-tower
-cards:
-  - type: grid
-    title: Distribution
-    cards:
-      - type: custom:power-distribution
-        card_title: "Power Distribution"
-        grid_to_load_power_id: input_number.power_1

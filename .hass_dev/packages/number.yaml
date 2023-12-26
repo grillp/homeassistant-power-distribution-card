@@ -1,20 +1,37 @@
+template:
+  sensor:
+    - name: "Power 1"
+      state: "{{ states('input_number.number_1') }}"
+      state_class: measurement
+      device_class: power
+      unit_of_measurement: kW
+    - name: "Power 2"
+      state: "{{ states('input_number.number_2') }}"
+      state_class: measurement
+      device_class: power
+      unit_of_measurement: kW
+    - name: "Power 3"
+      state: "{{ states('input_number.number_3') }}"
+      state_class: measurement
+      device_class: power
+      unit_of_measurement: kW
+
 input_number:
-  power_1:
+  number_1:
     name: Power 1
     initial: 1
     min: -5
     max: 5
     step: 0.25
-  power_1:
-    name: Power 2
+  number_2:
+    name: Power 3
     initial: 1
     min: -5
     max: 5
     step: 0.25
-  power_3:
-    name: Power 2
+  number_3:
+    name: Power 1
     initial: 1
     min: -5
     max: 5
     step: 0.25
-
