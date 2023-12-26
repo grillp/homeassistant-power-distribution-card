@@ -6,7 +6,7 @@ import typescript from "@rollup/plugin-typescript";
 import serve from "rollup-plugin-serve";
 
 const production = !process.env.ROLLUP_WATCH;
-const output_file = "power-distribution.js";
+const output_file = "homeassistant-power-distribution-card.js";
 
 const serveOptions = {
   contentBase: ["./dist"],
