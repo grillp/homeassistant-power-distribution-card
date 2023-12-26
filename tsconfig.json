@@ -17,5 +17,5 @@
     "declaration": true,
     "resolveJsonModule": true
   },
-  "include": ["**/*.ts", "rollup.config.js"]
+  "include": ["**/*.ts", "rollup.config.mjs"]
 }
