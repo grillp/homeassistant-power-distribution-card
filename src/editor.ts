@@ -1,10 +1,14 @@
 import { css, html, LitElement, nothing, TemplateResult } from "lit";
 import { state, property } from "lit/decorators.js";
-import { HasVisibility, set_visibility } from "./helpers";
+import {
+  HasVisibility,
+  set_visibility,
+  PowerDistributionConfig,
+} from "./common";
 import {
   HomeAssistant,
-  LovelaceCardEditor,
   LovelaceCardConfig,
+  LovelaceCardEditor,
 } from "custom-card-helpers";
 
 const includeDomains = ["sensor"];
@@ -16,6 +20,7 @@ export class PowerDistributionEditor
   implements LovelaceCardEditor, HasVisibility
 {
   @property({ attribute: false }) public hass!: HomeAssistant;
+
   @state() _config: LovelaceCardConfig = { type: "power-distribution" };
 
   @state() _has_generation: boolean = false;

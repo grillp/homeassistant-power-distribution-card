@@ -49,7 +49,6 @@ export const styles = css`
 
   .right circle.grid {
     stroke-width: 4;
-    strok-fill: ;
   }
 
   .lines svg {
@@ -272,7 +271,9 @@ export const styles = css`
   }
   .circle svg circle {
     animation: rotate-in 0.6s ease-in;
-    transition: stroke-dashoffset 0.4s, stroke-dasharray 0.4s;
+    transition:
+      stroke-dashoffset 0.4s,
+      stroke-dasharray 0.4s;
     fill: none;
   }
   @keyframes rotate-in {

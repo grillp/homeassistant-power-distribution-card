@@ -1,5 +1,6 @@
 import { PowerDistribution } from "./card";
 import { PowerDistributionEditor } from "./editor";
+import { CUSTOM_CARD_ID } from "./common";
 
 declare global {
   interface Window {
@@ -7,8 +8,8 @@ declare global {
   }
 }
 
-customElements.define("power-distribution", PowerDistribution);
-customElements.define("power-distribution-editor", PowerDistributionEditor);
+customElements.define(CUSTOM_CARD_ID, PowerDistribution);
+customElements.define(CUSTOM_CARD_ID + "-editor", PowerDistributionEditor);
 
 window.customCards = window.customCards || [];
 window.customCards.push({

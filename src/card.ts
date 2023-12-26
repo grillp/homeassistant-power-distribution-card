@@ -1,46 +1,14 @@
 import { html, LitElement, TemplateResult, svg, nothing } from "lit";
 import { state } from "lit/decorators.js";
 import { styles } from "./card.styles";
-import { HasVisibility, set_visibility } from "./helpers";
 import {
-  HomeAssistant,
-  LovelaceCardConfig,
-  formatNumber,
-} from "custom-card-helpers";
+  CUSTOM_CARD_ID,
+  HasVisibility,
+  PowerDistributionConfig,
+  set_visibility,
+} from "./common";
+import { HomeAssistant, formatNumber } from "custom-card-helpers";
 import { mdiArrowDown, mdiArrowLeft, mdiArrowRight, mdiArrowUp } from "@mdi/js";
-
-interface Config extends LovelaceCardConfig {
-  grid_to_load_power_id: string;
-  generation_to_grid_power_id: string;
-  generation_to_storage_power_id: string;
-  generation_to_load_power_id: string;
-  storage_to_load_power_id: string;
-  storage_to_grid_power_id: string;
-  load_top_power_id: string;
-  load_bottom_power_id: string;
-
-  grid_info_id: string;
-  storage_info_id: string;
-  load_info_id: string;
-  generation_info_id: string;
-  load_top_info_id: string;
-  load_bottom_info_id: string;
-
-  grid_title: string;
-  generation_title: string;
-  storage_title: string;
-  load_title: string;
-  load_top_title: string;
-  load_bottom_title: string;
-
-  grid_icon: string;
-  generation_icon: string;
-  storage_icon: string;
-  load_icon: string;
-  load_top_icon: string;
-  load_bottom_icon: string;
-}
-
 interface DashValues {
   stroke_dashoffset: string;
   stroke_dasharray: string;
@@ -49,6 +17,8 @@ interface DashValues {
 const CIRCLE_CIRCUMFERENCE = 238.76104;
 
 export class PowerDistribution extends LitElement implements HasVisibility {
+  @state() private _title: string | undefined;
+
   // Primary Power Entities
   @state() private _grid_to_load_power_id: string | undefined;
   @state() private _generation_to_grid_power_id: string | undefined;
@@ -75,7 +45,6 @@ export class PowerDistribution extends LitElement implements HasVisibility {
   @state() private _load_bottom_info_value: string | undefined;
 
   // Extra Info Entities
-  @state() private _card_title: string | undefined;
   @state() private _grid_title: string | undefined;
   @state() private _load_title: string | undefined;
   @state() private _generation_title: string | undefined;
@@ -118,7 +87,7 @@ export class PowerDistribution extends LitElement implements HasVisibility {
     return value === undefined || value == "";
   }
 
-  setConfig(config: Config) {
+  setConfig(config: PowerDistributionConfig) {
     this._grid_to_load_power_id = config.grid_to_load_power_id;
     this._generation_to_grid_power_id = config.generation_to_grid_power_id;
     this._generation_to_storage_power_id =
@@ -137,7 +106,7 @@ export class PowerDistribution extends LitElement implements HasVisibility {
     this._load_top_power_id = config.load_top_power_id;
     this._load_bottom_power_id = config.load_bottom_power_id;
 
-    this._card_title = config.card_title;
+    this._title = config.card_title;
     this._grid_title = config.grid_title;
     this._generation_title = config.generation_title;
     this._storage_title = config.storage_title;
@@ -337,7 +306,7 @@ export class PowerDistribution extends LitElement implements HasVisibility {
     ]);
 
     return html`
-      <ha-card .header=${this._card_title}>
+      <ha-card .header=${this._title}>
         <div class="card-content">
           ${
             this._has_generation || this._has_load_top
@@ -700,7 +669,7 @@ export class PowerDistribution extends LitElement implements HasVisibility {
 
   // card configuration
   static getConfigElement() {
-    return document.createElement("power-distribution-editor");
+    return document.createElement(CUSTOM_CARD_ID + "-editor");
   }
 
   static getStubConfig() {
