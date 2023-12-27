@@ -614,7 +614,7 @@ export class PowerDistribution extends LitElement implements HasVisibility {
                     )}
                     <path
                       id="storage-to-grid"
-                      class="storage-from-grid"
+                      class=""
                       d="M45,100 v-15 c0,-35 -10,-30 -30,-30 h-20"
                       vector-effect="non-scaling-stroke"
                     ></path>
