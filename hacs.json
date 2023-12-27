@@ -1,6 +1,5 @@
 {
-  "name": "Lovelace Power Distribution Card",
+  "name": "Home Assistant Power Distribution Card",
   "render_readme": true,
-  "filename": "power-distribution.js",
-  "content_in_root": true
+  "filename": "homeassistant-power-distribution-card.js"
 }
