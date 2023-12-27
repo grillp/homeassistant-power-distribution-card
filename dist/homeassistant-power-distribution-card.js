@@ -524,7 +524,7 @@ const nt=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e
                     ${this.renderPowerAnnimation(this._storage_to_load_power,"storage-load","#storage-to-load")}
                     <path
                       id="storage-to-grid"
-                      class="storage-from-grid"
+                      class=""
                       d="M45,100 v-15 c0,-35 -10,-30 -30,-30 h-20"
                       vector-effect="non-scaling-stroke"
                     ></path>
