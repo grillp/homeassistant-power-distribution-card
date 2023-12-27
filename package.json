@@ -10,7 +10,7 @@
     "start:hass": "docker run --rm -p8123:8123 -v ${PWD}/.hass_dev:/config homeassistant/home-assistant:beta",
     "start:hass-cmd": "docker run --rm -p8123:8123 -v  %cd%/.hass_dev:/config homeassistant/home-assistant:beta",
     "version": "git describe --tags --abbrev=0",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push github && git push github --tags"
   },
   "author": "Gil Peeters",
   "license": "MIT",
