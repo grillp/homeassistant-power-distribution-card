@@ -16,10 +16,9 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
-        permissions:
-          contents: write
         with:
           draft: false
           generate_release_notes: true
           files: dist/*.js
           token: ${{ secrets.GITHUB_TOKEN }}
+          permissions: write
